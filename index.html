@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marrow Rite</title>
+<meta name="description" content="Marrow Rite: a dark-fantasy tag-team fighting card game. Six fighters, 94 cards, one Rite every hundred years.">
+<meta property="og:title" content="Marrow Rite">
+<meta property="og:description" content="A dark-fantasy tag-team fighting card game. Playable concept build.">
+<meta property="og:image" content="assets/cards/gatebreaker.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@500;700;900&family=Barlow+Semi+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f0c0a; --bg2:#17120f; --panel:#1d1714; --line:#3a2e25;
+  --ink:#ece2d0; --muted:#a8998a; --bone:#cfc3a5; --ember:#d9622b; --blood:#9e2a2b;
+  --display:'Grenze Gotisch', Georgia, serif;
+  --body:'Barlow Semi Condensed', 'Segoe UI', system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 18px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+a{color:var(--bone)}
+img{max-width:100%;display:block}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+
+/* Nav */
+nav{position:sticky;top:0;z-index:5;background:rgba(15,12,10,.86);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:20px;height:56px}
+nav .brand{font:700 26px/1 var(--display);color:var(--bone);text-decoration:none;letter-spacing:.5px;margin-right:auto}
+nav a.l{color:var(--muted);text-decoration:none;font-weight:500}
+nav a.l:hover{color:var(--ink)}
+@media (max-width:640px){nav a.l.opt{display:none}}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:4px;font:600 17px/1 var(--body);text-decoration:none;letter-spacing:.3px;border:1px solid transparent;transition:transform .15s, background .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn.primary{background:var(--ember);color:#1a0d06}
+.btn.primary:hover{background:#e8763f}
+.btn.ghost{border-color:var(--line);color:var(--ink);background:transparent}
+.btn.ghost:hover{border-color:var(--bone)}
+nav .btn{padding:9px 16px;font-size:15px}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero::before{content:"";position:absolute;inset:0;background:url(assets/cards/gatebreaker.jpg) center 30%/cover;opacity:.32;filter:saturate(.8)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 25%,rgba(15,12,10,.55) 70%,rgba(15,12,10,.2)),linear-gradient(0deg,var(--bg),transparent 40%)}
+.hero .wrap{position:relative;z-index:1;padding:110px 16px 100px}
+.eyebrow{color:var(--ember);font-weight:600;letter-spacing:2.5px;text-transform:uppercase;font-size:14px}
+h1{font:900 clamp(64px,12vw,128px)/.9 var(--display);margin:14px 0 18px;color:var(--bone);text-shadow:0 4px 30px rgba(0,0,0,.6)}
+.hero p.lede{max-width:560px;font-size:21px;color:var(--ink);margin:0 0 30px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px}
+.stats{display:flex;flex-wrap:wrap;gap:34px;margin-top:54px}
+.stats div{font:700 34px/1 var(--display);color:var(--bone)}
+.stats span{display:block;font:500 14px/1.3 var(--body);color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:6px}
+
+/* Sections */
+section{padding:88px 0;border-bottom:1px solid var(--line)}
+section:nth-of-type(even){background:var(--bg2)}
+h2{font:700 clamp(40px,6vw,56px)/1 var(--display);color:var(--bone);margin:0 0 12px}
+.sub{color:var(--muted);max-width:640px;margin:0 0 44px}
+
+/* Lore */
+.lore{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.lore blockquote{margin:0;font:500 clamp(26px,3.4vw,34px)/1.25 var(--display);color:var(--ink);border-left:3px solid var(--ember);padding-left:24px}
+.lore p{color:var(--muted)}
+.lore img{border:1px solid var(--line);border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+@media (max-width:800px){.lore{grid-template-columns:1fr;gap:36px}}
+
+/* Fighters */
+.roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+.fighter{background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
+.fighter .art{aspect-ratio:5/6;background:#0a0807;position:relative;overflow:hidden}
+.fighter .art img{width:100%;height:100%;object-fit:cover;object-position:center 15%;transition:transform .5s}
+.fighter:hover .art img{transform:scale(1.04)}
+.fighter .art::after{content:"";position:absolute;inset:auto 0 0 0;height:40%;background:linear-gradient(0deg,var(--panel),transparent)}
+.fighter .art .none{position:absolute;inset:0;display:grid;place-items:center;font:900 120px/1 var(--display);color:#2c241e}
+.fighter .body{padding:4px 20px 22px;border-top:3px solid var(--c);flex:1}
+.fighter h3{font:700 32px/1 var(--display);margin:14px 0 2px;color:var(--ink)}
+.fighter .title{color:var(--c);font-weight:600;margin-bottom:10px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.tag{font-size:13px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:3px;background:#2a211b;color:var(--muted)}
+.fighter p{margin:0 0 10px;font-size:16px;color:var(--muted)}
+.fighter p b{color:var(--ink);font-weight:600}
+.fighter p.bio{font-style:italic}
+
+/* How it plays */
+.mech{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.mech div{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:24px}
+.mech h3{font:700 26px/1.1 var(--display);margin:0 0 8px;color:var(--bone)}
+.mech p{margin:0;color:var(--muted);font-size:16px}
+.decks{margin-top:48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.deck{border:1px solid var(--line);border-radius:6px;padding:22px 24px}
+.deck h4{font:700 24px/1 var(--display);margin:0 0 4px;color:var(--ember)}
+.deck .who{font-size:14px;font-weight:600;color:var(--bone);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.deck p{margin:0;font-size:16px;color:var(--muted)}
+
+/* Play */
+.play{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.mode{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:28px;display:flex;flex-direction:column;gap:14px}
+.mode h3{font:700 30px/1 var(--display);margin:0;color:var(--bone)}
+.mode p{margin:0;color:var(--muted);font-size:16px;flex:1}
+.mode .btn{align-self:flex-start}
+
+footer{padding:40px 0;color:var(--muted);font-size:15px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="brand" href="#">Marrow Rite</a>
+  <a class="l opt" href="#fighters">Fighters</a>
+  <a class="l opt" href="#how">How it plays</a>
+  <a class="l" href="#play">Play</a>
+  <a class="btn primary" href="play/">Play now</a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div class="eyebrow">Tag-team fighting card game &middot; Concept build</div>
+  <h1>Marrow Rite</h1>
+  <p class="lede">Every hundred years a dead king holds a tournament to choose who sits beside his throne. The losers become the throne. Build a team of three, tag between them, and play your cards like combos.</p>
+  <div class="ctas">
+    <a class="btn primary" href="play/">Play in your browser</a>
+    <a class="btn ghost" href="#play">Host a 1v1 match</a>
+  </div>
+  <div class="stats">
+    <div>6<span>Fighters + a boss</span></div>
+    <div>94<span>Cards</span></div>
+    <div>3<span>Starter decks</span></div>
+    <div>~9,500<span>Simulated test games</span></div>
+  </div>
+</div></header>
+
+<section id="lore"><div class="wrap lore">
+  <div>
+    <blockquote>&ldquo;Died nine centuries ago and refused the grave.&rdquo;</blockquote>
+    <p>Vorhul, the Unburied, rules from a throne made of the Rite's losers. Monks who burned their gods' houses, surgeons struck from the guild, giants buried in gate foundations: every century, the worst of the world is dragged into his arena to fight for a seat at his side.</p>
+    <p>Marrow Rite is dark fantasy painted in the tradition of Caravaggio and Goya: one hard light, deep shadow, dread over gore.</p>
+  </div>
+  <img src="assets/cards/wind-the-linen.jpg" alt="Card art: Wind the Linen" loading="lazy" width="720" height="1008">
+</div></section>
+
+<section id="fighters"><div class="wrap">
+  <h2>The fighters</h2>
+  <p class="sub">Each fighter has a passive that changes how your whole team plays. Pick three and tag between them mid-fight.</p>
+  <div class="roster">
+
+    <article class="fighter" style="--c:#d9622b">
+      <div class="art"><img src="assets/portraits/ashkar.jpg" alt="Ashkar" loading="lazy"></div>
+      <div class="body">
+        <h3>Ashkar</h3><div class="title">The Ember Monk</div>
+        <div class="tags"><span class="tag">Self-burn aggro</span><span class="tag">29 HP</span></div>
+        <p><b>Pyre.</b> His first hit each turn applies Burn 2 for 3 turns. Builds Heat (max 5) that powers his cards.</p>
+        <p class="bio">Burned his own monastery to the ground to learn whether his gods would stop him. They did not.</p>
+      </div>
+    </article>
+
+    <article class="fighter" style="--c:#c23b5a">
+      <div class="art"><img src="assets/portraits/sable-moru.jpg" alt="Sable Moru" loading="lazy"></div>
+      <div class="body">
+        <h3>Sable Moru</h3><div class="title">The Stitched Surgeon</div>
+        <div class="tags"><span class="tag">Bleed attrition</span><span class="tag">27 HP</span></div>
+        <p><b>Sutures.</b> Heals 2 each time an enemy takes Bleed damage. Bleed stacks up to 6.</p>
+        <p class="bio">Struck from the guild for operating on the living without consent. She kept every patient, in one form or another.</p>
+      </div>
+    </article>
+
+    <article class="fighter" style="--c:#a88d57">
+      <div class="art"><img src="assets/portraits/brannoch.jpg" alt="Brannoch" loading="lazy"></div>
+      <div class="body">
+        <h3>Brannoch</h3><div class="title">The Wrapped</div>
+        <div class="tags"><span class="tag">Retaliation tank</span><span class="tag">31 HP</span></div>
+        <p><b>Grave Linen.</b> Starts each turn with 2 Guard. Every enemy hit that lands on his Guard takes 1 damage back.</p>
+        <p class="bio">The giant who kept the citadel gate, buried alive in its foundations for letting the wrong man through. The Rite dug him back up.</p>
+      </div>
+    </article>
+
+    <article class="fighter" style="--c:#3fa79a">
+      <div class="art"><img src="assets/portraits/lady-wen.jpg" alt="Lady Wen" loading="lazy"></div>
+      <div class="body">
+        <h3>Lady Wen</h3><div class="title">Of the Hollow</div>
+        <div class="tags"><span class="tag">Discard engine</span><span class="tag">24 HP</span></div>
+        <p><b>Hunger.</b> Each card you discard gives her 1 Hunger (max 6). Her Specials deal +1 per 2 Hunger.</p>
+        <p class="bio">Something emptied her out on her wedding night and moved in. It is still hungry.</p>
+      </div>
+    </article>
+
+    <article class="fighter" style="--c:#7d9440">
+      <div class="art"><img src="assets/portraits/old-teeth.jpg" alt="Old Teeth" loading="lazy"></div>
+      <div class="body">
+        <h3>Old Teeth</h3><div class="title">The Bog Mother</div>
+        <div class="tags"><span class="tag">Traps &amp; venom</span><span class="tag">28 HP</span></div>
+        <p><b>Patience.</b> Each unspent Energy at the end of your turn becomes 2 Guard. Sets hidden Traps.</p>
+        <p class="bio">Ninety years in the drowned country. Her necklace is strung from the jaws of the men who came to hunt her.</p>
+      </div>
+    </article>
+
+    <article class="fighter" style="--c:#7f93aa">
+      <div class="art"><img src="assets/portraits/bram-coil.jpg" alt="Bram Coil" loading="lazy"></div>
+      <div class="body">
+        <h3>Bram Coil</h3><div class="title">The Hook</div>
+        <div class="tags"><span class="tag">Tag control</span><span class="tag">28 HP</span></div>
+        <p><b>Reel.</b> Deals 3 damage whenever he tags in. Noose: the target takes extra damage from every hit.</p>
+        <p class="bio">Vorhul's hangman for forty years. He gave up the gallows. He never gave up the work.</p>
+      </div>
+    </article>
+
+    <article class="fighter" style="--c:#cfc3a5">
+      <div class="art"><div class="none">V</div></div>
+      <div class="body">
+        <h3>Vorhul</h3><div class="title">The Unburied &middot; Boss</div>
+        <div class="tags"><span class="tag">Tithe &amp; drain</span><span class="tag">40 HP</span></div>
+        <p><b>Tithe.</b> Heals 6 whenever an enemy fighter is knocked out.</p>
+        <p class="bio">Every hundred years he holds the Rite to choose who will sit beside his throne. The losers become the throne.</p>
+      </div>
+    </article>
+
+  </div>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <h2>How it plays</h2>
+  <p class="sub">Fast, readable turns that feel like a fighting game: build pressure, chain hits, and tag in the right fighter at the right moment.</p>
+  <div class="mech">
+    <div><h3>Teams of three</h3><p>Bring three fighters and tag between them. The fighter in front takes the hits; the ones behind wait for their moment.</p></div>
+    <div><h3>Energy &amp; Meter</h3><p>Spend Energy to play cards each turn. Build Meter to power EX versions of your Specials for bigger effects.</p></div>
+    <div><h3>Status that stacks</h3><p>Burn, Bleed, Venom, Noose and Guard all interact. Stack them, then cash them in with a finisher.</p></div>
+    <div><h3>Packs &amp; collection</h3><p>Open packs, build a collection, and craft your own deck from fighter and neutral cards.</p></div>
+  </div>
+  <div class="decks">
+    <div class="deck"><h4>Plague Pyre</h4><div class="who">Sable Moru &middot; Ashkar &middot; Old Teeth</div><p>Stack Burn, Bleed and Venom, then cash them in. Every effect ticks through Guard.</p></div>
+    <div class="deck"><h4>The Gate Holds</h4><div class="who">Brannoch &middot; Old Teeth &middot; Bram Coil</div><p>Build a wall of Guard, make attackers pay for hitting it, then turn the wall into damage.</p></div>
+    <div class="deck"><h4>Thousand Cuts</h4><div class="who">Bram Coil &middot; Lady Wen &middot; Ashkar</div><p>Multi-hit attacks with per-hit bonuses. Three small hits beat one big one.</p></div>
+  </div>
+</div></section>
+
+<section id="play"><div class="wrap">
+  <h2>Play it</h2>
+  <p class="sub">This is a playable concept build. Your progress saves in your browser.</p>
+  <div class="play">
+    <div class="mode">
+      <h3>Play in the browser</h3>
+      <p>Fight the AI, open packs, build decks and browse the collection. Nothing to install.</p>
+      <a class="btn primary" href="play/">Play now</a>
+    </div>
+    <div class="mode">
+      <h3>Host a 1v1 match</h3>
+      <p>Run a small server on a Windows PC and play friends head-to-head in their browsers. It needs no install and no administrator rights.</p>
+      <a class="btn ghost" href="marrow-rite-host.zip" download>Download host app (.zip)</a>
+    </div>
+    <div class="mode">
+      <h3>Art direction</h3>
+      <p>The full art bible and per-card prompts used to paint the fighters and cards.</p>
+      <a class="btn ghost repo-link" data-path="/tree/main/art-prompts" href="art-prompts/00-start-here.md">Read the art prompts</a>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <span>Marrow Rite &middot; concept build</span>
+  <a class="repo-link" data-path="" href="#" hidden>Source on GitHub</a>
+  <span>An original game. All characters and art belong to their creator.</span>
+</div></footer>
+<script>
+// On GitHub Pages (user.github.io/repo/), point repo links at github.com/user/repo.
+(function(){
+  var m=location.hostname.match(/^([a-z0-9-]+)\.github\.io$/i);
+  if(!m)return;
+  var repo=location.pathname.split('/').filter(Boolean)[0]||(m[1]+'.github.io');
+  var base='https://github.com/'+m[1]+'/'+repo;
+  document.querySelectorAll('.repo-link').forEach(function(a){a.href=base+a.dataset.path;a.hidden=false});
+})();
+</script>
+
+</body>
+</html>
