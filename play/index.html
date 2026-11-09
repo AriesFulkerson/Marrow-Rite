@@ -527,14 +527,14 @@ button.bm:disabled .tagcta{opacity:.35}
       <dt>Turns</dt><dd>Draw 2. Energy refills: 1 on your first turn, +1 each turn, up to 8. Your Guard from last turn fades. Benched fighters recover 2 HP a turn, up to 70% of their max.</dd>
       <dt>Chains</dt><dd>Light (tier 1) into Medium (2) into Heavy (3). Each hit in a chain deals +1 for every hit before it. Dropping to a lower tier restarts the chain. Specials cancel into any chain without breaking it.</dd>
       <dt>Meter (max 3)</dt><dd>Gain 1 when a chain reaches 3 hits and again at 5, when you take 6+ damage in one enemy turn, and when one of your fighters falls. Spend it on EX Specials (1), Finishers (1), Breakers (2) and Last Rites (3).</dd>
-      <dt>Tagging</dt><dd>Once per turn, tag a benched fighter in for 1 Energy. Tagging keeps your chain alive and cleanses Burn, Bleed, Venom and Noose from whoever leaves. A signature card of a benched fighter tags them in for +1 Energy.</dd>
+      <dt>Tagging</dt><dd>Once per turn, tag a benched fighter in for 1 Energy. Tagging keeps your chain alive and halves Burn, Bleed, Venom and Noose on whoever leaves (rounded up). Benched fighters don't take effect damage. A signature card of a benched fighter tags them in for +1 Energy.</dd>
       <dt>Blocks and Breakers</dt><dd>Guard soaks damage until your next turn. An armed Breaker waits for the enemy chain to reach 3 hits, then stops it cold and takes 2 of their Energy.</dd>
       <dt>Finishers</dt><dd>Need a chain of 2+ and 1 Meter. They hit like a Heavy and close the chain.</dd>
       <dt>Stronger as they weaken</dt><dd>At 50% HP a fighter is Wounded (+1 damage per hit). At 25% they are Desperate (+2, and +1 Meter each turn). Once a teammate falls, the rest fight with Vengeance (+1 per hit). A fallen fighter's cards become Grudges: 1 Energy, 3 damage, +1 Meter.</dd>
       <dt>Final Round</dt><dd>When each side has one fighter left, both heal to full, gain 2 Meter, and start every turn with 3 extra Guard. Only now can a Last Rite be played: 3 Meter, enemy at 6 HP or less.</dd>
       <dt>Playing a card</dt><dd>Click a card in your hand to put it on the field as ready to play. Nothing happens yet, and your opponent can't see it. Press Play (or Enter) to resolve it, or Back to hand (or Esc) to change your mind. A played card stays on the field until your turn ends; its full math is in the fight record.</dd>
       <dt>Rounds and Blood Rounds</dt><dd>A match lasts at most a set number of rounds (each player takes one turn per round), shown above the arena. In the last few rounds, Blood Rounds begin: at the start of each turn your active fighter takes unblockable damage that grows every round. In the last round the crowd storms the pit: at the start of your turn, every fighter on your team takes heavy damage. If both teams still have fighters standing when it ends, the team with the most total HP left wins.</dd>
-      <dt>Fighter mechanics</dt><dd><b>Heat</b> (Ashkar) stays between turns, max 5, and adds to cards marked Heat. <b>Bleed</b> stacks up to 6. <b>Retaliate</b>: hits that land on Brannoch's Guard take damage back. <b>Hunger</b> (Wen): +1 per card you discard, max 6; her Specials deal +1 per 2 Hunger. <b>Traps</b> (Old Teeth) are hidden until the enemy springs them; 2 at a time. <b>Noose</b>: the target takes extra damage from every hit.</dd>
+      <dt>Fighter mechanics</dt><dd><b>Heat</b> (Ashkar) stays between turns, max 5, and adds to cards marked Heat. <b>Bleed</b> stacks up to 6. <b>Retaliate</b>: an attack that lands on Brannoch's Guard takes damage back, once per card. <b>Hunger</b> (Wen): +1 per card you discard, max 6; her Specials deal +1 per 2 Hunger. <b>Traps</b> (Old Teeth) are hidden until the enemy springs them; 2 at a time. <b>Noose</b>: the target takes extra damage from every hit.</dd>
     </dl>
     <div class="row" style="margin-top:16px"><button class="btn gold" id="rules-close">Close</button></div>
   </div>
@@ -560,7 +560,7 @@ const FIGHTERS={
     palette:'black, oxblood red, brass, dirty linen white',
     refs:[{t:'The Anatomy Lesson of Dr. Nicolaes Tulp',a:'Rembrandt',u:W('The_Anatomy_Lesson_of_Dr._Nicolaes_Tulp'),why:'The surgeon as showman; theatre of the body'},{t:'The Gross Clinic',a:'Thomas Eakins',u:W('The_Gross_Clinic'),why:'Operating-theatre lighting, dark surroundings'},{t:'The Death of Marat',a:'Jacques-Louis David',u:W('The_Death_of_Marat'),why:'Restrained, clinical treatment of violence'}]},
   brannoch:{id:'brannoch',name:'Brannoch',title:'The Wrapped',hp:31,color:'#a88d57',sigil:'peak',arch:'Retaliation tank',
-    passive:'Grave Linen',ptext:'Starts each turn with 2 Guard. Every enemy hit that lands on his Guard takes 1 damage back (Retaliate).',
+    passive:'Grave Linen',ptext:'Starts each turn with 3 Guard. Burn, Bleed and Venom hit his Guard before his HP. Each enemy card that lands on his Guard takes 1 damage back (Retaliate).',
     bio:'The giant who kept the citadel gate, buried alive in its foundations for letting the wrong man through. Nine centuries in the linen made him patient. The Rite dug him back up.',
     look:'Towering giant about three metres tall, immensely broad, bound head to foot in torn, aged linen bandages, dry cracked skin showing through the gaps, two faint glints for eyes behind the head wrappings. A ragged hooded mantle of rotted, patched leather tied at the throat with braided rope and tassels, a wide rust-brown cloth sash, a tattered skirt of hanging linen strips, huge bandaged bare feet. Usually framed in a torchlit castle gatehouse with ordinary guards dwarfed beside him.',
     palette:'aged linen, rust-brown leather, torchlit amber, banner red',
@@ -1045,7 +1045,7 @@ function startTurn(i){
   s.energy=Math.max(0,s.maxE+coin-s.drain);
   if(s.drain)ev(`${nm(i)} ${i?'is':'are'} drained of ${s.drain} Energy.`);
   s.drain=0;
-  s.guard=(s.keepGuard?s.guard:0)+(act(s).f.id==='brannoch'?2:0)+(G.final?3:0);
+  s.guard=(s.keepGuard?s.guard:0)+(act(s).f.id==='brannoch'?3:0)+(G.final?3:0);
   if(s.keepGuard)ev(`${nm(i)} stand${i?'s':''} firm: Guard carries over (${s.guard}).`);
   s.keepGuard=false;
   s.retal=0;
@@ -1069,7 +1069,7 @@ function tickStatus(s){
   for(const k of ['burn','bleed','venom']){
     const e=t.st[k];if(!e)continue;
     ev(`${t.f.name} takes <b>${e.d}</b> ${k} damage.`);
-    damageSide(s,e.d,true);
+    damageSide(s,e.d,t.f.id!=='brannoch');
     if(k==='bleed'){other(s).team.forEach(m=>{if(m.f.id==='sable'&&!m.ko&&m.hp<m.max){m.hp=Math.min(m.max,m.hp+2);ev('Sable stitches herself. +2 HP.')}})}
     if(k==='venom')e.d++;
     e.t--;if(e.t<=0)delete t.st[k];
@@ -1104,7 +1104,7 @@ function koSide(s){
   checkFinal();
 }
 function enter(s,k){
-  const prev=act(s);if(!prev.ko)prev.st={};
+  const prev=act(s);if(!prev.ko)for(const k in prev.st){prev.st[k].d=Math.ceil(prev.st[k].d/2);if(!prev.st[k].d)delete prev.st[k]}
   s.active=k;
   const o=other(s);
   const bi=o.traps.indexOf('bog');
@@ -1245,11 +1245,11 @@ function hit(s,o,base,pierce,c,label){
   s.firstHit=true;
   const res=damageSide(o,d,pierce);
   note(`${label}: ${parts.join(' ')} = ${d}${pierce?' piercing':''}${res.blocked?`, ${res.blocked} blocked by Guard`:''}. <b>${res.dealt} dealt</b>.${res.ko?` ${t.f.name} is knocked out.`:''}`);
-  const back=(res.blocked>0&&act(o).f.id==='brannoch'?1:0)+(res.blocked>0?o.retal:0);
+  const back=(res.blocked>0&&!s.rtDone?((act(o).f.id==='brannoch'?1:0)+o.retal):0);if(back)s.rtDone=true;
   if(back&&!G.end&&!res.ko){note(`Retaliate: ${a.f.name} takes ${back} back.`);damageSide(s,back,true)}
   return res;
 }
-function resolve(s,o,p,type,c){
+function resolve(s,o,p,type,c){s.rtDone=false;
   const r={dealt:0,blocked:0};const a=act(s);
   if(p.selfDmg){const n=Math.min(p.selfDmg,a.hp-1);if(n>0){a.hp-=n;float(s,'-'+n,'dmg');note(`Lost ${n} HP.`)}}
   if(p.empower){s.empower+=p.empower;note(`Hits deal +${p.empower} for the rest of the turn.`)}
@@ -1592,11 +1592,11 @@ const NEW_TOTAL=String(CARDS.length).padStart(3,'0');
 /* starter decks pick up one Meter card each */
 (function(){const S=Object.fromEntries(STARTERS.map(s=>[s.id,s.cards]));
   S.plague.jab--;S.plague.lastgasp=1;S.gate.cross--;S.gate.ironskin=1;S.cuts.jab--;S.cuts.surge=1;
-  delete S.gate.boghole;S.gate.upper=3;delete S.gate.jawtrap;S.gate.throw=1;S.plague.palm=1;S.plague.block=2;S.cuts.sweep=2;S.cuts.block=1;
+  delete S.gate.boghole;S.gate.upper=3;delete S.gate.jawtrap;S.gate.throw=1;S.plague.palm=1;S.plague.block=2;S.cuts.sweep=2;S.cuts.block=1;S.cuts.cross-=2;delete S.cuts.cross;S.cuts.trapdoor=2;
   STARTERS.find(s=>s.id==="gate").cards={braceup:2,gutcheck:2,wearthem:2,hooks:2,embrace:2,backbreak:1,newcoat:1,snare:2,chainhook:2,due:2,judgment:1,standfirm:2,ironwill:2,cross:1,upper:3,ironskin:1,throw:1,grapple:1};
   STARTERS.find(s=>s.id==='plague').how+=' Bank Meter for Last Gasp when the target is low.';
   STARTERS.find(s=>s.id==='gate').how+=' Iron Skin turns spare Meter into Guard.';
-  STARTERS.find(s=>s.id==='cuts').how+=' Blood Surge adds +2 to every hit of a multi-hit turn.';})();
+  STARTERS.find(s=>s.id==='cuts').how+=' Blood Surge adds +2 to every hit of a multi-hit turn. Trapdoor breaks open a Guard wall.';})();
 
 /* --- Echoes: a fallen fighter's cards become a weaker, fighter-specific echo --- */
 const ECHO={
@@ -1708,7 +1708,7 @@ const GLOSS={
   pierce:['Pierce','Ignores Guard.'],
   shatter:['Break','Removes enemy Guard before the hit.'],
   guard:['Guard','Soaks damage until the start of your next turn.'],
-  retal:['Retaliate','When an enemy hit lands on your Guard, they take this much damage back.'],
+  retal:['Retaliate','When an enemy attack lands on your Guard, they take this much damage back, once per card.'],
   keepGuard:['Stand Firm','Your Guard doesn\'t fade at the start of your next turn.'],
   burn:['Burn','Unblockable damage at the start of the target\'s turn for 2 turns.'],
   bleed:['Bleed','Unblockable damage each turn for 3 turns. Stacks up to 6.'],

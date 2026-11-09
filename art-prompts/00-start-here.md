@@ -7,6 +7,7 @@ One file per fighter, each self-contained. Every prompt is generated from the ga
 - **Finished art:** Gatebreaker and Wind the Linen now use your illustrations in the game. Their prompts are marked "(art done)".
 - **Echo cards:** each fighter's file ends with its Echo prompt (E1-E7). They're also in the in-game Art Prompts screen.
 - **Balance changes:** Pyre Kick 5 + Heat (EX 9), Vivisection 4 piercing with Bleed 2 (EX 8), Amputation 4 (EX 6), Brannoch 31 HP. The Gate Holds starter now runs Grapple instead of Haymaker.
+- **Matchup rules (latest):** tagging out now halves Burn, Bleed, Venom and Noose (rounded up) instead of clearing them. Brannoch's Grave Linen now gives 3 Guard a turn and his Guard soaks effect damage. Retaliate triggers once per card instead of once per hit. Thousand Cuts runs 2 Trapdoor instead of 2 Cross. No card names or art changed.
 - **Removed:** nothing. Collector numbers of existing cards are unchanged; new cards are 069-094.
 
 ## Files

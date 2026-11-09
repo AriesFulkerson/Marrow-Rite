@@ -2,7 +2,7 @@
 
 **Archetype:** Retaliation tank  
 **HP:** 31  
-**Passive, Grave Linen:** Starts each turn with 2 Guard. Every enemy hit that lands on his Guard takes 1 damage back (Retaliate).  
+**Passive, Grave Linen:** Starts each turn with 3 Guard. Burn, Bleed and Venom hit his Guard before his HP. Each enemy card that lands on his Guard takes 1 damage back (Retaliate).  
 **Concept portrait:** brannoch.png
 
 > The giant who kept the citadel gate, buried alive in its foundations for letting the wrong man through. Nine centuries in the linen made him patient. The Rite dug him back up.

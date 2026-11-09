@@ -14,7 +14,7 @@ Build a team of three fighters, tag between them, and play your cards like combo
 |---|---|---|---|---|
 | Ashkar | The Ember Monk | Self-burn aggro | 29 | **Pyre:** first hit each turn applies Burn 2; builds Heat (max 5) |
 | Sable Moru | The Stitched Surgeon | Bleed attrition | 27 | **Sutures:** heals 2 whenever an enemy takes Bleed damage |
-| Brannoch | The Wrapped | Retaliation tank | 31 | **Grave Linen:** 2 Guard each turn; hits on his Guard take 1 back |
+| Brannoch | The Wrapped | Retaliation tank | 31 | **Grave Linen:** 3 Guard each turn; Burn, Bleed and Venom hit his Guard first; each card that lands on his Guard takes 1 back |
 | Lady Wen | Of the Hollow | Discard engine | 24 | **Hunger:** discards build Hunger; Specials +1 per 2 Hunger |
 | Old Teeth | The Bog Mother | Traps & venom control | 28 | **Patience:** unspent Energy becomes Guard; sets hidden Traps |
 | Bram Coil | The Hook | Tag control & executions | 28 | **Reel:** 3 damage on tag-in; Noose amplifies every hit |
@@ -28,7 +28,9 @@ Build a team of three fighters, tag between them, and play your cards like combo
 - **The Gate Holds** (Brannoch, Old Teeth, Bram Coil): a wall of Guard that punishes attackers.
 - **Thousand Cuts** (Bram Coil, Lady Wen, Ashkar): multi-hit attacks with per-hit bonuses.
 
-Balance was checked with about 9,500 simulated games. Every card wins 47–56% of the games it appears in, and the starters sit at about 49% / 53% / 49% against each other.
+Tagging out halves Burn, Bleed, Venom and Noose (rounded up) instead of clearing them, and Retaliate triggers once per card rather than once per hit.
+
+Balance was checked with over 20,000 simulated games. Every card wins 47–56% of the games it appears in. Overall the starters win about 51% (Plague Pyre), 48% (The Gate Holds) and 51% (Thousand Cuts), and no head-to-head matchup is worse than 56/44.
 
 ## What's in this repo
 
