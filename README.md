@@ -40,12 +40,19 @@ Balance was checked with over 20,000 simulated games. Every card wins 47–56% o
 | `play/` | The playable browser build: vs AI, packs, collection, deck builder. Progress saves in the browser. |
 | `host/` | The Windows host app for 1v1 against friends (see `host/README.md`) |
 | `marrow-rite-host.zip` | The same host app, zipped for download from the site |
+| `android/` | The Android app project: the same game plus a built-in 1v1 server (see `android/README.md`) |
+| `MarrowRite.apk` | The Android app, ready to install (Android 8.0+) |
 | `art-prompts/` | Art bible and per-card image prompts, one file per fighter |
 | `assets/` | Fighter portraits and finished card art used by the landing page |
 
 ## 1v1 multiplayer
 
-GitHub Pages only serves static files, so online 1v1 isn't on the site itself. To play a friend, download `marrow-rite-host.zip`, unzip it on a Windows PC and double-click **Start Marrow Rite server.bat**. `host/README.md` has the full instructions, including how to let friends outside your Wi-Fi connect.
+GitHub Pages only serves static files, so online 1v1 isn't on the site itself. Two ways to play a friend:
+
+- **Android:** install `MarrowRite.apk` on each phone. One phone hosts (its start screen shows its Wi-Fi address) and the others join with that address. `android/README.md` has the steps.
+- **Windows PC:** download `marrow-rite-host.zip`, unzip it and double-click **Start Marrow Rite server.bat**. Friends join from a browser or the Android app. `host/README.md` has the full instructions, including how to let friends outside your Wi-Fi connect.
+
+Both downloads are also on the repo's **Releases** page.
 
 ## Status
 

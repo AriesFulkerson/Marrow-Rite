@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Marrow Rite</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@700;900&family=Barlow+Semi+Condensed:wght@400;600;700&display=swap">
+<style>
+:root{color-scheme:dark;--bg:#130e0f;--ink:#0d0909;--panel:#1d1618;--panel2:#2a1f21;--line:#3e2e30;--gold:#cfa64e;--blood:#c22d41;--bone:#eee5d5;--muted:#a39587}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(120% 70% at 50% 0%,#2a1215 0%,var(--bg) 55%,var(--ink) 100%);color:var(--bone);font-family:'Barlow Semi Condensed',system-ui,sans-serif;padding:28px 16px 40px;display:flex;flex-direction:column;align-items:center}
+main{width:100%;max-width:440px;display:grid;gap:16px}
+h1{font-family:'Grenze Gotisch',serif;font-weight:900;font-size:56px;line-height:.95;margin:8px 0 0;text-align:center;color:var(--bone);text-shadow:0 2px 0 #000,0 0 24px rgba(194,45,65,.35)}
+.tag{text-align:center;color:var(--muted);margin:0 0 8px;letter-spacing:.12em;text-transform:uppercase;font-size:13px}
+section{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:10px}
+h2{font-family:'Grenze Gotisch',serif;font-size:28px;margin:0;color:var(--gold);font-weight:700}
+p{margin:0;color:var(--muted);line-height:1.4}
+.addr{font-size:22px;font-weight:700;color:var(--bone);letter-spacing:.04em;font-variant-numeric:tabular-nums;word-break:break-all;white-space:pre-line}
+.btn{display:flex;align-items:center;justify-content:center;min-height:48px;padding:10px 18px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--bone);font:inherit;font-weight:700;letter-spacing:.07em;text-transform:uppercase;font-size:15px}
+.btn.gold{background:linear-gradient(180deg,#e2bd68,#a9822f);color:#241606;border-color:#e9c97a}
+input{width:100%;min-height:48px;border-radius:10px;border:1px solid var(--line);background:var(--ink);color:var(--bone);font:inherit;font-size:18px;padding:10px 14px}
+input:focus{outline:2px solid var(--gold);outline-offset:1px}
+.err{color:#ff8a98;font-weight:600}
+ol{margin:0;padding-left:20px;color:var(--muted);line-height:1.5}
+</style>
+</head>
+<body>
+<main>
+  <h1>Marrow<br>Rite</h1>
+  <p class="tag">The losers become the throne</p>
+
+  <section>
+    <h2>Play &amp; host</h2>
+    <p>Play vs AI, open packs and build decks, or host a 1v1. Friends on your Wi-Fi join at:</p>
+    <div class="addr" id="my-addr">Looking for your Wi-Fi address…</div>
+    <p class="err" id="srv-err" hidden></p>
+    <button class="btn gold" id="play">Enter the Rite</button>
+  </section>
+
+  <section>
+    <h2>Join a friend</h2>
+    <p>Type the address shown on your friend's phone, or on their PC host window.</p>
+    <label for="join-addr" hidden>Friend's address</label>
+    <input id="join-addr" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="192.168.1.23:8787">
+    <p class="err" id="join-err" hidden></p>
+    <button class="btn" id="join">Join</button>
+  </section>
+
+  <section>
+    <h2>How a 1v1 works</h2>
+    <ol>
+      <li>The host taps <b>Enter the Rite</b>, then <b>1v1</b>, picks a deck and taps <b>Create match</b>.</li>
+      <li>The friend joins the host's address, taps <b>1v1</b>, types the four-letter code and taps <b>Join</b>.</li>
+      <li>The host keeps the app open while you play. The back button returns here.</li>
+    </ol>
+  </section>
+</main>
+<script>
+(function(){
+  var A=window.MarrowApp;
+  function $(id){return document.getElementById(id)}
+  function show(el,msg){el.textContent=msg;el.hidden=!msg}
+  if(!A){$('my-addr').textContent='Open this inside the Marrow Rite app.';return}
+  var addrs=A.myAddresses();
+  $('my-addr').textContent=addrs?addrs.split('\n').join('\n'):'Not on Wi-Fi. Connect to Wi-Fi to host friends (Vs AI still works).';
+  var se=A.serverError();
+  if(se)show($('srv-err'),'The match server could not start: '+se+'. Close other copies of the app and reopen it.');
+  $('join-addr').value=A.lastJoin();
+  var m=/#err=(.*)$/.exec(location.hash);
+  if(m)show($('join-err'),decodeURIComponent(m[1]));
+  $('play').addEventListener('click',function(){A.play()});
+  function join(){var r=A.join($('join-addr').value);show($('join-err'),r)}
+  $('join').addEventListener('click',join);
+  $('join-addr').addEventListener('keydown',function(e){if(e.key==='Enter')join()});
+})();
+</script>
+</body>
+</html>
