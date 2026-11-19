@@ -10,7 +10,7 @@ Neutral cards show anonymous tournament fighters, so they need no portrait or sh
 
 ## Neutral card prompts (27)
 
-### 001 · Jab
+### 001 · Jab (art done)
 Light · basic · cost 1  
 Rules: 2 damage.
 
@@ -23,7 +23,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 002 · Cross
+### 002 · Cross (art done)
 Medium · basic · cost 2  
 Rules: 3 damage.
 
@@ -36,7 +36,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 003 · Uppercut
+### 003 · Uppercut (art done)
 Heavy · basic · cost 3  
 Rules: 5 damage.
 
@@ -49,7 +49,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 004 · Block
+### 004 · Block (art done)
 Block · basic · cost 1  
 Rules: Gain 3 Guard.
 
@@ -62,7 +62,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 005 · Low Sweep
+### 005 · Low Sweep (art done)
 Light · common · cost 1  
 Rules: Break 2 enemy Guard, then 1 damage.  
 EX: Break all Guard, then 2 damage.
@@ -76,7 +76,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 006 · Knee Strike
+### 006 · Knee Strike (art done)
 Light · common · cost 1  
 Rules: 1 damage. Drain 1.  
 EX: 2 damage. Drain 2.
@@ -90,7 +90,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 007 · Throw
+### 007 · Throw (art done)
 Medium · common · cost 2  
 Rules: 2 damage. Ignores Guard.  
 EX: 4 damage. Ignores Guard.
@@ -104,7 +104,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 008 · Haymaker
+### 008 · Haymaker (art done)
 Heavy · common · cost 4  
 Rules: 7 damage.  
 EX: 10 damage.
@@ -118,7 +118,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 009 · Parry
+### 009 · Parry (art done)
 Block · common · cost 2  
 Rules: Gain 2 Guard. Draw 1 card.  
 EX: Gain 4 Guard. Draw 2.
@@ -132,7 +132,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 010 · Second Wind
+### 010 · Second Wind (art done)
 Skill · common · cost 1  
 Rules: Draw 2 cards.  
 EX: Draw 3 cards.
@@ -146,7 +146,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 011 · Taunt
+### 011 · Taunt (art done)
 Skill · common · cost 1  
 Rules: Gain 1 Meter.
 
@@ -159,7 +159,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 012 · Iron Will
+### 012 · Iron Will (art done)
 Skill · rare · cost 2  
 Rules: Remove Burn, Bleed, Venom and Noose from your fighter. Gain 4 Guard.  
 EX: Cleanse. Gain 7 Guard.
@@ -173,7 +173,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 013 · Adrenaline
+### 013 · Adrenaline (art done)
 Skill · rare · cost 0  
 Rules: Gain 2 Energy. Discard your cheapest other card.
 
@@ -186,7 +186,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 014 · Bloodlust
+### 014 · Bloodlust (art done)
 Skill · rare · cost 1  
 Rules: Your hits deal +1 damage this turn.  
 EX: Your hits deal +2 this turn.
@@ -200,7 +200,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 015 · Crowd's Favor
+### 015 · Crowd's Favor (art done)
 Skill · epic · cost 2  
 Rules: Gain 2 Meter.
 
@@ -213,7 +213,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 016 · Open Wounds
+### 016 · Open Wounds (art done)
 Special · rare · cost 2  
 Rules: Deal 2 piercing per effect on the target (Burn, Bleed, Venom, Noose).  
 EX: 3 per effect.
@@ -227,7 +227,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 017 · Stand Firm
+### 017 · Stand Firm (art done)
 Block · rare · cost 2  
 Rules: Gain 3 Guard and Retaliate +1. Your Guard does not fade at the start of your next turn.  
 EX: Gain 5 Guard and Retaliate +2. Guard carries over.
@@ -241,7 +241,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 018 · Flurry
+### 018 · Flurry (art done)
 Medium · common · cost 2  
 Rules: Hit 3 times for 1. Every hit links the chain.  
 EX: Hit 3 times for 2.
@@ -255,7 +255,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 065 · Blood Surge
+### 065 · Blood Surge (art done)
 Skill · common · cost 1 Meter (no Energy)  
 Rules: Costs 1 Meter, no Energy. Your hits deal +2 this turn.
 
@@ -268,7 +268,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 066 · Iron Skin
+### 066 · Iron Skin (art done)
 Block · common · cost 1 Meter (no Energy)  
 Rules: Costs 1 Meter, no Energy. Gain 5 Guard.
 

@@ -3,7 +3,7 @@
 **Archetype:** Boss: tithe & drain  
 **HP:** 40  
 **Passive, Tithe:** Heals 6 whenever an enemy fighter is knocked out.  
-**Concept portrait:** none yet
+**Concept portrait:** vorhul.png (approved; it shows his face with more skin left than the Look below describes, so treat the portrait as canon)
 
 > Died nine centuries ago and refused the grave. Every hundred years he holds the Rite to choose who will sit beside his throne. The losers become the throne.
 
@@ -13,7 +13,7 @@
 
 ## How to use this file
 1. Open a new ChatGPT chat. Attach 2 or 3 of the style references and paste the **Style bible**.
-2. There is no concept portrait yet: attach this fighter's references and paste the **Reference sheet** prompt to design them. Save the sheet.
+2. Attach the concept portrait (vorhul.png) and paste the **Reference sheet** prompt. Save the sheet.
 3. For each card, attach the saved sheet and paste the card prompt. Crop to 5:7 and keep the bottom quarter dark for rules text.
 
 ## Vorhul's references

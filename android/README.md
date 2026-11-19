@@ -1,12 +1,12 @@
 # Marrow Rite for Android
 
-The Marrow Rite game, unchanged (the same `host/public/index.html` from this repo), in an Android app.
+The Marrow Rite game, unchanged (the same `host/public/index.html` from the repo), in an Android app.
 The app has the 1v1 match server built in, so one phone hosts and friends join it from their phones
 over the same Wi-Fi. No PC needed.
 
 ## Install
 
-Download `MarrowRite.apk` from the project site or the repo's Releases page, copy it to each phone (or send it over Drive, Discord or similar), open it, and allow
+Copy `MarrowRite.apk` to each phone (or send it over Drive, Discord or similar), open it, and allow
 "Install unknown apps" when Android asks. Needs Android 8.0 or newer.
 
 ## Play a friend

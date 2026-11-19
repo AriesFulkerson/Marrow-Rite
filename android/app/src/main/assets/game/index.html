@@ -692,7 +692,7 @@ const FIGHTERS={
     refs:[{t:'Sedlec Ossuary',a:'Kutná Hora',u:W('Sedlec_Ossuary'),why:'Architecture and chandeliers made of bone'},{t:'Capuchin Crypt',a:'Rome',u:W('Capuchin_Crypt'),why:'Arranged remains, dressed skeletons'},{t:'Isle of the Dead',a:'Arnold Böcklin',u:W('Isle_of_the_Dead_(painting)'),why:'Silent, monumental mood'}]}
 };
 /* concept portraits: [focus x %, focus y %, zoom for round avatars] */
-const ART={ashkar:['ashkar',50,11,3],sable:['sable-moru',44,22,2.4],brannoch:['brannoch',52,5,4.2],wen:['lady-wen',49,18,2.4],teeth:['old-teeth',60,11,2.7],bram:['bram-coil',49,16,2.5]};
+const ART={ashkar:['ashkar',50,11,3],sable:['sable-moru',44,22,2.4],brannoch:['brannoch',52,5,4.2],wen:['lady-wen',49,18,2.4],teeth:['old-teeth',60,11,2.7],bram:['bram-coil',49,16,2.5],vorhul:['vorhul',50,15,2.8]};
 for(const[k,[file,x,y,z]] of Object.entries(ART))Object.assign(FIGHTERS[k],{img:`portraits/${file}.jpg`,face:[x/100,y/100,z]});
 const IMG_RATIO=1008/720;
 function focusPos(fx,fy,z,boxRatio){const S=IMG_RATIO*z;const px=z<=1?50:(fx*z-.5)/(z-1)*100;const py=S<=boxRatio?50:(fy*S-boxRatio/2)/(S-boxRatio)*100;const c=v=>Math.max(0,Math.min(100,v));return `${c(px).toFixed(1)}% ${c(py).toFixed(1)}%`}
@@ -1960,7 +1960,7 @@ const V8_CARDS=[
 V8_CARDS.forEach(c=>{c.rarity=c.rarity||'common';c.p=c.p||{};CARDS.push(c);c.no=String(CARDS.length).padStart(3,'0');CARD[c.id]=c});
 const V8_TOTAL=String(CARDS.length).padStart(3,'0');
 /* finished illustrations (card names unchanged) */
-const CARD_ART={gutcheck:'cards/gatebreaker.jpg',braceup:'cards/wind-the-linen.jpg'};
+const CARD_ART={gutcheck:'cards/gatebreaker.jpg',braceup:'cards/wind-the-linen.jpg',jab:'cards/jab.jpg',cross:'cards/cross.jpg',upper:'cards/uppercut.jpg',block:'cards/block.jpg',sweep:'cards/low-sweep.jpg',knee:'cards/knee-strike.jpg',throw:'cards/throw.jpg',haymaker:'cards/haymaker.jpg',parry:'cards/parry.jpg',wind:'cards/second-wind.jpg',taunt:'cards/taunt.jpg',ironwill:'cards/iron-will.jpg',adrenaline:'cards/adrenaline.jpg',bloodlust:'cards/bloodlust.jpg',crowd:'cards/crowds-favor.jpg',wounds:'cards/open-wounds.jpg',standfirm:'cards/stand-firm.jpg',flurry:'cards/flurry.jpg',surge:'cards/blood-surge.jpg',ironskin:'cards/iron-skin.jpg'};
 const _artSvgV8=artSvg;
 artSvg=function(c){
   if(c&&CARD_ART[c.id]){const glow=c.type==='rite'?'<span class="cglow rite"></span>':c.type==='finisher'?'<span class="cglow"></span>':'';
