@@ -281,7 +281,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 067 · Second Breath
+### 067 · Second Breath (art done)
 Skill · rare · cost 2 Meter (no Energy)  
 Rules: Costs 2 Meter, no Energy. Gain 3 Energy.
 
@@ -294,7 +294,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 068 · Last Gasp
+### 068 · Last Gasp (art done)
 Special · epic · cost 1  
 Rules: Spend all your Meter (at least 1): 3 piercing damage per Meter spent.
 
@@ -307,7 +307,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 090 · Elbow (new)
+### 090 · Elbow (new) (art done)
 Light · common · cost 1  
 Rules: 2 damage. Break 1 Guard.  
 EX: 3 damage. Break 2 Guard.
@@ -321,7 +321,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 091 · Headbutt (new)
+### 091 · Headbutt (new) (art done)
 Medium · common · cost 2  
 Rules: 4 damage. Lose 1 HP.  
 EX: 5 damage. No HP lost.
@@ -335,7 +335,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 092 · Grapple (new)
+### 092 · Grapple (new) (art done)
 Medium · rare · cost 2  
 Rules: 2 piercing damage. Drain 1.  
 EX: 3 piercing damage. Drain 2.
@@ -349,7 +349,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 093 · Smelling Salts (new)
+### 093 · Smelling Salts (new) (art done)
 Skill · rare · cost 1  
 Rules: Heal 3. Gain 1 Meter.
 
@@ -362,7 +362,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 094 · Blood Price (new)
+### 094 · Blood Price (new) (art done)
 Special · epic · cost 2 Meter (no Energy)  
 Rules: Costs 2 Meter, no Energy. 6 piercing damage.
 
