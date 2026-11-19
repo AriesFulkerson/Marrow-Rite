@@ -1918,7 +1918,7 @@ aiChoose=function(s,o){
 .tier i{width:.42em;height:.85em;border:1px solid #a39587;border-radius:.1em;display:block}
 .tier i.on{background:var(--gold);border-color:var(--gold)}
 .kw{font-weight:700;color:#fff}
-.kw.dmg{color:#ffb3bd}.kw.burn,.kw.heat{color:#f3b48f}.kw.bleed{color:#f0a3ae}.kw.venom{color:#cddc9c}.kw.noose{color:#e8d8b8}.kw.guard{color:#bfe0f5}.kw.meter{color:#f6c08f}.kw.drain{color:#e3d2a8}
+.kw.dmg{color:#ffb3bd}.kw.burn,.kw.heat{color:#f3b48f}.kw.bleed{color:#f0a3ae}.kw.venom{color:#cddc9c}.kw.noose{color:#e8d8b8}.kw.guard{color:#bfe0f5}.kw.mtr{color:#f6c08f}.kw.drain{color:#e3d2a8}
 .c-ex{margin-top:.3em;padding-top:.22em;border-top:1px dashed rgba(207,166,78,.4)}
 .c-ex i{font-style:normal;font-weight:800;background:linear-gradient(180deg,#f0c35a,#e07a2e);color:#2a1405;border-radius:.3em;padding:0 .28em;margin-right:.3em;font-size:.86em}
 .c-badge{display:flex;flex-direction:column;align-items:center;line-height:1;height:auto;padding:.16em .38em .2em}
@@ -2044,7 +2044,7 @@ function hlText(h){
     .replace(/\b(Burn|Bleed|Venom|Noose)( \d+)?/g,(m,a,b)=>`<b class="kw ${a.toLowerCase()}">${a}${b||''}</b>`)
     .replace(/\b(\d+ )?Guard\b/g,m=>`<b class="kw guard">${m}</b>`)
     .replace(/\b(\d+ |\+\d+ )?(Heat)\b/g,m=>`<b class="kw heat">${m}</b>`)
-    .replace(/\b(\d+ )?Meter\b/g,m=>`<b class="kw meter">${m}</b>`)
+    .replace(/\b(\d+ )?Meter\b/g,m=>`<b class="kw mtr">${m}</b>`)
     .replace(/\bDrain( \d+)?/g,m=>`<b class="kw drain">${m}</b>`);
 }
 const _cardHTMLV9=cardHTML;
@@ -2378,3 +2378,23 @@ ensureDeck();buildPrompts();
 show('title');
 connectAccount();initDownloads();
 </script>
+<script>
+/* --- fit rules text: long card text shrinks (down to 70%) so rules and the EX line are never cut off; Last Rite flavor may still fade --- */
+(function(){
+  function fit(t){
+    t.style.fontSize='';
+    const fl=t.querySelector('.c-flav');if(fl)fl.style.display='none';
+    const base=parseFloat(getComputedStyle(t).fontSize);let s=1;
+    while(t.scrollHeight>t.clientHeight+1&&s>0.71){s-=0.05;t.style.fontSize=(base*s).toFixed(2)+'px'}
+    if(fl)fl.style.display='';
+  }
+  let queued=false;
+  function run(){queued=false;document.querySelectorAll('.c-text').forEach(t=>{if(!t.dataset.fit&&t.clientHeight>0){fit(t);t.dataset.fit='1'}})}
+  function soon(){if(!queued){queued=true;setTimeout(run,20)}}
+  new MutationObserver(soon).observe(document.body,{childList:true,subtree:true});
+  document.addEventListener('click',()=>setTimeout(soon,30),true);
+  addEventListener('resize',()=>{document.querySelectorAll('.c-text[data-fit]').forEach(t=>{delete t.dataset.fit});soon()});
+  soon();
+})();
+</script>
+
