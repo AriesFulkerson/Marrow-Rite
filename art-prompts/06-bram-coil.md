@@ -224,7 +224,7 @@ Style: follow the Marrow Rite style bible.
 
 Echoes are what a fighter's cards become after that fighter is knocked out. Make each one feel like an afterimage: desaturated, translucent, drifting, with the fighter's accent colour as the only saturated tone.
 
-### E6 · Frayed Rope
+### E6 · Frayed Rope (art done)
 Echo · common · cost 1  
 Rules: Echo of Bram Coil, who has fallen. Noose 1.
 
