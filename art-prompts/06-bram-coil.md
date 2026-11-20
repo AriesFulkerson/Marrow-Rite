@@ -189,7 +189,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 085 · Trapdoor (new)
+### 085 · Trapdoor (new) (art done)
 Medium · rare · cost 2  
 Rules: Break 3 Guard. 3 damage.  
 EX: Break all Guard. 4 damage.
@@ -205,7 +205,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 086 · Death Warrant (new)
+### 086 · Death Warrant (new) (art done)
 Skill · epic · cost 2  
 Rules: Noose 3. Drain 1. Gain 1 Meter.
 
