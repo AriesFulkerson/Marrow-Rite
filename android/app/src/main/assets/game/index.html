@@ -648,7 +648,7 @@ const TYPES={light:{label:'Light',tier:1},medium:{label:'Medium',tier:2},heavy:{
 const W=n=>`https://en.wikipedia.org/wiki/${n}`;
 
 const FIGHTERS={
-  ashkar:{id:'ashkar',name:'Ashkar',title:'The Ember Monk',hp:29,color:'#d9622b',sigil:'flame',arch:'Self-burn aggro',
+  ashkar:{id:'ashkar',name:'Ashkar',title:'The Ember Monk',hp:28,color:'#d9622b',sigil:'flame',arch:'Self-burn aggro',
     passive:'Pyre',ptext:'His first hit each turn applies Burn 2 for 3 turns. Builds Heat (max 5) that powers his cards.',
     bio:'Burned his own monastery to the ground to learn whether his gods would stop him. They did not.',
     look:'South Asian man in his late 50s, gaunt and sinewy with every muscle and vein showing, shaved head, deeply lined brow, short grey beard, intense amber eyes. His skin is scorched and cracked like baked clay down his neck, shoulders and arms. Bare-chested, with a ragged burnt-orange monk robe slung over one shoulder and knotted at the waist, its hem charred to tatters; a long necklace of large dark wooden prayer beads; both palms glowing ember-orange from within; smoke curling off his shoulders. Temple pillars and smoking incense braziers behind him.',
@@ -660,8 +660,8 @@ const FIGHTERS={
     look:'Pale woman in her 30s with a tousled platinum-white bob, grey eyes and a wide, delighted grin. Neat black surgical stitches run from both corners of her mouth up her cheeks, and her face is smudged with grime. A small red nurse\'s cap with stitched seams, a brass monocle loupe strapped over her right eye. High-collared black dress with puffed, torn sleeves edged in red piping, under a filthy blood-stained canvas apron with brass buckles; long black gloves. Her signature tool is a large brass-and-glass syringe full of blood. Her surroundings: hanging chains, stained linen, apothecary bottles, a caged lamp.',
     palette:'black, oxblood red, brass, dirty linen white',
     refs:[{t:'The Anatomy Lesson of Dr. Nicolaes Tulp',a:'Rembrandt',u:W('The_Anatomy_Lesson_of_Dr._Nicolaes_Tulp'),why:'The surgeon as showman; theatre of the body'},{t:'The Gross Clinic',a:'Thomas Eakins',u:W('The_Gross_Clinic'),why:'Operating-theatre lighting, dark surroundings'},{t:'The Death of Marat',a:'Jacques-Louis David',u:W('The_Death_of_Marat'),why:'Restrained, clinical treatment of violence'}]},
-  brannoch:{id:'brannoch',name:'Brannoch',title:'The Wrapped',hp:31,color:'#a88d57',sigil:'peak',arch:'Retaliation tank',
-    passive:'Grave Linen',ptext:'Starts each turn with 3 Guard. Burn, Bleed and Venom hit his Guard before his HP. Each enemy card that lands on his Guard takes 1 damage back (Retaliate).',
+  brannoch:{id:'brannoch',name:'Brannoch',title:'The Wrapped',hp:30,color:'#a88d57',sigil:'peak',arch:'Retaliation tank',
+    passive:'Grave Linen',ptext:'Starts each turn with 2 Guard. Burn, Bleed and Venom hit his Guard before his HP. Each enemy card that lands on his Guard takes 1 damage back (Retaliate).',
     bio:'The giant who kept the citadel gate, buried alive in its foundations for letting the wrong man through. Nine centuries in the linen made him patient. The Rite dug him back up.',
     look:'Towering giant about three metres tall, immensely broad, bound head to foot in torn, aged linen bandages, dry cracked skin showing through the gaps, two faint glints for eyes behind the head wrappings. A ragged hooded mantle of rotted, patched leather tied at the throat with braided rope and tassels, a wide rust-brown cloth sash, a tattered skirt of hanging linen strips, huge bandaged bare feet. Usually framed in a torchlit castle gatehouse with ordinary guards dwarfed beside him.',
     palette:'aged linen, rust-brown leather, torchlit amber, banner red',
@@ -1147,7 +1147,7 @@ function startTurn(i){
   s.energy=Math.max(0,s.maxE+coin-s.drain);
   if(s.drain)ev(`${nm(i)} is drained of ${s.drain} Energy.`);
   s.drain=0;
-  s.guard=(s.keepGuard?s.guard:0)+(act(s).f.id==='brannoch'?3:0)+(G.final?3:0);
+  s.guard=(s.keepGuard?s.guard:0)+(act(s).f.id==='brannoch'?2:0)+(G.final?3:0);
   if(s.keepGuard)ev(`${nm(i)} stands firm: Guard carries over (${s.guard}).`);
   s.keepGuard=false;
   s.retal=0;
@@ -2220,11 +2220,823 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target&&e.target.id==='vs-code'){joinMatch();return}if(e.key==='Enter'||e.key==='Escape')afterInput()});
 
 const _sprV6=showPvpResult;showPvpResult=function(){_sprV6();appendStats();if(G.result&&G.result.how==="decision")fixDecision(G.result.w)};
+/* ================= v9: readability, cards on the field, onboarding ================= */
+(function(){const st=document.createElement('style');st.textContent=`
+/* cards read at a glance */
+.card{font-size:calc(var(--cw)*.092)}
+.c-art{aspect-ratio:100/46}
+.c-text{font-size:.86em;line-height:1.22;padding:.34em .5em}
+.c-type{font-size:.64em;color:#cdbda8;align-items:center}
+.tier{display:inline-flex;gap:.18em;margin-left:.35em;vertical-align:middle}
+.tier i{width:.42em;height:.85em;border:1px solid #a39587;border-radius:.1em;display:block}
+.tier i.on{background:var(--gold);border-color:var(--gold)}
+.kw{font-weight:700;color:#fff}
+.kw.dmg{color:#ffb3bd}.kw.burn,.kw.heat{color:#f3b48f}.kw.bleed{color:#f0a3ae}.kw.venom{color:#cddc9c}.kw.noose{color:#e8d8b8}.kw.guard{color:#bfe0f5}.kw.mtr{color:#f6c08f}.kw.drain{color:#e3d2a8}
+.c-ex{margin-top:.3em;padding-top:.22em;border-top:1px dashed rgba(207,166,78,.4)}
+.c-ex i{font-style:normal;font-weight:800;background:linear-gradient(180deg,#f0c35a,#e07a2e);color:#2a1405;border-radius:.3em;padding:0 .28em;margin-right:.3em;font-size:.86em}
+.c-badge{display:flex;flex-direction:column;align-items:center;line-height:1;height:auto;padding:.16em .38em .2em}
+.c-badge b{font-size:1.12em}
+.c-badge small{font-size:.48em;letter-spacing:.1em;text-transform:uppercase;opacity:.9;margin-top:.1em}
+/* hand */
+.hand .card{--cw:138px}
+.hand{min-height:0;padding:22px 6px 6px}
+.hand-card.dim{opacity:.7;filter:saturate(.5)}
+.hand-card .why{position:absolute;left:8px;right:8px;bottom:12px;z-index:3;background:rgba(13,9,9,.93);border:1px solid #7a4a52;color:#f5b3bd;font-size:11.5px;font-weight:700;text-align:center;border-radius:7px;padding:4px 5px;line-height:1.15;pointer-events:none}
+.htag{font-size:12px;top:-20px}
+.actions .hint{font-size:14px;color:#e6dccd;max-width:62ch}
+.tpill{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;border-radius:99px;padding:3px 10px;background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
+.tpill.mine{background:var(--gold);color:#241606;border-color:var(--gold)}
+#end-btn.nudge{animation:nudge 1.4s ease-in-out infinite}
+@keyframes nudge{50%{box-shadow:0 0 0 4px rgba(207,166,78,.35),0 0 18px rgba(207,166,78,.5)}}
+/* fighter bars: one compact row */
+.bar{padding:8px 12px}
+.bar-in{display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap}
+.bar-in .portrait{width:54px;height:54px}
+.bar-in .who{flex:1 1 260px}
+.who-top{margin-bottom:4px}
+.chips{margin-top:5px}
+.chip.p{flex:1 1 220px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;padding:0}
+.chip.p b{color:#cdbda8}
+.chip[title]{cursor:help}
+.bench{grid-column:auto;border-top:0;padding:0;flex-direction:column;gap:4px;flex-wrap:nowrap}
+.bm{padding:3px 9px 3px 3px;gap:7px}
+.bm .mp{width:26px;height:26px}
+.bm .bh{width:74px}
+.tagcta{margin-left:2px}
+.res2{display:grid;gap:3px;justify-items:end}
+.rrow{display:flex;align-items:center;gap:7px;cursor:help}
+.rlab{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);width:50px;text-align:right}
+.rnum{font-variant-numeric:tabular-nums;font-weight:700;font-size:13px;min-width:28px;text-align:left}
+.res2 .pips{max-width:140px;justify-content:flex-start}
+.res2 .meter{margin:0}
+.res2 .meter span{width:18px}
+.rdeck{font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+/* cards that stay on the field */
+.field{display:flex;gap:6px;align-items:flex-start}
+.field:empty{display:none}
+.ftok{width:62px;display:grid;gap:2px;font-size:10px;line-height:1.1;text-align:center;cursor:help}
+.ft-art{position:relative;height:42px;border-radius:6px;overflow:hidden;border:1.5px solid var(--fc);background:var(--ink)}
+.ft-art svg,.ft-art .cimg{position:absolute;inset:0;width:100%;height:100%}
+.ftok b{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ftok small{font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ftok.guard small{color:#bfe0f5}.ftok.burn small{color:#f3b48f}.ftok.bleed small{color:#f0a3ae}.ftok.venom small{color:#cddc9c}.ftok.noose small{color:#e8d8b8}.ftok.trap small,.ftok.brk small{color:var(--gold)}
+.ftok.back .ft-art{background:repeating-linear-gradient(45deg,#2a1d1f 0 5px,#211617 5px 10px);border-color:#6b5326;display:grid;place-items:center;font-family:var(--f-display);color:var(--gold);font-size:20px}
+.flabel{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl;transform:rotate(180deg);align-self:center}
+/* the turn lane: every card played this turn stays face up, in order */
+.stage{min-height:160px;gap:14px;justify-content:flex-start;padding:8px 14px}
+.stage .card{--cw:102px}
+@media (min-width:761px){.record{min-height:0;max-height:none;contain:size}}
+.stage .stage-empty{margin:auto}
+.lane{display:flex;gap:6px;align-items:flex-end;flex:none;max-width:50%;overflow-x:auto;padding:8px 0 2px 6px}
+.lane .card{--cw:72px}
+.lane-it{display:grid;gap:3px;justify-items:center;position:relative}
+.lane-it small{font-size:11px;font-weight:700;color:#e6dccd;white-space:nowrap}
+.lane-it .ln{position:absolute;top:-6px;left:-4px;z-index:3;width:20px;height:20px;border-radius:50%;background:var(--gold);color:#241606;font-size:11px;font-weight:800;display:grid;place-items:center}
+.lane-arrow{color:var(--muted);font-size:22px;align-self:center;flex:none}
+.lane-tag{width:72px;aspect-ratio:5/7;border-radius:8px;border:1px dashed var(--line);display:grid;place-items:center;text-align:center;font-size:11px;font-weight:700;color:var(--muted);padding:4px}
+.lane .card.back .bk{font-size:1.4em}
+.stage-info{max-width:34ch}
+/* record */
+.rec-ev .tmark{display:flex;align-items:center;gap:8px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:11px}
+.rec-ev .tmark::before,.rec-ev .tmark::after{content:"";flex:1;height:1px;background:var(--line)}
+/* rules */
+.rules{max-width:760px}
+.rules .rsec{display:grid;grid-template-columns:150px minmax(0,1fr);gap:4px 16px;padding:10px 0;border-top:1px solid var(--line)}
+.rules .rsec h3{margin:0;font-size:13px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em}
+.rules .rsec p,.rules .rsec ul{margin:0;color:#d6cbbb;font-size:14.5px}
+.rules .rsec ul{padding-left:18px;display:grid;gap:3px}
+.rules .lead{color:#d6cbbb;margin:0 0 10px}
+@media (max-width:600px){.rules .rsec{grid-template-columns:minmax(0,1fr)}}
+/* intro slides */
+.intro{max-width:760px;width:100%;background:var(--panel);border:1px solid var(--gold);border-radius:18px;padding:22px 24px 18px;display:grid;gap:14px}
+.intro-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.intro-dots{display:flex;gap:6px}
+.intro-dots button{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.intro-dots button[aria-current="true"]{background:var(--gold)}
+.slide{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px;align-items:center;min-height:300px}
+.slide h2{font-family:var(--f-display);font-size:clamp(32px,5vw,44px);line-height:1;margin:0 0 10px}
+.slide p{margin:0 0 8px;color:#d6cbbb;font-size:16px}
+.slide ul{margin:0;padding-left:18px;color:#d6cbbb;display:grid;gap:5px;font-size:15px}
+.slide b{color:var(--bone)}
+.svis{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;max-width:330px}
+.svis .card{--cw:104px}
+.svis .card.lg{--cw:190px}
+.anat{position:relative}
+.anat .pin{position:absolute;width:22px;height:22px;border-radius:50%;background:var(--blood);color:#fff;font-weight:800;font-size:12px;display:grid;place-items:center;box-shadow:0 0 0 2px #0d0909;z-index:4}
+.slide ol.pins{margin:0;padding:0;list-style:none;display:grid;gap:6px;color:#d6cbbb;font-size:15px}
+.slide ol.pins li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px;align-items:start}
+.slide ol.pins li span{width:20px;height:20px;border-radius:50%;background:var(--blood);color:#fff;font-weight:800;font-size:11px;display:grid;place-items:center}
+.vs{display:grid;gap:8px;justify-items:center}
+.vs .row{gap:6px}
+.vs .portrait{width:52px;height:52px}
+.vs em{font-family:var(--f-display);font-style:normal;color:var(--gold);font-size:28px}
+.chainvis{display:grid;gap:4px;justify-items:center}
+.chainvis .row{gap:6px;align-items:flex-end;flex-wrap:nowrap}
+.chainvis small{font-weight:700;color:#e6dccd}
+.mock{display:grid;gap:8px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:240px}
+.intro-nav{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+@media (max-width:640px){.slide{grid-template-columns:minmax(0,1fr)}.svis{max-width:none}}
+/* tutorial coach */
+#tut-ring{position:fixed;z-index:44;pointer-events:none;border:3px solid var(--gold);border-radius:12px;box-shadow:0 0 0 4000px rgba(8,5,6,.45),0 0 24px rgba(207,166,78,.7);transition:all .25s ease;animation:ring 1.6s ease-in-out infinite}
+@keyframes ring{50%{border-color:#fff3d0}}
+#coach{position:fixed;z-index:45;width:min(360px,calc(100vw - 32px));background:#120c0d;border:1px solid var(--gold);border-radius:14px;padding:14px 16px;box-shadow:0 14px 40px rgba(0,0,0,.7);display:grid;gap:8px;font-size:15px;line-height:1.4}
+#coach .cstep{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+#coach p{margin:0;color:#e6dccd}
+#coach b{color:#fff}
+#coach .row{justify-content:space-between}
+#coach.shake{animation:shake .32s}
+@media (max-width:900px){.bench{flex-direction:row;flex-wrap:wrap}.lane{max-width:100%}.stage{flex-wrap:wrap}}
+@media (max-width:600px){.hand .card{--cw:120px}.res2{justify-items:start}.rlab{text-align:left}}
+`;const ls=[...document.querySelectorAll("style")].pop();if(ls)ls.after(st);else document.head.appendChild(st)})();
+
+/* --- card face: plain type line with chain-step pips, labelled badges, highlighted keywords, clear EX line --- */
+const TYPE_LINE={light:'Light strike',medium:'Medium strike',heavy:'Heavy strike',special:'Special · any chain',block:'Block',skill:'Skill',trap:'Trap · hidden',finisher:'Finisher · ends chain',rite:'Last Rite · wins'};
+function tierPips(n){return `<span class="tier" aria-hidden="true">${[1,2,3].map(k=>`<i class="${k<=n?'on':''}"></i>`).join('')}</span>`}
+function hlText(h){
+  return h.replace(/\b(\d+)( piercing)? damage\b/g,'<b class="kw dmg">$1$2 damage</b>')
+    .replace(/\b(Burn|Bleed|Venom|Noose)( \d+)?/g,(m,a,b)=>`<b class="kw ${a.toLowerCase()}">${a}${b||''}</b>`)
+    .replace(/\b(\d+ )?Guard\b/g,m=>`<b class="kw guard">${m}</b>`)
+    .replace(/\b(\d+ |\+\d+ )?(Heat)\b/g,m=>`<b class="kw heat">${m}</b>`)
+    .replace(/\b(\d+ )?Meter\b/g,m=>`<b class="kw mtr">${m}</b>`)
+    .replace(/\bDrain( \d+)?/g,m=>`<b class="kw drain">${m}</b>`);
+}
+const _cardHTMLV9=cardHTML;
+cardHTML=function(c,o={}){
+  let h=_cardHTMLV9(c,o);
+  const T=TYPES[c.type]||{};const tier=c.type==='finisher'?3:T.tier;
+  h=h.replace(/<div class="c-type"><span>[^<]*<\/span>/,`<div class="c-type"><span>${TYPE_LINE[c.type]||T.label||''}${tier&&c.type!=='finisher'?tierPips(tier):''}</span>`);
+  h=h.replace(/<span class="c-badge dmg">([^<]*)<\/span>/,'<span class="c-badge dmg"><b>$1</b><small>dmg</small></span>')
+     .replace(/<span class="c-badge grd">([^<]*)<\/span>/,'<span class="c-badge grd"><b>$1</b><small>guard</small></span>');
+  const a=h.indexOf('<div class="c-text">');if(a>=0){const s=a+20,e=h.indexOf('</div>',s);if(e>s)h=h.slice(0,s)+hlText(h.slice(s,e))+h.slice(e)}
+  h=h.replace('<span class="c-ex">EX: ',`<span class="c-ex"><i>EX +${c.type==='finisher'?'1 more':'1'} Meter</i>`);
+  return h;
+};
+
+/* --- reading the record: turn markers, the turn lane and lingering cards are all derived from it --- */
+const TMARK='<span class="tmark">';
+const _startTurnV9=startTurn;
+startTurn=function(i){if(G&&G.s&&!G.over)ev(TMARK+'Turn</span>');return _startTurnV9(i)};
+function recSegments(){
+  const segs=[];let cur=null;
+  for(const e of (G&&G.rec)||[]){if(e.kind==='ev'&&typeof e.text==='string'&&e.text.startsWith(TMARK)){cur=[];segs.push(cur)}else if(cur&&e.kind==='card')cur.push(e)}
+  const out=[];for(let k=segs.length-1,side=G.act;k>=0;k--,side=1-side)out.push({side,cards:segs[k]});
+  return out; /* newest first, each tagged with whose turn it was */
+}
+function laneEntries(){const s=recSegments()[0];return s?s.cards.filter(e=>e.owner===s.side):[]}
+function cardP(e){const c=e.c&&(CARD[e.c.id]||e.c);if(!c||!c.p)return{};return e.ex&&c.exP?{...c.p,...c.exP}:c.p}
+const ST_LAB={burn:'Burn',bleed:'Bleed',venom:'Venom',noose:'Noose'};
+function fieldItems(i){
+  const s=G.s[i],o=G.s[1-i],segs=recSegments(),items=[];
+  const mine=segs.find(x=>x.side===i);
+  if(mine&&(s.guard>0||s.retal>0)){
+    const gc=mine.cards.filter(e=>e.owner===i&&e.c&&!e.c.echo&&(()=>{const p=cardP(e);return p.guard||p.retal||p.keepGuard})());
+    gc.slice(-2).forEach(e=>items.push({c:e.c,kind:'guard',lab:s.retal?`Guard ${s.guard} · Ret ${s.retal}`:`Guard ${s.guard}`,tip:`${e.c.name}: still holding. Guard soaks damage until ${i?'their':'your'} next turn.`}));
+  }
+  const t=act(o);
+  for(const k of ['burn','bleed','venom','noose']){
+    if(!t.st[k])continue;let src=null;
+    for(const sg of segs.slice(0,8)){if(sg.side!==i)continue;for(let q=sg.cards.length-1;q>=0;q--){const e=sg.cards[q],p=cardP(e);if(e.owner===i&&e.c&&(p[k]||(k==='venom'&&(p.venomGrow||p.dblVenom)))){src=e;break}}if(src)break}
+    if(src)items.push({c:src.c,kind:k,lab:`${ST_LAB[k]} ${t.st[k].d} · ${t.st[k].t}t`,tip:`${src.c.name}: ${ST_LAB[k]} ${t.st[k].d} on ${t.f.name}, ${t.st[k].t} turn${t.st[k].t>1?'s':''} left.`});
+  }
+  return items;
+}
+function ftokHTML(it){return `<div class="ftok ${it.kind}" style="--fc:${(fdef(it.c)||NEUTRAL).color}" data-cid="${it.c.id}" title="${esc(it.tip)}"><span class="ft-art">${artSvg(it.c)}</span><b>${esc(it.c.name)}</b><small>${esc(it.lab)}</small></div>`}
+const TRAP_NAME={snare:'Snare',jaw:'Jawtrap',bog:'Bog Hole'};
+function fieldHTML(i){
+  const s=G.s[i];let h=fieldItems(i).map(ftokHTML).join('');
+  s.traps.forEach(x=>{h+=i===0?`<div class="ftok trap back" title="${TRAP_NAME[x]||'Trap'}: set face down. The enemy can't see which trap it is."><span class="ft-art">?</span><b>${TRAP_NAME[x]||'Trap'}</b><small>Face down</small></div>`:`<div class="ftok trap back" title="A hidden trap. It springs when you strike or tag."><span class="ft-art">?</span><b>Trap</b><small>Hidden</small></div>`});
+  if(s.breaker)h+=`<div class="ftok brk back" title="Breaker: when the other side's chain reaches 3 hits it snaps, and they lose 2 Energy."><span class="ft-art">✦</span><b>Breaker</b><small>Armed</small></div>`;
+  return h?`<span class="flabel">On field</span>`+h:'';
+}
+
+/* --- fighter bars: labelled Energy and Meter, readable effects, field cards, bench beside the fighter --- */
+const CHIP_TIP={g:'Guard soaks damage until the start of this side\'s next turn.',burn:GLOSS.burn[1],bleed:GLOSS.bleed[1],venom:GLOSS.venom[1],noose:GLOSS.noose[1],heat:GLOSS.heat[1],hunger:'Lady Wen gains 1 Hunger for each card discarded (max 6). Her Specials deal +1 per 2 Hunger.',fu:'Wounded at 50% HP (+1 damage per hit), Desperate at 25% (+2, and +1 Meter each turn).',d:GLOSS.drain[1],br:'Breaker armed: the other side\'s next chain snaps at 3 hits and loses 2 Energy.',trap:GLOSS.trap[1]};
+const _renderBarV9=renderBar;
+renderBar=function(i){
+  _renderBarV9(i);
+  const s=G.s[i],t=act(s),f=t.f,bi=$('#bar-'+i+' .bar-in');if(!bi)return;
+  bi.querySelectorAll('.chip.br,.chip.trap').forEach(ch=>ch.remove());
+  bi.querySelectorAll('.chip').forEach(ch=>{
+    const k=[...ch.classList].find(x=>CHIP_TIP[x]);if(k&&!ch.title)ch.title=k==='fu'&&/Empower/.test(ch.textContent)?GLOSS.empower[1]:CHIP_TIP[k];
+    if(ST_LAB[k]&&t.st[k]){const e=t.st[k];ch.textContent=k==='noose'?`Noose +${e.d} per hit · ${e.t} turn${e.t>1?'s':''}`:`${ST_LAB[k]} ${e.d} a turn · ${e.t} turn${e.t>1?'s':''}`}
+    if(ch.classList.contains('p')){ch.title=`${f.passive}: ${f.ptext}`;ch.innerHTML=`<b>Passive · ${f.passive}:</b> ${f.ptext}`}
+  });
+  const res=bi.querySelector('.res');
+  if(res){const pipsN=Math.max(s.maxE,s.energy);
+    res.className='res2';
+    res.innerHTML=`<div class="rrow" title="Energy pays for cards (the gold number on each card). It refills every turn: 1 on turn 1, +1 each turn, up to 8."><span class="rlab">Energy</span><span class="pips">${Array.from({length:pipsN},(_,k)=>`<span class="${k<s.energy?'on':''}"></span>`).join('')}</span><b class="rnum">${s.energy}/${s.maxE}</b></div>
+      <div class="rrow" title="Meter (max ${MMAX}): +1 each turn and from 3- and 5-hit chains. Spend it on EX boosts, Finishers, Breakers, ◆ cards and Last Rites."><span class="rlab">Meter</span><span class="meter">${Array.from({length:MMAX},(_,k)=>`<span class="${k<s.meter?'on':''}"></span>`).join('')}</span><b class="rnum">${s.meter}/${MMAX}</b></div>
+      <small class="rdeck">Deck ${s.deck.length} · Hand ${s.hand.length}</small>`}
+  const bench=bi.querySelector('.bench'),fd=document.createElement('div');fd.className='field';fd.innerHTML=fieldHTML(i);
+  if(res){bi.insertBefore(fd,res);if(bench)bi.insertBefore(bench,res)}
+  bi.querySelectorAll('.tagcta').forEach(x=>x.textContent='Tag in · 1 Energy');
+};
+
+/* --- stage: the turn lane --- */
+function laneItemHTML(e,n){
+  if(e.c&&hiddenTrap(e))return `<div class="lane-it"><span class="ln">${n}</span><div class="card back mini"><div class="bk">?</div></div><small>Trap set</small></div>`;
+  if(!e.c)return `<div class="lane-it"><span class="ln">${n}</span><div class="lane-tag">Tag in<br>${esc(e.tagTo?e.tagTo.name:'')}</div><small>Tag</small></div>`;
+  return `<div class="lane-it"><span class="ln">${n}</span>${cardHTML(e.c,{size:'mini'})}<small>${e.dealt?e.dealt+' dmg':entryOutcome(e)}</small></div>`;
+}
+const _renderStageV9=renderStage;
+renderStage=function(){
+  _renderStageV9();
+  const st=$('#stage');if(!st||G.over)return;
+  const lane=laneEntries(),pd=pendingCard();if(!lane.length)return;
+  if(!pd){
+    const last=lane[lane.length-1],older=lane.slice(0,-1).slice(-5),off=lane.length-1-older.length;
+    const combo=st.querySelector('.combo');const ch=combo?combo.outerHTML:'';
+    let mainHTML;
+    if(last.c&&!hiddenTrap(last))mainHTML=`<div class="stage-card resolved">${cardHTML(last.c)}</div>`;
+    else mainHTML=laneItemHTML(last,lane.length);
+    const who=last.owner?act(G.s[1]).f.name:'You';
+    const total=lane.reduce((a,e)=>a+(e.dealt||0),0);
+    const name=last.c?(hiddenTrap(last)?'A hidden trap':last.c.name+(last.ex?' (EX)':'')):'Tag in: '+(last.tagTo?last.tagTo.name:'');
+    st.innerHTML=(older.length?`<div class="lane" aria-label="Played this turn">${older.map((e,k)=>laneItemHTML(e,off+k+1)).join('')}</div><span class="lane-arrow" aria-hidden="true">›</span>`:'')+mainHTML+
+      `<div class="stage-info"><p class="eyebrow">${last.owner?'Enemy played':'You played'} · card ${lane.length} this turn</p><b>${last.owner?esc(who)+': ':''}${esc(name)}</b><p>${last.dealt?`${last.dealt} damage. `:''}${lane.length>1&&total?`${total} damage this turn so far. `:''}Cards stay here until the turn ends. Tap the fight record for the math.</p></div>`+ch;
+  }else{
+    const older=lane.slice(-4);
+    st.insertAdjacentHTML('afterbegin',`<div class="lane" aria-label="Played this turn">${older.map((e,k)=>laneItemHTML(e,lane.length-older.length+k+1)).join('')}</div><span class="lane-arrow" aria-hidden="true">›</span>`);
+  }
+};
+
+/* --- record: label the turn markers --- */
+const _renderRecordV9=renderRecord;
+renderRecord=function(){
+  _renderRecordV9();
+  let side=G.act,n=0;
+  document.querySelectorAll('#record .tmark').forEach(el=>{n++;el.textContent=side===0?'Your turn':'Enemy turn';side=1-side});
+};
+
+/* --- hand: say why a card can't be played, on the card --- */
+const _renderHandV9=renderHand;
+renderHand=function(){
+  _renderHandV9();
+  if(!G||G.act!==0||G.over)return;
+  document.querySelectorAll('#hand .hand-card[title]').forEach(b=>{if(!b.querySelector('.why'))b.insertAdjacentHTML('beforeend',`<span class="why">${esc(b.title)}</span>`)});
+};
+
+/* --- action row: plain button names and a next-step line --- */
+const _renderActionsV9=renderActions;
+renderActions=function(){
+  _renderActionsV9();
+  const s=G.s[0],o=G.s[1],mine=G.act===0&&!G.over;
+  const ex=$('#ex-btn'),br=$('#brk-btn'),end=$('#end-btn');
+  ex.textContent=G.ex?'EX on: next card boosted':'EX boost · 1 Meter';
+  ex.title='Spend 1 Meter so the next card you play uses its stronger EX line (shown in gold on the card).';
+  br.textContent=s.breaker?'Breaker armed':'Set Breaker · 2 Meter';
+  br.title='Spend 2 Meter. When the enemy\'s next chain reaches 3 hits it snaps, and they lose 2 Energy.';
+  const playable=mine&&s.hand.some(c=>!info(s,o,c).why);
+  end.classList.toggle('nudge',mine&&!playable&&G.pend==null);
+  const hint=$('#hint');if(!hint)return;
+  let h=hint.textContent;
+  if(mine&&!playable)h=G.pend!=null?h:'No playable cards left. Press End turn.';
+  else if(mine&&s.combo===0&&G.pend==null)h=`You have ${s.energy} Energy. Click a card to stage it, then press Play. Start a chain with a Light strike.`;
+  hint.innerHTML=`<span class="tpill ${mine?'mine':''}">${G.over?'Match over':mine?'Your turn':'Enemy turn'}</span> ${esc(h)}`;
+};
+
+/* --- rules: rewritten around what the player sees --- */
+function rulesHTML(){
+  return `<h2 id="rules-h">How the Rite works</h2>
+  <p class="lead">Two teams of three fighters. One fighter from each side is in the pit at a time; the other two wait on the bench.</p>
+  <div class="rsec"><h3>Winning</h3><p>Knock out all three enemy fighters. In the Final Round you can also win with a Last Rite. If ${MATCH_ROUNDS} rounds pass, the team with the most total HP wins.</p></div>
+  <div class="rsec"><h3>Your turn</h3><ul><li>Draw 2 cards. Energy refills: 1 on your first turn, +1 each turn after, up to 8.</li><li>Gain 1 Meter. Last turn's Guard fades.</li><li>Benched fighters recover ${BENCH_HEAL} HP, up to ${Math.round(BENCH_CAP*100)}% of their max.</li><li>Play as many cards as you can pay for, then press End turn.</li></ul></div>
+  <div class="rsec"><h3>Reading a card</h3><ul><li><b>Gold circle:</b> Energy cost. <b>◆ number:</b> Meter cost.</li><li><b>Red badge:</b> damage. <b>Blue badge:</b> Guard.</li><li><b>Type line:</b> what kind of card it is. The small bars show its chain step: Light ▮, Medium ▮▮, Heavy ▮▮▮.</li><li><b>Gold EX line:</b> the stronger version, used when EX boost is on.</li><li>Hover a card (or press and hold on a phone) to see every rule on it.</li></ul></div>
+  <div class="rsec"><h3>Playing a card</h3><p>Click a card to stage it on the field. Nothing happens yet, and your opponent can't see it. Press Play (or Enter) to use it, or Back to hand (or Esc). Every card played this turn stays in the arena in order until the turn ends, and the fight record shows the full math.</p></div>
+  <div class="rsec"><h3>Chains</h3><p>Strikes chain Light → Medium → Heavy. Each hit gets +1 damage for every hit before it in the chain (bonus damage on one hit is capped at +${BONUS_CAP}). Playing a lower step restarts the chain. Specials fit into any chain. A 3-hit chain and a 5-hit chain each give 1 Meter.</p></div>
+  <div class="rsec"><h3>Guard and effects</h3><ul><li><b>Guard</b> soaks damage until your next turn. Cards that gave Guard stay by your fighter while it holds.</li><li><b>Burn</b> (2 turns), <b>Bleed</b> (3 turns, stacks to 6) and <b>Venom</b> (3 turns, grows each tick) hit at the start of the target's turn and ignore Guard, except Brannoch's.</li><li><b>Noose:</b> the target takes extra damage from every hit for 2 turns.</li><li><b>Piercing</b> damage ignores Guard.</li></ul></div>
+  <div class="rsec"><h3>Meter (max ${MMAX})</h3><p>Gain 1 each turn, 1 for 3- and 5-hit chains, 1 when you take 6+ damage in one enemy turn, and 1 when one of your fighters falls. Spend it on: <b>EX boost</b> (1), <b>Finishers</b> (1, or 2 with EX), <b>Breakers</b> (2), ◆ cards, and <b>Last Rites</b> (3). Some cards Overcharge: a bonus while you hold 3 or more.</p></div>
+  <div class="rsec"><h3>Finishers and Breakers</h3><p><b>Finishers</b> need a chain of 2+ hits and 1 Meter. They hit like a Heavy and close the chain. A <b>Breaker</b> (2 Meter) waits on the field; when the enemy's chain reaches 3 hits it snaps and they lose 2 Energy.</p></div>
+  <div class="rsec"><h3>Tag team</h3><p>Once a turn, click a benched teammate to tag them in for 1 Energy. Your chain stays alive. Burn, Bleed, Venom and Noose on the fighter leaving are halved (rounded up), and benched fighters don't take effect damage. Playing a benched fighter's own card tags them in for +1 Energy.</p></div>
+  <div class="rsec"><h3>Getting hurt</h3><p>At 50% HP a fighter is Wounded (+1 damage per hit). At 25% they are Desperate (+2, and +1 Meter each turn). A fighter stepping in after a teammate falls gets +${VENG_GUARD} Guard. A fallen fighter's cards turn into their Echo: a weaker 1-Energy card.</p></div>
+  <div class="rsec"><h3>Final Round</h3><p>When each side has one fighter left, both heal to full, gain 2 Meter, and start every turn with 3 extra Guard. Now a <b>Last Rite</b> can be played: 3 Meter, with the enemy at 6 HP or less. It ends the match.</p></div>
+  <div class="rsec"><h3>Long matches</h3><p>From round ${SUDDEN}, Blood Rounds: your active fighter takes growing unblockable damage at the start of each turn. In round ${MATCH_ROUNDS} the crowd storms the pit and every fighter takes ${LAST_STORM}. The round counter is above the arena.</p></div>
+  <div class="rsec"><h3>Fighters</h3><p><b>Heat</b> (Ashkar) stays between turns, max 5, and powers cards marked Heat. <b>Bleed</b> stacks up to 6. <b>Retaliate</b> (Brannoch): an attack that lands on his Guard takes damage back, once per card. <b>Hunger</b> (Wen): +1 per card discarded, max 6. <b>Traps</b> (Old Teeth) sit face down on the field until the enemy springs them; 2 at a time. Each fighter's passive is written under their HP bar.</p></div>
+  <div class="row" style="margin-top:14px"><button class="btn gold" id="rules-close">Close</button><button class="btn" id="howto-open2">Intro slides</button><button class="btn" id="tut-open2">Play the tutorial</button></div>`;
+}
+(function(){const r=document.querySelector('#rules .rules');if(r)r.innerHTML=rulesHTML()})();
+
+/* --- intro slides: shown on first launch, reopen from How to play --- */
+const INTRO_KEY='mr-intro-seen-v1';
+function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function vsVis(){const p=ids=>ids.map(id=>`<span class="portrait" style="--fc:${FIGHTERS[id].color}">${sigilSvg(FIGHTERS[id])}</span>`).join('');return `<div class="vs"><div class="row">${p(['ashkar','sable','brannoch'])}</div><em>vs</em><div class="row">${p(['wen','teeth','bram'])}</div></div>`}
+function anatVis(){const pins=[[-6,3,1],[93,38,2],[-6,48,3],[-6,58,4],[-6,74,5]];return `<div class="anat">${cardHTML(CARD.braceup,{size:'lg'})}${pins.map(([x,y,n])=>`<span class="pin" style="left:${x}%;top:${y}%">${n}</span>`).join('')}</div>`}
+function chainVis(){const cs=[['jab','2'],['cross','3 +1'],['upper','5 +2']];return `<div class="chainvis"><div class="row">${cs.map(([id,d],k)=>`<div class="lane-it">${cardHTML(CARD[id])}<small>${d}</small></div>${k<2?'<span class="lane-arrow">›</span>':''}`).join('')}</div><small>2 + 4 + 7 = 13 damage</small></div>`}
+function mockMeter(){return `<div class="mock"><div class="rrow"><span class="rlab">Energy</span><span class="pips"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span><b class="rnum">3/4</b></div><div class="rrow"><span class="rlab">Meter</span><span class="meter"><span class="on"></span><span class="on"></span><span></span><span></span><span></span></span><b class="rnum">2/5</b></div><div class="row" style="gap:6px"><span class="btn sm">EX boost · 1 Meter</span><span class="btn sm">Set Breaker · 2 Meter</span></div></div>`}
+function mockFx(){return `<div class="mock"><div class="chips"><span class="chip g">Guard 4</span><span class="chip burn">Burn 2 a turn · 2 turns</span><span class="chip bleed">Bleed 3 a turn · 3 turns</span><span class="chip venom">Venom 2 a turn · 3 turns</span><span class="chip noose">Noose +2 per hit · 2 turns</span></div><div class="field"><span class="flabel">On field</span>${ftokHTML({c:CARD.braceup,kind:'guard',lab:'Guard 4',tip:''})}<div class="ftok trap back"><span class="ft-art">?</span><b>Trap</b><small>Hidden</small></div></div></div>`}
+function benchVis(){return `<div class="mock"><p style="margin:0;font-size:13px;color:var(--muted)">Your bench</p>${['brannoch','sable'].map(id=>`<span class="bm can" style="--fc:${FIGHTERS[id].color}"><span class="mp">${sigilSvg(FIGHTERS[id])}</span><span class="bt"><span class="bn">${FIGHTERS[id].name}</span><span class="bh"><i style="width:80%"></i></span><small>${Math.round(FIGHTERS[id].hp*.8)}/${FIGHTERS[id].hp} HP</small></span><span class="tagcta">Tag in · 1 Energy</span></span>`).join('')}</div>`}
+const SLIDES=[
+  ()=>({h:'Welcome to the Rite',b:`<p>Marrow Rite is a fighting game played with cards.</p><ul><li>You bring a team of <b>three fighters</b>. One fights; two wait on the bench.</li><li>Every card is a move: strikes, blocks, tricks and finishers.</li><li><b>Knock out all three enemy fighters to win.</b></li></ul>`,v:vsVis()}),
+  ()=>({h:'Reading a card',b:`<ol class="pins"><li><span>1</span><div><b>Energy cost.</b> You pay it from your Energy each turn.</div></li><li><span>2</span><div><b>Damage or Guard.</b> Red is damage, blue is Guard.</div></li><li><span>3</span><div><b>Type.</b> Strikes show their chain step as small bars.</div></li><li><span>4</span><div><b>What it does.</b> Key words are highlighted.</div></li><li><span>5</span><div><b>EX line.</b> A stronger version that costs 1 Meter.</div></li></ol><p style="margin-top:10px">Hover any card in the game to see every rule on it.</p>`,v:anatVis()}),
+  ()=>({h:'Your turn',b:`<ul><li>You draw 2 cards and your <b>Energy</b> refills. You get 1 on turn one, then 1 more each turn, up to 8.</li><li><b>Click a card</b> to stage it, then press <b>Play</b>. Until you press Play you can put it back, and your opponent can't see it.</li><li>Cards you play stay in the arena in order until your turn ends.</li><li>Out of Energy? Press <b>End turn</b>.</li></ul>`,v:mockMeter()}),
+  ()=>({h:'Chains hit harder',b:`<p>Strikes chain <b>Light → Medium → Heavy</b>. Each hit gets <b>+1 damage for every hit before it</b>.</p><ul><li>Going back to a lower step restarts the chain.</li><li>Specials fit into any chain.</li><li>3- and 5-hit chains give you Meter.</li></ul>`,v:chainVis()}),
+  ()=>({h:'Guard and effects',b:`<ul><li><b>Guard</b> soaks damage until your next turn. Block cards stay by your fighter while their Guard holds.</li><li><b>Burn, Bleed and Venom</b> hurt at the start of each turn and ignore Guard.</li><li><b>Noose</b> makes every hit on the target hurt more.</li><li><b>Traps</b> sit face down. You only see them when they spring.</li></ul><p>Effects are listed under each fighter's HP bar, with turns left.</p>`,v:mockFx()}),
+  ()=>({h:'Meter, EX and Finishers',b:`<ul><li><b>Meter</b> fills by 1 each turn and from long chains (max ${MMAX}).</li><li><b>EX boost</b> (1 Meter): the next card uses its gold EX line.</li><li><b>Finishers</b> need a 2-hit chain and 1 Meter. They hit hard and end the chain.</li><li><b>Breaker</b> (2 Meter) snaps the enemy's next 3-hit chain.</li></ul>`,v:cardHTML(CARD.pyrekick)}),
+  ()=>({h:'Tag team and the Final Round',b:`<ul><li>Once a turn, click a benched teammate to <b>tag them in</b> for 1 Energy. Your chain keeps going, and effects on the fighter who leaves are halved.</li><li>Benched fighters slowly heal.</li><li>When each side is down to one fighter, the <b>Final Round</b> begins: both heal to full, and a <b>Last Rite</b> can end the match.</li></ul>`,v:benchVis()}),
+  ()=>({h:'Ready to fight?',b:`<p>The tutorial walks you through a short practice match, one move at a time. It takes about three minutes.</p><p>You can reopen these slides from <b>How to play</b>, and the full rules from <b>Rules</b>.</p><div class="row" style="margin-top:14px"><button class="btn gold" id="intro-tut">Play the tutorial</button><button class="btn" id="intro-done">Skip for now</button></div>`,v:`<div class="svis">${['ashkar','brannoch','sable'].map(id=>cardHTML(CARDS.find(c=>c.f===id&&c.type==='finisher')||CARD.jab)).join('')}</div>`})
+];
+let INTRO_I=0;
+function ensureIntroEl(){let el=$('#intro');if(!el){el=document.createElement('div');el.className='overlay';el.id='intro';el.hidden=true;document.body.appendChild(el)}return el}
+function renderIntro(){
+  const el=ensureIntroEl(),s=SLIDES[INTRO_I](),last=INTRO_I===SLIDES.length-1;
+  el.innerHTML=`<div class="intro" role="dialog" aria-labelledby="intro-h"><div class="intro-top"><p class="eyebrow" style="margin:0">How to play · ${INTRO_I+1} of ${SLIDES.length}</p><button class="btn sm" id="intro-close">Close</button></div>
+    <div class="slide"><div><h2 id="intro-h">${s.h}</h2>${s.b}</div>${s.v?`<div class="svis">${s.v}</div>`:''}</div>
+    <div class="intro-nav"><button class="btn" id="intro-back" ${INTRO_I?'':'disabled'}>Back</button><div class="intro-dots">${SLIDES.map((_,k)=>`<button data-slide="${k}" aria-label="Slide ${k+1}" aria-current="${k===INTRO_I}"></button>`).join('')}</div>${last?'<span></span>':'<button class="btn gold" id="intro-next">Next</button>'}</div></div>`;
+}
+function openIntro(k){INTRO_I=k||0;renderIntro();ensureIntroEl().hidden=false;$('#rules').hidden=true}
+function closeIntro(){const el=$('#intro');if(el)el.hidden=true;lsSet(INTRO_KEY,'1')}
+
+/* --- guided first match --- */
+const TUT={on:false,step:0};
+const handEl=id=>{const s=G.s[0];const c=s.hand.find(x=>x.id===id);return c?document.querySelector(`#hand .hand-card[data-uid="${c.uid}"]`):null};
+const playedNow=id=>laneEntries().some(e=>e.owner===0&&e.c&&e.c.id===id);
+const isCard=(el,id)=>{const b=el.closest('.hand-card');if(!b)return false;const c=G.s[0].hand.find(x=>x.uid===+b.dataset.uid);return!!c&&c.id===id};
+const allowPlay=ids=>el=>ids.some(id=>isCard(el,id))||!!el.closest('[data-confirm],[data-return]');
+const TUT_STEPS=[
+  {spot:()=>$('#bar-0'),t:'<b>This is you.</b> Ashkar is your fighter in the pit. The red bar is his HP. Your two teammates wait on the bench, on the right of the bar.',next:true},
+  {spot:()=>$('#bar-1'),t:'<b>This is your opponent.</b> Knock out all three of their fighters to win.',next:true},
+  {spot:()=>$('#bar-0 .res2'),t:'<b>Energy</b> pays for cards: the gold number in each card\'s corner. You have 4 this turn. <b>Meter</b> powers special moves; more on that soon.',next:true},
+  {spot:()=>handEl('jab'),t:'These are your cards. Click <b>Jab</b>: a Light strike for 1 Energy.',until:()=>G.pend!=null&&(G.s[0].hand.find(c=>c.uid===G.pend)||{}).id==='jab'||playedNow('jab'),allow:allowPlay(['jab'])},
+  {spot:()=>document.querySelector('[data-confirm]'),t:'Jab is staged. Nothing has happened yet, and your opponent can\'t see it. Press <b>Play</b>.',until:()=>playedNow('jab'),allow:allowPlay(['jab'])},
+  {spot:()=>handEl('cross')||document.querySelector('[data-confirm]'),t:'Strikes <b>chain</b>: Light, then Medium, then Heavy. Each hit gets +1 damage for every hit before it. Play <b>Cross</b> (Medium) now: click it, then Play.',until:()=>playedNow('cross'),allow:allowPlay(['cross'])},
+  {spot:()=>$('#stage'),t:'Your cards stay in the arena, in order, until the turn ends. Cross dealt 3 + 1 for the chain. Ashkar\'s passive also set the enemy on fire: <b>Burn</b> hurts them at the start of their turn.',next:true},
+  {spot:()=>handEl('block')||document.querySelector('[data-confirm]'),t:'<b>Block</b> gives Guard. Guard soaks damage until your next turn. Play it.',until:()=>playedNow('block'),allow:allowPlay(['block'])},
+  {spot:()=>$('#bar-0 .field')||$('#bar-0'),t:'The Block card now sits by your fighter: it stays on the field while its Guard holds.',next:true},
+  {spot:()=>$('#end-btn'),t:'Uppercut costs 3 and you\'re out of Energy. It says so on the card. Press <b>End turn</b>.',until:()=>G.act===1,allow:el=>!!el.closest('#end-btn')},
+  {spot:()=>$('#bar-1'),t:'The enemy\'s turn. Their Burn ticks first, then they attack. Watch your Guard soak the hit.',until:()=>G.act===0&&G.s[0].turns>=2,allow:()=>false},
+  {spot:()=>$('#bar-0 .res2'),t:'New turn. You drew 2 cards, Energy refilled to 6, and your <b>Meter</b> grew. Meter fills a little every turn and pays for big moves.',next:true},
+  {spot:()=>handEl('jab')||handEl('cross')||document.querySelector('[data-confirm]'),t:'Build a chain again: play <b>Jab</b>, then <b>Cross</b>.',until:()=>playedNow('jab')&&playedNow('cross'),allow:allowPlay(['jab','cross'])},
+  {spot:()=>handEl('pyrekick')||document.querySelector('[data-confirm]'),t:'Your chain is at 2, so your <b>Finisher</b> is ready. Pyre Kick costs 3 Energy and 1 Meter, hits like a Heavy, and closes the chain. Play it.',until:()=>playedNow('pyrekick'),allow:allowPlay(['pyrekick'])},
+  {spot:()=>$('#end-btn'),t:'Nice combo. End your turn.',until:()=>G.act===1,allow:el=>!!el.closest('#end-btn')},
+  {spot:()=>$('#bar-1'),t:'Enemy turn.',until:()=>G.act===0&&G.s[0].turns>=3,allow:()=>false},
+  {spot:()=>$('#bar-0 .bench'),t:'<b>Tag team.</b> Once a turn you can swap in a benched teammate for 1 Energy. Your chain stays alive. Tag in <b>Brannoch</b>.',until:()=>act(G.s[0]).f.id==='brannoch',allow:el=>{const b=el.closest('[data-tag]');return!!b&&G.s[0].team[+b.dataset.tag].f.id==='brannoch'}},
+  {spot:()=>$('#ex-btn'),t:'<b>EX boost</b> spends 1 Meter so your next card uses its stronger gold EX line. Turn it on.',until:()=>G.ex||playedNow('braceup'),allow:el=>!!el.closest('#ex-btn')},
+  {spot:()=>handEl('braceup')||document.querySelector('[data-confirm]'),t:'Now play <b>Wind the Linen</b>. With EX on it gives 7 Guard instead of 4.',until:()=>playedNow('braceup'),allow:allowPlay(['braceup'])},
+  {spot:null,t:'That\'s the basics. Hover any card to read every rule on it, and open <b>Rules</b> at the top any time. Now finish the fight your way.',next:'Finish the fight'}
+];
+let tutRing=null,tutCoach=null,tutTimer=null;
+function tutEls(){
+  if(!tutRing){tutRing=document.createElement('div');tutRing.id='tut-ring';document.body.appendChild(tutRing)}
+  if(!tutCoach){tutCoach=document.createElement('div');tutCoach.id='coach';tutCoach.setAttribute('role','dialog');tutCoach.setAttribute('aria-live','polite');document.body.appendChild(tutCoach)}
+}
+function tutTarget(){const st=TUT_STEPS[TUT.step];return st&&st.spot?st.spot():null}
+function tutPlace(){
+  if(!TUT.on||!tutCoach)return;
+  const el=tutTarget(),vw=innerWidth,vh=innerHeight;
+  if(el&&el.getClientRects().length){const r=el.getBoundingClientRect(),p=6;
+    Object.assign(tutRing.style,{display:'block',left:(r.left-p)+'px',top:(r.top-p)+'px',width:(r.width+p*2)+'px',height:(r.height+p*2)+'px'});
+    const cw=tutCoach.offsetWidth,ch=tutCoach.offsetHeight;let left=Math.min(Math.max(16,r.left),vw-cw-16),top;
+    if(r.top+r.height/2>vh/2)top=r.top-ch-18;else top=r.bottom+18;
+    if(top<8||top+ch>vh-8){top=Math.max(8,Math.min(vh-ch-8,r.top));left=r.right+18+cw<vw?r.right+18:Math.max(16,r.left-cw-18)}
+    Object.assign(tutCoach.style,{left:left+'px',top:top+'px'});
+  }else{tutRing.style.display='none';Object.assign(tutCoach.style,{left:Math.max(16,(vw-tutCoach.offsetWidth)/2)+'px',top:'90px'})}
+}
+function tutRender(){
+  if(!TUT.on)return;tutEls();const st=TUT_STEPS[TUT.step];
+  if(!st){tutStop(false);return}
+  tutCoach.innerHTML=`<span class="cstep">Tutorial · step ${TUT.step+1} of ${TUT_STEPS.length}</span><p>${st.t}</p><div class="row"><button class="btn sm" id="tut-skip">Skip tutorial</button>${st.next?`<button class="btn gold sm" id="tut-next">${st.next===true?'Next':st.next}</button>`:''}</div>`;
+  tutCoach.hidden=false;
+  const el=tutTarget();if(el&&el.scrollIntoView){const r=el.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)el.scrollIntoView({block:'center'})}
+  requestAnimationFrame(tutPlace);
+}
+function tutCheck(){
+  if(!TUT.on)return;let moved=false;
+  while(TUT_STEPS[TUT.step]&&TUT_STEPS[TUT.step].until&&TUT_STEPS[TUT.step].until()){TUT.step++;moved=true}
+  if(moved||TUT.dirty){TUT.dirty=false;tutRender()}else requestAnimationFrame(tutPlace);
+}
+function tutNext(){TUT.step++;if(TUT.step>=TUT_STEPS.length){tutFree();return}tutRender();tutCheck()}
+function tutFree(){TUT.free=true;if(tutCoach)tutCoach.hidden=true;if(tutRing)tutRing.style.display='none'}
+function tutStop(){TUT.on=false;TUT.free=false;clearInterval(tutTimer);if(tutCoach)tutCoach.hidden=true;if(tutRing)tutRing.style.display='none'}
+function tutSetup(n){
+  const s=G.s[0],mk=ids=>ids.map(id=>({...CARD[id],uid:++UID}));
+  if(n===1){s.hand=mk(['jab','cross','block','upper']);s.energy=s.maxE=4}
+  else if(n===2){s.discard.push(...s.hand);s.hand=mk(['jab','cross','pyrekick','block']);s.energy=s.maxE=6;s.meter=Math.max(s.meter,2)}
+  else if(n===3){s.discard.push(...s.hand);s.hand=mk(['braceup','jab','cross','upper','backbreak']);s.energy=s.maxE=7;s.meter=Math.max(s.meter,2)}
+}
+function startTutorial(){
+  closeIntro();tutStop();
+  const me=newSide(['ashkar','brannoch','sable'],false,{jab:4,cross:4,upper:3,block:3,braceup:2,backbreak:1,pyrekick:2,vivisect:1});
+  const foe=newSide(['sable','wen','bram'],true,{jab:14,block:4});
+  [26,9,9].forEach((hp,k)=>{foe.team[k].hp=foe.team[k].max=hp});
+  G={id:Math.random(),s:[me,foe],act:0,over:false,rec:[],stage:null,ex:false,final:false,end:null,first:0,cur:null,tut:true};
+  draw(foe,4);
+  $('#result').hidden=true;$('#final-tag').hidden=true;
+  show('duel');$('#round-label').textContent='Tutorial · practice match';
+  ev('Tutorial. Follow the coach, one move at a time.');
+  TUT.on=true;TUT.step=0;TUT.free=false;TUT.dirty=true;
+  clearInterval(tutTimer);tutTimer=setInterval(()=>{if(TUT.on&&!TUT.free)tutPlace()},500);
+  startTurn(0);tutRender();
+}
+const _startTurnTut=startTurn;
+startTurn=function(i){const r=_startTurnTut(i);if(G&&G.tut&&!G.over&&G.act===0&&i===0&&G.s[0].turns<=3){tutSetup(G.s[0].turns);render()}return r};
+const _aiChooseTut=aiChoose;
+aiChoose=function(s,o){
+  if(G&&G.tut){if(s.__tp===s.turns)return null;const c=s.hand.find(c=>c.id==='jab'&&!info(s,o,c).why);s.__tp=s.turns;return c?{uid:c.uid}:null}
+  return _aiChooseTut(s,o);
+};
+const _finishTut=finish;
+finish=function(w,how,card){
+  if(!G||!G.tut)return _finishTut(w,how,card);
+  G.over=true;G.end=null;render();tutStop();lsSet('mr-tut-done','1');
+  const won=w===0;
+  $('#result').innerHTML=`<div class="res-card" role="dialog"><p class="eyebrow">Tutorial ${won?'complete':'over'}</p><h2>${won?'Well fought':'Try again'}</h2><p>${won?'You know the basics: chains, Guard, Meter, Finishers, tags and EX. The tournament is waiting.':'Practice matches are free. Run it again, or jump straight in.'}</p><div class="row" style="justify-content:center;margin-top:6px"><button class="btn gold" data-go="${document.querySelector('.top nav [data-go="play"]')?'play':'title'}">Enter the tournament</button><button class="btn" id="tut-again">Replay the tutorial</button><button class="btn" id="howto-open3">Intro slides</button></div></div>`;
+  setTimeout(()=>{$('#result').hidden=false},900);
+};
+const _showV9=show;
+show=function(n){if(n!=='duel'&&TUT.on)tutStop();return _showV9(n)};
+const _renderV9=render;
+render=function(){const r=_renderV9();if(TUT.on&&!TUT.free)tutCheck();return r};
+/* block clicks the current step doesn't ask for, so a new player can't get lost */
+document.addEventListener('click',e=>{
+  if(!TUT.on||TUT.free||CUR_SCREEN!=='duel')return;
+  const t=e.target;if(!t.closest)return;
+  if(t.closest('#coach,#result,#rules,#intro,.top,details,summary'))return;
+  if(!t.closest('#scr-duel'))return;
+  const st=TUT_STEPS[TUT.step];if(!st)return;
+  const ok=st.allow?st.allow(t):false;
+  if(!ok&&t.closest('button')){e.preventDefault();e.stopPropagation();if(tutCoach){tutCoach.classList.remove('shake');void tutCoach.offsetWidth;tutCoach.classList.add('shake')}}
+},true);
+document.addEventListener('keydown',e=>{
+  if(TUT.on&&!TUT.free&&e.key==='Enter'&&CUR_SCREEN==='duel'){const st=TUT_STEPS[TUT.step];const btn=document.querySelector('[data-confirm]');if(!st||!st.allow||!btn||!st.allow(btn)){e.preventDefault();e.stopImmediatePropagation()}}
+  const intro=$('#intro');if(intro&&!intro.hidden){if(e.key==='ArrowRight'&&INTRO_I<SLIDES.length-1){INTRO_I++;renderIntro()}else if(e.key==='ArrowLeft'&&INTRO_I>0){INTRO_I--;renderIntro()}else if(e.key==='Escape')closeIntro()}
+},true);
+addEventListener('resize',()=>{if(TUT.on&&!TUT.free)tutPlace()});
+addEventListener('scroll',()=>{if(TUT.on&&!TUT.free)tutPlace()},{passive:true});
+document.addEventListener('click',e=>{
+  const t=e.target;if(!t.closest)return;
+  const sl=t.closest('[data-slide]');if(sl){INTRO_I=+sl.dataset.slide;renderIntro();return}
+  const b=t.closest('button');const id=b&&b.id;if(!id)return;
+  if(id==='intro-next'){INTRO_I=Math.min(SLIDES.length-1,INTRO_I+1);renderIntro()}
+  else if(id==='intro-back'){INTRO_I=Math.max(0,INTRO_I-1);renderIntro()}
+  else if(id==='intro-close'||id==='intro-done')closeIntro();
+  else if(id==='intro-tut'||id==='tut-open'||id==='tut-open2'||id==='tut-again'||id==='title-tut'){$('#rules').hidden=true;startTutorial()}
+  else if(id==='howto-open'||id==='howto-open2'||id==='howto-open3'||id==='title-howto'){$('#result').hidden=true;openIntro(0)}
+  else if(id==='tut-next')tutNext();
+  else if(id==='tut-skip'){tutFree();TUT.on=false;toast('Tutorial skipped. You can replay it from How to play.')}
+});
+$('#intro')||ensureIntroEl();
+ensureIntroEl().addEventListener('click',e=>{if(e.target.id==='intro')closeIntro()});
+/* entry points: nav and title screen */
+(function(){
+  const nav=document.querySelector('.top nav');if(nav&&!$('#howto-open'))nav.insertAdjacentHTML('beforeend','<button id="howto-open">How to play</button>');
+  const row=document.querySelector('#scr-title .hero .row');if(row&&!$('#title-tut'))row.insertAdjacentHTML('beforeend','<button class="btn" id="title-tut">Play the tutorial</button>');
+  const lede=document.querySelector('#scr-title .lede');if(lede&&!$('#title-howto'))lede.insertAdjacentHTML('afterend','<p class="hint" style="margin:-12px 0 18px">New here? <button id="title-howto" style="color:var(--gold);text-decoration:underline">See how to play</button> in a minute, or play the guided tutorial.</p>');
+})();
+(function firstIntro(n){if(lsGet(INTRO_KEY)||n>240)return;const ask=document.querySelector('#name-ask');if((ask&&!ask.hidden)||CUR_SCREEN!=='title'){setTimeout(()=>firstIntro(n+1),500);return}openIntro(0)})(0);
+
+/* ================= v10: Harrow (Bonebloom) and Ninefold (Grip, Souls) ================= */
+SIGILS.spur='M30 94C26 70 34 40 62 8C58 34 56 52 70 66C60 64 52 70 48 94Z';
+SIGILS.orbit='M50 30A20 20 0 1 1 49.9 30ZM50 4A6 6 0 1 1 49.9 4ZM92 50A6 6 0 1 1 91.9 50ZM50 84A6 6 0 1 1 49.9 84ZM8 50A6 6 0 1 1 7.9 50Z';
+Object.assign(FIGHTERS,{
+  harrow:{id:'harrow',name:'Harrow',title:'The Bloomed',hp:28,color:'#a9b45a',sigil:'spur',arch:'Bonebloom berserker',
+    passive:'Bonebloom',ptext:'Gains 1 Bloom each turn (max 6). His strikes deal +1 per 2 Bloom. The Bloom eats half its value from his HP each turn, but can\'t knock him out. It pauses while he\'s benched.',
+    bio:'Vorhul seeds the lower pits with the Bonebloom every Rite. Bone grows out through the skin and hardens into blades, and the host gets stronger as it kills them. The nameless fighters on the neutral cards are the ones who caught it. Harrow is the one who has lasted three Rites.',
+    look:'A gaunt, wiry Mediterranean man in his 40s with grey, cracked skin where the infection has spread, sunken cheeks, a shaved scalp with ridges of bone pushing up beneath the skin, and tired, furious dark eyes. An ordinary human mouth, no fangs. Long curved blades of yellowed bone burst out of both forearms, their bases wrapped in bloody cloth strips; smaller bone spurs run down his shins and along his spine. Grey-green lesions where the bone breaks through. A torn sleeveless leather vest, wrapped trousers, and pit-fighter tally marks scratched into his upper arms.',
+    palette:'bone white, infected grey, old-blood brown, sick yellow-green',
+    refs:[{t:'Isenheim Altarpiece',a:'Matthias Grünewald',u:W('Isenheim_Altarpiece'),why:'Diseased, suffering flesh painted without flinching'},{t:'De humani corporis fabrica',a:'Andreas Vesalius',u:W('De_humani_corporis_fabrica'),why:'Bone structure and anatomy as illustration'},{t:'The Triumph of Death',a:'Pieter Bruegel the Elder',u:W('The_Triumph_of_Death'),why:'Plague as an unstoppable force'}]},
+  ninefold:{id:'ninefold',name:'Ninefold',title:'The Unclaimed',hp:36,color:'#9cc6dc',sigil:'orbit',arch:'Telekinetic control',
+    passive:'The Unclaimed',ptext:'Floats, so Traps never trigger on it. Each Special played while it fights adds 1 Soul (max 5), and each Soul adds +1 damage to its strikes. Gripped enemies can\'t tag out or raise Guard.',
+    bio:'Fighters who die in the Rite are walled into the citadel\'s ossuary, and no one comes for most of them. After nine centuries the unclaimed found each other. Vorhul did not make Ninefold, and he no longer goes down to that room.',
+    look:'A tall, thin figure wrapped head to foot in grey burial linen, hovering a foot above the floor with its feet hanging limp. Bare skeletal hands. Cold blue-white light leaking through gaps in the wrappings, and the impressions of several faces pressing outward against the cloth from inside. A slow ring of loose finger bones and teeth orbits its body. No visible face, only a dark gap in the linen. Tattered strips of shroud trail beneath it like smoke.',
+    palette:'grave grey, candle-wax ivory, cold blue-white soul light',
+    refs:[{t:'The Nightmare',a:'Henry Fuseli',u:W('The_Nightmare'),why:'A presence that should not be in the room'},{t:'The Sleep of Reason Produces Monsters',a:'Francisco Goya',u:W('The_Sleep_of_Reason_Produces_Monsters'),why:'Swarming, drifting forms around one figure'},{t:'Abbey among Oak Trees',a:'Caspar David Friedrich',u:W('Abbey_among_Oak_Trees'),why:'Burial grounds, cold light, silence'}]}
+});
+ROSTER.push('harrow','ninefold');
+Object.assign(ART,{harrow:['harrow',52,9,3.6],ninefold:['ninefold',50,5,3.6]});for(const k of ['harrow','ninefold']){const[file,x,y,z]=ART[k];Object.assign(FIGHTERS[k],{img:`portraits/${file}.jpg`,face:[x/100,y/100,z]})}
+const V10_CARDS=[
+  /* Harrow: Bonebloom */
+  {id:'rake',f:'harrow',name:'Blade Rake',type:'light',cost:1,p:{dmg:1,hits:2,bleed:1},exP:{dmg:2,hits:2,bleed:1},text:'Hit twice for 1. Bleed 1.',ex:'Hit twice for 2. Bleed 1.',art:'Harrow sweeping both bone forearm blades across in a fast X, a spray of dark droplets frozen in the torchlight.'},
+  {id:'chop',f:'harrow',name:'Forearm Chop',type:'medium',cost:2,p:{dmg:4},exP:{dmg:5,bleed:1},text:'4 damage.',ex:'5 damage. Bleed 1.',art:'Harrow bringing a forearm blade down like a cleaver onto a raised shield, bone biting deep into the wood.'},
+  {id:'spark',f:'harrow',name:'Marrow Spark',type:'special',cost:2,rarity:'rare',p:{dmg:3,bloom:1},exP:{dmg:4,bloom:1,pierce:true},text:'Throw a bone shard for 3 damage. +1 Bloom.',ex:'4 piercing damage. +1 Bloom.',art:'Harrow snapping his arm forward as a shard of bone tears loose from the blade and streaks across the pit, trailing yellow-green sparks.'},
+  {id:'lunge',f:'harrow',name:'Gore Lunge',type:'heavy',cost:3,rarity:'rare',p:{dmg:5,bleedBonus:2},exP:{dmg:7,bleedBonus:2},text:'5 damage, +2 if the target is Bleeding.',ex:'7 damage, +2 if Bleeding.',art:'Harrow launching low across the sand with both blades forward, the opponent\'s silhouette only a step away.'},
+  {id:'splinter',f:'harrow',name:'Splinter Guard',type:'block',cost:1,p:{guard:3,retal:1},exP:{guard:5,retal:2},text:'Gain 3 Guard. Retaliate +1 until your next turn.',ex:'Gain 5 Guard. Retaliate +2.',art:'Harrow crouched behind crossed forearms as fresh bone spikes burst out along them, an attacker\'s fist recoiling.'},
+  {id:'cauterize',f:'harrow',name:'Cauterize',type:'skill',cost:1,rarity:'rare',p:{bloomDown:2,heal:4},exP:{bloomDown:3,heal:6},text:'Lose 2 Bloom. Heal 4.',ex:'Lose 3 Bloom. Heal 6.',art:'Harrow pressing a glowing iron against the base of a bone blade, jaw clenched, smoke rising from the wound.'},
+  {id:'spread',f:'harrow',name:'Spread the Bloom',type:'special',cost:2,rarity:'epic',p:{dmg:1,bleedBonus:2,bleed:2},exP:{dmg:2,bleedBonus:3,bleed:3},text:'1 damage, +2 if the target is Bleeding. Bleed 2.',ex:'2 damage, +3 if Bleeding. Bleed 3.',art:'Harrow gripping an opponent\'s arm, grey-green lesions creeping out from under his fingers onto their skin.'},
+  {id:'overgrowth',f:'harrow',name:'Overgrowth',type:'skill',cost:1,rarity:'epic',p:{bloom:2,meter:1},text:'+2 Bloom. Gain 1 Meter.',art:'Harrow on his knees, back arched, as a new ridge of bone splits out along his spine, the crowd recoiling.'},
+  {id:'rupture',f:'harrow',name:'Rupture',type:'finisher',cost:3,rarity:'epic',p:{rupture:2},exP:{rupture:3},text:'Spend all Bloom: 2 piercing damage per Bloom. '+FIN_RULE,ex:'3 per Bloom. Costs 1 extra Meter.',art:'Every blade on Harrow\'s body bursting outward at once in a starburst of bone, the opponent caught at the edge of it.'},
+  {id:'lastbloom',f:'harrow',name:'The Last Bloom',type:'rite',cost:0,rarity:'legendary',text:RITE_RULE,rite:'He holds them close until the Bloom takes them both. When the dust settles there is one white thicket of bone in the sand where two fighters stood.',art:'A thicket of white bone growing up out of the arena sand in the shape of two figures locked together, lit by a single shaft of light, the crowd silent.'},
+  /* Ninefold: Grip and Souls */
+  {id:'soulbolt',f:'ninefold',name:'Soul Bolt',type:'special',cost:1,p:{dmg:3},exP:{dmg:4,pierce:true},text:'3 damage.',ex:'4 piercing damage.',art:'A pale blue-white face tearing loose from Ninefold\'s wrappings and streaking across the pit like a thrown spear.'},
+  {id:'hgrip',f:'ninefold',name:'Hollow Grip',type:'special',cost:2,p:{dmg:2,grip:2},exP:{dmg:3,grip:3},text:'2 damage. Grip 2 for 2 turns: the target can\'t tag out or raise Guard.',ex:'3 damage. Grip 3.',art:'An opponent lifted off the sand, limbs pinned in the air by invisible hands, Ninefold\'s skeletal fingers curled toward them.'},
+  {id:'slam',f:'ninefold',name:'Ossuary Slam',type:'heavy',cost:3,rarity:'rare',p:{dmg:5,slam:2},exP:{dmg:6,slam:3},text:'5 damage, +2 per Grip on the target. Removes the Grip.',ex:'6 damage, +3 per Grip.',art:'An opponent hurled down onto the flagstones from a great height, the floor cracking in a ring, bones scattering.'},
+  {id:'drift',f:'ninefold',name:'Drift',type:'skill',cost:1,p:{guard:3,drift:true},exP:{guard:5,drift:true},text:'Gain 3 Guard. Your next strike continues the chain at any step.',ex:'Gain 5 Guard. Next strike continues the chain.',art:'Ninefold dissolving into drifting strips of linen on one side of the pit and re-forming behind its opponent on the other.'},
+  {id:'hurl',f:'ninefold',name:'Grave Hurl',type:'special',cost:2,rarity:'rare',p:{dmg:3,shatter:2,drain:1},exP:{dmg:4,shatter:4,drain:2},text:'Break 2 Guard. 3 damage. Drain 1.',ex:'Break 4 Guard. 4 damage. Drain 2.',art:'A coffin lid torn from the ossuary wall flying end over end toward an opponent behind a raised shield.'},
+  {id:'orbit',f:'ninefold',name:'Bone Orbit',type:'block',cost:2,rarity:'rare',p:{guard:3,soulGuard:true},exP:{guard:5,soulGuard:true},text:'Gain 3 Guard, +1 per Soul.',ex:'Gain 5 Guard, +1 per Soul.',art:'A dense ring of finger bones and teeth whirling around Ninefold like a shield, a thrown blade glancing off it.'},
+  {id:'rend',f:'ninefold',name:'Soul Rend',type:'medium',cost:2,p:{dmg:4,gripUp:1},exP:{dmg:5,gripUp:1},text:'4 damage. If the target is Gripped, Grip +1.',ex:'5 damage. Gripped targets get Grip +1.',art:'Ninefold\'s bony hand clawing through the air and the opponent doubling over as though something were pulled out of them.'},
+  {id:'chorus',f:'ninefold',name:'Chorus of the Interred',type:'skill',cost:2,rarity:'epic',p:{souls:2,meter:1},text:'Gain 2 Souls. Gain 1 Meter.',art:'Dozens of faint faces rising out of the ossuary walls behind Ninefold, mouths open in one silent note.'},
+  {id:'unclaimed',f:'ninefold',name:'The Unclaimed Rise',type:'finisher',cost:3,rarity:'epic',p:{dmg:5,soulSpend:2},exP:{dmg:7,soulSpend:2},text:'5 damage, +2 per Soul. Spends all Souls. '+FIN_RULE,ex:'7 damage, +2 per Soul. Costs 1 extra Meter.',art:'An opponent lifted high into the dark as every soul in Ninefold\'s wrappings pours out around them in a column of cold light.'},
+  {id:'interment',f:'ninefold',name:'Interment',type:'rite',cost:0,rarity:'legendary',text:RITE_RULE,rite:'Ninefold opens its wrappings and the faces inside reach out. The crowd hears a new voice join the choir. Then the pit is quiet.',art:'Ninefold\'s linen wrappings unfurled like great wings in the ossuary, the faint new outline of a face pressing out from inside the cloth, cold light filling the room.'}
+];
+V10_CARDS.forEach(c=>{c.rarity=c.rarity||'common';c.p=c.p||{};CARDS.push(c);c.no=String(CARDS.length).padStart(3,'0');CARD[c.id]=c});
+const V10_TOTAL=String(CARDS.length).padStart(3,'0');
+const _cardHTMLV10=cardHTML;
+cardHTML=function(c,o={}){return _cardHTMLV10(c,o).replace(`/${V8_TOTAL}`,`/${V10_TOTAL}`)};
+Object.assign(ECHO,{harrow:{name:'Bone Shard',type:'special',p:{dmg:1,bleed:1},text:'1 damage. Bleed 1.'},ninefold:{name:'Lost Voice',type:'special',p:{grip:1},text:'Grip 1.'}});
+Object.assign(ECHO_ART,{harrow:'A single curved blade of yellowed bone lodged upright in the arena sand, grey-green lesions spreading into the ground around it, Harrow\'s silhouette fading behind it.',ninefold:'One faint face drifting free of a torn strip of burial linen and dissolving into cold light above an empty ossuary niche.'});
+ECHO_ORDER.push('harrow','ninefold');
+Object.assign(GLOSS,{
+  bloom:['Bloom','Harrow\'s Bonebloom. +1 damage per hit for every 2 Bloom, but each turn he loses half his Bloom in HP.'],
+  bloomDown:['Cauterize','Lowers Harrow\'s Bloom.'],
+  rupture:['Rupture','Spends all of Harrow\'s Bloom for piercing damage per Bloom.'],
+  bleedBonus:['Bleeding bonus','Extra damage if the target is Bleeding.'],
+  grip:['Grip','For 2 turns the target can\'t tag out or raise Guard. Slams deal extra damage per Grip.'],
+  gripUp:['Tighten','Adds 1 to Grip already on the target.'],
+  slam:['Slam','Extra damage for each Grip on the target, then the Grip ends.'],
+  drift:['Drift','Your next strike this turn continues the chain whatever its step.'],
+  soulGuard:['Soul Guard','+1 Guard for each of Ninefold\'s Souls.'],
+  souls:['Souls','Ninefold\'s resource (max 5). It gains 1 for every Special played while it fights, and each Soul adds +1 damage to its strikes.'],
+  soulSpend:['Release','Spends all Souls for extra damage.']
+});
+/* --- the hit, with Bloom as a bonus (it counts toward the +3 cap) --- */
+hit=function(s,o,base,pierce,c,label){
+  const a=act(s),t=act(o);let d=base;const parts=[`${base} base`];
+  const add=(n,lab)=>{if(n>0){d+=n;parts.push(`+${n} ${lab}`)}};
+  add(Math.max(0,s.combo-1),'chain');
+  const fu=fury(a);add(fu,fu===2?'Desperate':'Wounded');
+  add(s.empower,'empowered');
+  if(c&&c.p.heatDmg)add(a.heat,'Heat');
+  if(c&&c.f==='wen'&&c.type==='special'&&a.f.id==='wen')add(Math.floor(a.hunger/2),'Hunger');
+  if(a.f.id==='harrow')add(Math.floor((a.bloom||0)/2),'Bloom');
+  if(a.f.id==='ninefold'&&c&&!c.echo)add(a.souls||0,'Souls');
+  if(t.st.noose)add(t.st.noose.d,'Noose');
+  if(d-base>BONUS_CAP){parts.push(`capped at +${BONUS_CAP}`);d=base+BONUS_CAP}
+  if(a.f.id==='ashkar'&&!s.firstHit){addSt(t,'burn',2,3);note(`Pyre: ${t.f.name} is set burning (Burn 2).`)}
+  s.firstHit=true;
+  const res=damageSide(o,d,pierce);
+  note(`${label}: ${parts.join(' ')} = ${d}${pierce?' piercing':''}${res.blocked?`, ${res.blocked} blocked by Guard`:''}. <b>${res.dealt} dealt</b>.${res.ko?` ${t.f.name} is knocked out.`:''}`);
+  const back=(res.blocked>0&&!s.rtDone?((act(o).f.id==='brannoch'?1:0)+o.retal):0);if(back)s.rtDone=true;
+  if(back&&!G.end&&!res.ko){note(`Retaliate: ${a.f.name} takes ${back} back.`);damageSide(s,back,true)}
+  return res;
+};
+/* --- new card effects --- */
+const _resolveV10=resolve;
+resolve=function(s,o,p,type,c){
+  const a=act(s),t=act(o);let q=p;const mod=()=>{if(q===p)q={...p}};
+  if(a.st.grip&&(p.guard||p.soulGuard)){mod();delete q.guard;delete q.soulGuard;note(`${a.f.name} is Gripped and can't raise Guard.`)}
+  if(p.bleedBonus&&t.st.bleed){mod();q.dmg=(q.dmg||0)+p.bleedBonus;note(`${t.f.name} is Bleeding: +${p.bleedBonus} damage.`)}
+  if(p.rupture){const n=a.f.id==='harrow'?(a.bloom||0):0;mod();q.dmg=n*p.rupture;q.pierce=true;if(a.f.id==='harrow')a.bloom=0;note(n?`Ruptures ${n} Bloom.`:'No Bloom to rupture.')}
+  if(p.slam){const g=t.st.grip?t.st.grip.d:0;if(g){mod();q.dmg=(q.dmg||0)+p.slam*g;delete t.st.grip;note(`Slams a Gripped target: +${p.slam*g}. The Grip ends.`)}}
+  if(p.soulGuard){mod();q.guard=(q.guard||0)+(a.souls||0)}
+  if(p.soulSpend){const n=a.souls||0;if(n){mod();q.dmg=(q.dmg||0)+n*p.soulSpend;a.souls=0;note(`Releases ${n} Soul${n>1?'s':''}.`)}}
+  const r=_resolveV10(s,o,q,type,c);
+  if(G.end)return r;
+  const a2=act(s),t2=act(o);
+  if(p.bloom&&a2.f.id==='harrow'){a2.bloom=Math.min(6,(a2.bloom||0)+p.bloom);note(`Bloom ${a2.bloom}.`)}
+  if(p.bloomDown&&a2.f.id==='harrow'){a2.bloom=Math.max(0,(a2.bloom||0)-p.bloomDown);note(`Bloom drops to ${a2.bloom}.`)}
+  if(p.grip&&!t2.ko){addSt(t2,'grip',p.grip,2);note(`Grip ${t2.st.grip.d} on ${t2.f.name}: they can't tag out.`)}
+  if(p.gripUp&&t2.st.grip){t2.st.grip.d+=p.gripUp;note(`Grip tightens to ${t2.st.grip.d}.`)}
+  if(p.drift){s.drift=true;note('Drift: your next strike continues the chain at any step.')}
+  if(p.souls&&a2.f.id==='ninefold'){a2.souls=Math.min(5,(a2.souls||0)+p.souls);note(`Souls ${a2.souls}.`)}
+  if(type==='special'&&a2.f.id==='ninefold'&&!(c&&c.echo)&&(a2.souls||0)<5){a2.souls=(a2.souls||0)+1;note(`The Unclaimed: Souls ${a2.souls}.`)}
+  return r;
+};
+const _chainStepV10=chainStep;
+chainStep=function(s,tier){if(s.drift&&tier!=null){s.drift=false;s.combo++;s.lastTier=tier;return}return _chainStepV10(s,tier)};
+/* Ninefold floats: traps don't trigger on it */
+const _springV10=springStrikeTraps;
+springStrikeTraps=function(s,o){if(act(s).f.id==='ninefold'){note('Ninefold floats over the traps.');return false}return _springV10(s,o)};
+const _enterV10=enter;
+enter=function(s,k){const o=other(s);let held=[];if(s.team[k]&&s.team[k].f.id==='ninefold'){const i=o.traps.indexOf('bog');if(i>=0)held=o.traps.splice(i,1)}const r=_enterV10(s,k);if(held.length)o.traps.push(...held);return r};
+/* Grip: no tagging out */
+const gripped=s=>!!act(s).st.grip;
+const _infoV10=info;
+info=function(s,o,c){const r=_infoV10(s,o,c);if(!r.why&&r.tag!=null&&gripped(s))r.why=`${act(s).f.name} is Gripped and can't tag out`;return r};
+const _tagBtnV10=tagBtn;
+tagBtn=function(k){if(G&&G.s&&gripped(G.s[0])){toast(`${act(G.s[0]).f.name} is Gripped and can't tag out.`);return}return _tagBtnV10(k)};
+const _benchHTMLV10=benchHTML;
+benchHTML=function(s,m,k,i){if(gripped(s)){const u=s.tagUsed;s.tagUsed=true;const h=_benchHTMLV10(s,m,k,i);s.tagUsed=u;return h}return _benchHTMLV10(s,m,k,i)};
+/* start of turn: Bloom grows and bites, Grip ticks down, Drift ends */
+const _startTurnV10=startTurn;
+startTurn=function(i){
+  const r=_startTurnV10(i);
+  if(!G||G.over||G.act!==i)return r;
+  const s=G.s[i],a=act(s);let ch=false;s.drift=false;
+  if(a.st.grip){a.st.grip.t--;if(a.st.grip.t<=0){delete a.st.grip;ev(`${a.f.name} breaks free of the Grip.`)}else if(s.guard){s.guard=0;ev(`${a.f.name} is Gripped: no Guard this turn.`)}ch=true}
+  if(a.f.id==='harrow'&&!a.ko){a.bloom=Math.min(6,(a.bloom||0)+1);const n=Math.min(Math.floor(a.bloom/2),a.hp-1);
+    ev(`Bonebloom grows: Bloom ${a.bloom}.${n>0?` It costs Harrow ${n} HP.`:''}`);if(n>0)damageSide(s,n,true);ch=true}
+  if(ch&&!G.over)render();
+  return r;
+};
+/* bars: Bloom, Souls and Grip chips; Grip source card stays on the field */
+const _renderBarV10=renderBar;
+renderBar=function(i){
+  _renderBarV10(i);
+  const s=G.s[i],t=act(s),chips=$('#bar-'+i+' .chips');if(!chips)return;const add=[];
+  if(t.f.id==='harrow')add.push(`<span class="chip bloom" title="${esc(GLOSS.bloom[1])}">Bloom ${t.bloom||0}/6 · +${Math.floor((t.bloom||0)/2)} per hit</span>`);
+  if(t.f.id==='ninefold')add.push(`<span class="chip souls" title="${esc(GLOSS.souls[1])}">Souls ${t.souls||0}/5</span>`);
+  if(t.st.grip)add.push(`<span class="chip grip" title="${esc(GLOSS.grip[1])}">Gripped ${t.st.grip.d} · no tag or Guard · ${t.st.grip.t} turn${t.st.grip.t>1?'s':''}</span>`);
+  if(add.length){const p=chips.querySelector('.chip.p');add.forEach(h=>p?p.insertAdjacentHTML('beforebegin',h):chips.insertAdjacentHTML('beforeend',h))}
+};
+const _fieldItemsV10=fieldItems;
+fieldItems=function(i){
+  const items=_fieldItemsV10(i),t=act(G.s[1-i]);
+  if(t.st.grip){let src=null;for(const sg of recSegments().slice(0,6)){if(sg.side!==i)continue;for(let q=sg.cards.length-1;q>=0;q--){const e=sg.cards[q],p=cardP(e);if(e.owner===i&&e.c&&(p.grip||p.gripUp)){src=e;break}}if(src)break}
+    if(src)items.push({c:src.c,kind:'grip',lab:`Grip ${t.st.grip.d} · ${t.st.grip.t}t`,tip:`${src.c.name}: ${t.f.name} is held in place and can't tag out.`})}
+  return items;
+};
+(function(){const st=document.createElement('style');st.textContent=`.chip.bloom{border-color:#a9b45a;color:#dfe5a8}.chip.souls{border-color:#9cc6dc;color:#d4ebf6}.chip.grip{border-color:#9cc6dc;color:#d4ebf6;background:rgba(156,198,220,.12)}.ftok.grip small{color:#d4ebf6}.kw.bloom{color:#dfe5a8}.kw.grip,.kw.soul{color:#d4ebf6}`;const ls=[...document.querySelectorAll('style')].pop();if(ls)ls.after(st);else document.head.appendChild(st)})();
+const _hlTextV10=hlText;
+hlText=function(h){return _hlTextV10(h).replace(/\b(\+?\d+ )?Bloom\b/g,m=>`<b class="kw bloom">${m}</b>`).replace(/\b(Gripped|Grip)( \d+)?/g,m=>`<b class="kw grip">${m}</b>`).replace(/\b(\d+ )?Souls?\b/g,m=>`<b class="kw soul">${m}</b>`)};
+/* AI: set up Grip before a Slam, cool the Bloom when it's killing him, never try to tag out of a Grip */
+const _aiChooseV10=aiChoose;
+aiChoose=function(s,o){
+  if(G&&G.tut)return _aiChooseV10(s,o);
+  const a=act(s),t=act(o),ok=c=>!info(s,o,c).why,F=id=>s.hand.find(c=>c.id===id&&ok(c));
+  if(a.f.id==='harrow'){const ca=F('cauterize');if(ca&&(a.bloom||0)>=4&&a.hp<a.max*.4)return{uid:ca.uid};
+    const rp=s.hand.find(c=>c.id==='rupture');if(rp&&ok(rp)&&(a.bloom||0)>=3)return{uid:rp.uid}}
+  if(a.f.id==='ninefold'){
+    if(t.st.grip){const x=F('slam');if(x)return{uid:x.uid,ex:s.meter>=2};const rd=F('rend');if(rd)return{uid:rd.uid}}
+    else{const gr=F('hgrip'),sl=s.hand.find(c=>c.id==='slam');if(gr&&sl&&info(s,o,sl).cost+info(s,o,gr).cost<=s.energy)return{uid:gr.uid}}
+  }
+  if(gripped(s)){const u=s.tagUsed;s.tagUsed=true;try{const r=_aiChooseV10(s,o);return r&&r.tag!=null?null:r}finally{s.tagUsed=u}}
+  const r=_aiChooseV10(s,o);
+  if(r&&r.uid!=null){const c=s.hand.find(x=>x.uid===r.uid);if(c&&c.id==='rupture'&&a.f.id==='harrow'&&(a.bloom||0)<2){const alt=s.hand.find(x=>x!==c&&ok(x)&&x.type!=='finisher'&&x.type!=='rite'&&x.p&&x.p.dmg);return alt?{uid:alt.uid}:r}}
+  return r;
+};
+/* a fourth starter deck */
+STARTERS.push({id:'bloom',name:'Bonebloom',team:['sable','harrow','ninefold'],
+  theme:'Open wounds and keep them open. Harrow and Sable stack Bleed, and Ninefold grips the bleeding fighter so they can\'t tag out to halve it.',
+  how:'Lead with Sable to open the Bleed with Scalpel Flick, Bone Saw and Leech Jar. Tag to Harrow: Gore Lunge and Spread the Bloom hit harder on a Bleeding target, and Rupture cashes in his Bloom before it kills him. Ninefold\'s Hollow Grip stops the bleeding fighter from tagging out or raising Guard, and Ossuary Slam finishes the job.',
+  cards:{rake:2,chop:2,spark:2,lunge:2,spread:2,rupture:1,lastbloom:1,flick:2,bonesaw:2,leech:1,vivisect:1,hgrip:2,slam:1,wounds:2,ironwill:1,lastgasp:1,jab:2,cross:2,block:1}});
+{const P=STARTERS.find(s=>s.id==='plague');if(P){delete P.cards.lastgasp;P.cards.block=(P.cards.block||0)+1;P.how=P.how.replace(' Bank Meter for Last Gasp when the target is low.','')}}
+/* title screen and rules know about the new fighters */
+const _renderTitleV10=renderTitle;
+renderTitle=function(){
+  _renderTitleV10();
+  const h=document.querySelector('.roster-sec h2');if(h)h.textContent=`${['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten'][ROSTER.length]||ROSTER.length} killers, one throne`;
+  const cards=document.querySelectorAll('#roster .rcard');ROSTER.forEach((id,k)=>{const f=FIGHTERS[id],el=cards[k];if(el&&!f.img){el.style.backgroundImage=`radial-gradient(ellipse at 50% 35%,${f.color}55,transparent 65%)`;el.insertAdjacentHTML('afterbegin',`<span style="position:absolute;left:22%;right:22%;top:14%;aspect-ratio:1;opacity:.85">${sigilSvg(f)}</span>`)}});
+};
+const _rulesHTMLV10=rulesHTML;
+rulesHTML=function(){return _rulesHTMLV10().replace('Each fighter\'s passive is written','<b>Bloom</b> (Harrow) grows every turn: +1 damage per hit for every 2 Bloom, but it costs him half its value in HP each turn, and it pauses while he\'s benched. <b>Grip</b> (Ninefold): the target can\'t tag out or raise Guard, and Slams hit harder. <b>Souls</b> (Ninefold) build up from Specials: each Soul adds +1 damage to its strikes, and they power its Guard and finisher. Ninefold floats, so Traps don\'t trigger on it. Each fighter\'s passive is written')};
+(function(){const r=document.querySelector('#rules .rules');if(r)r.innerHTML=rulesHTML()})();
+
+/* ===== v11: in-match tips for new players ===== */
+(function(){
+const st11=document.createElement('style');st11.textContent=`
+#tipbox{position:relative;z-index:2;margin:0 0 8px;flex:none;display:flex;gap:8px;align-items:flex-start;background:rgba(18,12,13,.96);border:1px solid var(--gold);border-radius:10px;padding:8px 10px;box-shadow:0 6px 18px rgba(0,0,0,.5);font-size:13px;line-height:1.35;color:#e6dccd;animation:tipIn .25s ease-out}
+#tipbox[hidden]{display:none}
+#tipbox .ti{flex:none;width:18px;height:18px;border-radius:50%;background:var(--gold);color:#1a1210;font-weight:800;display:grid;place-items:center;font-size:11px;margin-top:1px}
+#tipbox .tb{display:grid;gap:5px}
+#tipbox b{color:#fff}
+#tipbox .tl{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+#tipbox .tr{display:flex;gap:8px;flex-wrap:wrap}
+#tipbox button{font:inherit;font-size:11px;font-weight:700;border-radius:7px;padding:3px 9px;cursor:pointer;border:1px solid rgba(255,255,255,.2);background:transparent;color:#e6dccd}
+#tipbox button.ok{background:var(--gold);border-color:var(--gold);color:#1a1210}
+#tipbox button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+@keyframes tipIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){#tipbox{animation:none}}
+@media (max-width:760px){#tipbox{font-size:13px}}
+.tipset{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+`;const lastStyle=[...document.querySelectorAll('style')].pop();lastStyle.after(st11);
+
+const TIP_SEEN='mr-tips-seen-v1',TIP_OFF='mr-tips-off';
+const seen=()=>{try{return new Set(JSON.parse(lsGet(TIP_SEEN)||'[]'))}catch(e){return new Set()}};
+const markSeen=id=>{const s=seen();s.add(id);lsSet(TIP_SEEN,JSON.stringify([...s]))};
+const tipsOff=()=>lsGet(TIP_OFF)==='1';
+window.TIP={cur:null,turnKey:null,usedTurn:null};
+
+const playable=(s,o)=>s.hand.filter(c=>!info(s,o,c).why);
+const tierOf=c=>(TYPES[c.type]&&TYPES[c.type].tier)||0;
+const bench=s=>s.team.filter((m,k)=>k!==s.active&&!m.ko);
+
+/* priority order: first match wins */
+const TIPS=[
+ {id:'final',when:(s,o,a,t)=>G.final,
+  text:'<b>Final Round.</b> Both fighters healed to full and gain 3 Guard every turn. With 3 Meter and the enemy at 6 HP or less, a <b>Last Rite</b> wins on the spot.'},
+ {id:'blood',when:(s)=>typeof SUDDEN!=='undefined'&&s.turns>=SUDDEN,
+  text:'<b>Blood Rounds.</b> Your fighter now takes damage at the start of every turn, and it grows. Stop holding back: go for the knockout.'},
+ {id:'gripped',when:(s,o,a)=>a.st&&a.st.grip,
+  text:'You\'re <b>Gripped</b>: you can\'t tag out or raise Guard until it wears off. Spend this turn hitting back instead of blocking.'},
+ {id:'lowhp',when:(s,o,a)=>a.hp<=a.max*.3&&!s.tagUsed&&s.energy>=1&&!(a.st&&a.st.grip)&&bench(s).some(m=>m.hp>m.max*.5),
+  text:'Your fighter is close to falling. <b>Click a benched teammate</b> to tag them in for 1 Energy. Benched fighters recover 2 HP a turn.'},
+ {id:'bloom',when:(s,o,a)=>a.f.id==='harrow'&&(a.bloom||0)>=4,
+  text:'The Bloom is eating Harrow: it costs him HP every turn. Cash it in with <b>Rupture</b>, cool it with <b>Cauterize</b>, or tag him out to pause it.'},
+ {id:'energy',when:(s)=>s.turns<=1,
+  text:'Cards cost <b>Energy</b> (the gold dots). It refills every turn and grows by 1, up to 8. Leftover Energy doesn\'t carry over, so spend it, then press <b>End turn</b>.'},
+ {id:'chain',when:(s,o)=>{if(s.combo)return false;const ts=new Set(playable(s,o).map(tierOf).filter(Boolean));return ts.size>=2},
+  text:'Strikes chain <b>Light → Medium → Heavy</b>. Each hit gets +1 damage for every hit before it, so play your strikes in that order.'},
+ {id:'enemybreaker',when:(s,o)=>o.breaker,
+  text:'The enemy set a <b>Breaker</b>. If your chain reaches 3 hits it snaps and you lose 2 Energy. Stop at 2 hits, or make the third one count.'},
+ {id:'finready',when:(s,o)=>s.combo>=2&&s.hand.some(c=>c.type==='finisher'&&!info(s,o,c).why),
+  text:'Your chain is at 2+ and you have Meter: your <b>Finisher</b> is ready. It hits like a Heavy and closes the chain.'},
+ {id:'finlocked',when:(s)=>s.combo<2&&s.hand.some(c=>c.type==='finisher'),
+  text:'<b>Finishers</b> need a 2-hit chain and 1 Meter. Land two strikes this turn first, then play it.'},
+ {id:'traps',when:(s,o,a)=>o.traps&&o.traps.length&&a.f.id!=='ninefold',
+  text:'Face-down cards on the enemy\'s side are <b>Traps</b>. Your strikes can spring them. A cheap strike is a safe way to set one off.'},
+ {id:'dots',when:(s,o,a)=>a.st&&(a.st.burn||a.st.bleed||a.st.venom),
+  text:'<b>Burn, Bleed and Venom</b> hit at the start of your turn and ignore Guard. Tagging out halves them, and <b>Iron Will</b> clears them.'},
+ {id:'enemyguard',when:(s,o)=>o.guard>=3,
+  text:(s,o,a,t)=>`The enemy has <b>${o.guard} Guard</b>: it soaks damage until their next turn. Piercing damage and Guard-breaking cards get through.${t.f.id==='brannoch'?' Hitting Brannoch\'s Guard also hurts you back (Retaliate).':''}`},
+ {id:'block',when:(s,o)=>playable(s,o).some(c=>c.type==='block'),
+  text:'<b>Block</b> cards give Guard, which soaks the enemy\'s attacks until your next turn. Handy when you\'re ahead on HP or low on cards.'},
+ {id:'ex',when:(s,o)=>s.meter>=2&&!G.ex&&playable(s,o).some(c=>c.ex),
+  text:'You have Meter to spare. Press <b>Arm EX</b> before playing a card to use its stronger EX version (the gold line) for 1 Meter.'},
+ {id:'breaker',when:(s)=>s.meter>=3&&!s.breaker,
+  text:'With 2 Meter you can <b>Arm Breaker</b>. It waits on the field, and when the enemy\'s chain reaches 3 hits it snaps and costs them 2 Energy.'},
+ {id:'tagcard',when:(s,o)=>s.hand.some(c=>{const i=info(s,o,c);return !i.why&&i.tag!=null}),
+  text:'Cards from a benched teammate <b>tag them in</b> when you play them, for +1 Energy. Your chain stays alive.'},
+ {id:'echo',when:(s)=>s.hand.some(c=>c.echo),
+  text:'A fallen fighter\'s cards become <b>Echoes</b>: weaker, but they only cost 1 Energy.'},
+ {id:'rite',when:(s)=>!G.final&&s.hand.some(c=>c.type==='rite'),
+  text:'<b>Last Rites</b> only work in the Final Round, with the enemy at 6 HP or less and 3 Meter. Hold on to it.'},
+ {id:'souls',when:(s,o,a)=>a.f.id==='ninefold'&&(a.souls||0)>=2,
+  text:'Each <b>Soul</b> adds +1 damage to Ninefold\'s strikes. Play Specials to gather more, then spend them all on The Unclaimed Rise.'},
+ {id:'gripslam',when:(s,o,a,t)=>t.st&&t.st.grip&&s.hand.some(c=>c.id==='slam'),
+  text:'The enemy is Gripped: <b>Ossuary Slam</b> deals +2 damage per Grip and ends it. Now\'s the time.'},
+ {id:'wounded',when:(s,o,a,t)=>t.hp<=t.max*.25&&!t.ko,
+  text:'The enemy fighter is nearly down. Push the damage now: a knockout swaps in their next fighter.'},
+];
+
+function tipBox(){let b=document.getElementById('tipbox');if(!b){const ar=document.querySelector('#duel .record');if(!ar)return null;b=document.createElement('div');b.id='tipbox';b.setAttribute('role','status');b.setAttribute('aria-live','polite');b.hidden=true;const hd=ar.querySelector('h3');if(hd)hd.after(b);else ar.prepend(b)}return b}
+function hideTip(){const b=document.getElementById('tipbox');if(b)b.hidden=true;TIP.cur=null}
+function tipsUpdate(){
+  const b=tipBox();if(!b)return;
+  if(tipsOff()||!G||G.over||G.end||CUR_SCREEN!=='duel'||(typeof TUT!=='undefined'&&TUT.on)||G.act!==0||G.s[0].ai){hideTip();return}
+  const s=G.s[0],o=G.s[1],a=act(s),t=act(o);const key=`${G.id}:${s.turns}`;
+  if(TIP.turnKey!==key){TIP.turnKey=key;TIP.cur=null}
+  if(TIP.cur){const tp=TIPS.find(x=>x.id===TIP.cur);let ok=false;try{ok=tp.when(s,o,a,t)}catch(e){}if(ok){b.hidden=false;return}hideTip();return}
+  if(TIP.usedTurn===key){b.hidden=true;return}
+  const sn=seen();
+  for(const tp of TIPS){if(sn.has(tp.id))continue;let ok=false;try{ok=tp.when(s,o,a,t)}catch(e){}if(!ok)continue;
+    TIP.cur=tp.id;TIP.usedTurn=key;markSeen(tp.id);
+    const txt=typeof tp.text==='function'?tp.text(s,o,a,t):tp.text;const left=TIPS.filter(x=>!sn.has(x.id)).length-1;
+    b.innerHTML=`<span class="ti" aria-hidden="true">?</span><div class="tb"><span>${txt}</span><div class="tr"><button class="ok" data-tip="ok">Got it</button><button data-tip="off">Turn off tips</button></div></div>`;
+    b.hidden=false;return}
+  b.hidden=true;
+}
+window.tipsUpdate=tipsUpdate;
+
+const _renderV11=render;render=function(){const r=_renderV11.apply(this,arguments);try{tipsUpdate()}catch(e){}return r};
+const _showV11=show;show=function(n){const r=_showV11.apply(this,arguments);if(n!=='duel')hideTip();return r};
+
+document.addEventListener('click',e=>{const btn=e.target.closest('[data-tip]');if(!btn)return;e.stopPropagation();
+  const k=btn.dataset.tip;
+  if(k==='ok'){hideTip()}
+  else if(k==='off'){lsSet(TIP_OFF,'1');hideTip();toast('Tips are off. Turn them back on from Rules.')}
+  else if(k==='on'){lsSet(TIP_OFF,'0');toast('Match tips are on.');rerenderRulesTips()}
+  else if(k==='reset'){lsSet(TIP_SEEN,'[]');lsSet(TIP_OFF,'0');TIP.usedTurn=null;toast('All tips will show again.');rerenderRulesTips()}
+},true);
+
+function tipsSettingHTML(){return `<div class="tipset" id="tipset"><span>Match tips are <b>${tipsOff()?'off':'on'}</b>.</span>${tipsOff()?'<button class="btn sm" data-tip="on">Turn tips on</button>':''}<button class="btn sm" data-tip="reset">Show all tips again</button></div>`}
+function rerenderRulesTips(){const el=document.getElementById('tipset');if(el)el.outerHTML=tipsSettingHTML()}
+const _rulesV11=rulesHTML;rulesHTML=function(){let h=_rulesV11.apply(this,arguments);const add=`<div class="rsec"><h3>Match tips</h3><p>New players get one short tip per turn during matches, based on what's happening on the field.</p>${tipsSettingHTML()}</div>\n  `;const m='<div class="row" style="margin-top:14px"><button class="btn gold" id="rules-close"';return h.includes(m)?h.replace(m,add+m):h+add};
+const rl=document.querySelector('#rules .rules');if(rl)rl.innerHTML=rulesHTML();
+})();
+
+/* ===== v12: larger playing field ===== */
+(function(){
+const st12=document.createElement('style');st12.textContent=`
+#scr-duel .wrap{max-width:min(2200px,calc(100vw - 32px))}
+@media (min-width:761px){
+  #scr-duel{--fh:clamp(160px,calc(100vh - 648px),620px)}
+  .arena{grid-template-columns:minmax(0,1fr) minmax(0,clamp(300px,24vw,420px))}
+  .stage{min-height:var(--fh);gap:clamp(14px,1.6vw,28px);padding:clamp(8px,1vh,16px) clamp(14px,1.4vw,24px)}
+  .stage .card{--cw:clamp(102px,calc(var(--fh) * .52),230px)}
+  .lane .card{--cw:clamp(72px,calc(var(--fh) * .34),150px)}
+  .lane-tag{width:clamp(72px,calc(var(--fh) * .34),150px)}
+  .lane{max-width:58%}
+  .stage-info{max-width:40ch}
+  .stage-info b{font-size:clamp(22px,calc(var(--fh) * .07),32px)}
+  .stage-info p{font-size:clamp(14px,calc(var(--fh) * .036),17px)}
+  .stage .stage-empty{font-size:clamp(15px,calc(var(--fh) * .04),19px)}
+}
+/* laptop heights: slimmer fighter bars and hand, more room for the field */
+@media (min-width:901px) and (max-height:1000px){
+  #scr-duel{--fh:clamp(160px,calc(100vh - 570px),620px)}
+  #scr-duel .bar{padding:6px 12px}
+  #scr-duel .bench{flex-flow:row nowrap;gap:6px}
+  #scr-duel .hand .card{--cw:124px}
+  #scr-duel .hand{padding-top:21px;padding-bottom:4px}
+}
+`;const last=[...document.querySelectorAll('style')].pop();last.after(st12);
+})();
+
 SAVE=loadLocal()||defaultSave();
 if(TEST_FULL_COLLECTION){let added=false;CARDS.forEach(c=>{if(c.rarity!=='basic'&&(SAVE.owned[c.id]||0)<LIMIT(c)){SAVE.owned[c.id]=LIMIT(c);added=true}});if(!SAVE.unlocked.includes('vorhul')){SAVE.unlocked.push('vorhul');added=true}if(added)persist()}
 ensureDeck();buildPrompts();
 show('title');
 connectAccount();initDownloads();resumeLast();
 </script>
+<script>
+/* --- fit rules text: long card text shrinks (down to 70%) so rules and the EX line are never cut off; Last Rite flavor may still fade --- */
+(function(){
+  function fit(t){
+    t.style.fontSize='';
+    const fl=t.querySelector('.c-flav');if(fl)fl.style.display='none';
+    const base=parseFloat(getComputedStyle(t).fontSize);let s=1;
+    while(t.scrollHeight>t.clientHeight+1&&s>0.71){s-=0.05;t.style.fontSize=(base*s).toFixed(2)+'px'}
+    if(fl)fl.style.display='';
+  }
+  let queued=false;
+  function run(){queued=false;document.querySelectorAll('.c-text').forEach(t=>{if(!t.dataset.fit&&t.clientHeight>0){fit(t);t.dataset.fit='1'}})}
+  function soon(){if(!queued){queued=true;setTimeout(run,20)}}
+  new MutationObserver(soon).observe(document.body,{childList:true,subtree:true});
+  document.addEventListener('click',()=>setTimeout(soon,30),true);
+  addEventListener('resize',()=>{document.querySelectorAll('.c-text[data-fit]').forEach(t=>{delete t.dataset.fit});soon()});
+  soon();
+})();
+</script>
+
 
 </body></html>
