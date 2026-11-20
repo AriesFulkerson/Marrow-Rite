@@ -60,7 +60,7 @@ Style: follow the Marrow Rite style bible. Attached art references: Danse Macabr
 
 ## Step 3 · Card prompts (10)
 
-### 054 · Rope Burn
+### 054 · Rope Burn (art done)
 Special · common · cost 1  
 Rules: 2 damage. Noose 2 (they take +2 from every hit) for 2 turns. Overcharge (3+ Meter): +1 damage.  
 EX: 3 damage.
@@ -76,7 +76,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 055 · Chain Hook
+### 055 · Chain Hook (art done)
 Special · rare · cost 2  
 Rules: 3 damage. Drag in their most wounded benched fighter.  
 EX: 4 damage, ignores Guard.
@@ -92,7 +92,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 056 · Drag to the Gallows
+### 056 · Drag to the Gallows (art done)
 Skill · rare · cost 1  
 Rules: Drag in their most wounded benched fighter. Noose 2.  
 EX: Drag in their most wounded fighter. Noose 3.
