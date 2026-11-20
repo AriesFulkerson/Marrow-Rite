@@ -1857,7 +1857,7 @@ const V8_CARDS=[
 V8_CARDS.forEach(c=>{c.rarity=c.rarity||'common';c.p=c.p||{};CARDS.push(c);c.no=String(CARDS.length).padStart(3,'0');CARD[c.id]=c});
 const V8_TOTAL=String(CARDS.length).padStart(3,'0');
 /* finished illustrations (card names unchanged) */
-const CARD_ART={gutcheck:'cards/gatebreaker.jpg',braceup:'cards/wind-the-linen.jpg',jab:'cards/jab.jpg',cross:'cards/cross.jpg',upper:'cards/uppercut.jpg',block:'cards/block.jpg',sweep:'cards/low-sweep.jpg',knee:'cards/knee-strike.jpg',throw:'cards/throw.jpg',haymaker:'cards/haymaker.jpg',parry:'cards/parry.jpg',wind:'cards/second-wind.jpg',taunt:'cards/taunt.jpg',ironwill:'cards/iron-will.jpg',adrenaline:'cards/adrenaline.jpg',bloodlust:'cards/bloodlust.jpg',crowd:'cards/crowds-favor.jpg',wounds:'cards/open-wounds.jpg',standfirm:'cards/stand-firm.jpg',flurry:'cards/flurry.jpg',surge:'cards/blood-surge.jpg',ironskin:'cards/iron-skin.jpg',breath:'cards/second-breath.jpg',lastgasp:'cards/last-gasp.jpg',elbow:'cards/elbow.jpg',headbutt:'cards/headbutt.jpg',grapple:'cards/grapple.jpg',salts:'cards/smelling-salts.jpg',bloodprice:'cards/blood-price.jpg'};
+const CARD_ART={gutcheck:'cards/gatebreaker.jpg',braceup:'cards/wind-the-linen.jpg',jab:'cards/jab.jpg',cross:'cards/cross.jpg',upper:'cards/uppercut.jpg',block:'cards/block.jpg',sweep:'cards/low-sweep.jpg',knee:'cards/knee-strike.jpg',throw:'cards/throw.jpg',haymaker:'cards/haymaker.jpg',parry:'cards/parry.jpg',wind:'cards/second-wind.jpg',taunt:'cards/taunt.jpg',ironwill:'cards/iron-will.jpg',adrenaline:'cards/adrenaline.jpg',bloodlust:'cards/bloodlust.jpg',crowd:'cards/crowds-favor.jpg',wounds:'cards/open-wounds.jpg',standfirm:'cards/stand-firm.jpg',flurry:'cards/flurry.jpg',surge:'cards/blood-surge.jpg',ironskin:'cards/iron-skin.jpg',breath:'cards/second-breath.jpg',lastgasp:'cards/last-gasp.jpg',elbow:'cards/elbow.jpg',headbutt:'cards/headbutt.jpg',grapple:'cards/grapple.jpg',salts:'cards/smelling-salts.jpg',bloodprice:'cards/blood-price.jpg',sealed:'cards/sealed-door.jpg','grudge-brannoch':'cards/loose-linen.jpg'};
 const _artSvgV8=artSvg;
 artSvg=function(c){
   if(c&&CARD_ART[c.id]){const glow=c.type==='rite'?'<span class="cglow rite"></span>':c.type==='finisher'?'<span class="cglow"></span>':'';
@@ -1886,11 +1886,11 @@ renderArt=function(){
   const first=!artBuilt;_renderArtV8();
   if(!first)return;
   const art=document.querySelector('#art');if(!art||!art.insertAdjacentHTML)return;
-  art.querySelectorAll&&art.querySelectorAll('.prompt header b').forEach(b=>{const m=Object.entries(CARD_ART).find(([id])=>b.textContent.endsWith(CARD[id].name));if(m){b.insertAdjacentHTML('afterend','<small style="color:#9be39b">Art done</small>')}});
+  art.querySelectorAll&&art.querySelectorAll('.prompt header b').forEach(b=>{const m=Object.entries(CARD_ART).find(([id])=>b.textContent.endsWith((CARD[id]||echoArtCard(id.slice(7))).name));if(m){b.insertAdjacentHTML('afterend','<small style="color:#9be39b">Art done</small>')}});
   art.insertAdjacentHTML('beforeend',`<section class="art-sec"><h3>5 · Echo cards</h3><p class="sub">${ECHO_NOTE} Attach the fighter's portrait and sheet as usual.</p>${ECHO_ORDER.map(f=>{const c=echoArtCard(f);return promptBox('echo-'+f,`${c.no} · ${c.name}`,`Echo of ${FIGHTERS[f].name}`)}).join('')}</section>`);
 };
 const _allPromptsMdV8=allPromptsMd;
-allPromptsMd=function(){let md=_allPromptsMdV8();md+=`\n## Echo cards\n\n${ECHO_NOTE}\n`;ECHO_ORDER.forEach(f=>{const c=echoArtCard(f);md+=`\n### ${c.no} · ${c.name}\n\n${PROMPTS['echo-'+f]}\n`});md+=`\n## Finished art\n${Object.entries(CARD_ART).map(([id,src])=>`- ${CARD[id].no} · ${CARD[id].name}: ${src}`).join('\n')}\n`;return md};
+allPromptsMd=function(){let md=_allPromptsMdV8();md+=`\n## Echo cards\n\n${ECHO_NOTE}\n`;ECHO_ORDER.forEach(f=>{const c=echoArtCard(f);md+=`\n### ${c.no} · ${c.name}\n\n${PROMPTS['echo-'+f]}\n`});md+=`\n## Finished art\n${Object.entries(CARD_ART).map(([id,src])=>`- ${(CARD[id]||echoArtCard(id.slice(7))).no} · ${(CARD[id]||echoArtCard(id.slice(7))).name}: ${src}`).join('\n')}\n`;return md};
 /* AI: use the new utility cards when nothing better is on */
 const _aiChooseV8=aiChoose;
 aiChoose=function(s,o){

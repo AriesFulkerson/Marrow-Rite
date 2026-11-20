@@ -207,7 +207,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 077 · Sealed Door (new)
+### 077 · Sealed Door (new) (art done)
 Block · epic · cost 3  
 Rules: Gain 6 Guard. Retaliate +3. Gain 1 Meter.
 
@@ -226,7 +226,7 @@ Style: follow the Marrow Rite style bible.
 
 Echoes are what a fighter's cards become after that fighter is knocked out. Make each one feel like an afterimage: desaturated, translucent, drifting, with the fighter's accent colour as the only saturated tone.
 
-### E3 · Loose Linen
+### E3 · Loose Linen (art done)
 Echo · common · cost 1  
 Rules: Echo of Brannoch, who has fallen. Gain 2 Guard.
 
