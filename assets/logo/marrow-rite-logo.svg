@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="512" height="512">
+  <defs>
+    <radialGradient id="bg" cx="0.5" cy="0.38" r="0.72">
+      <stop offset="0" stop-color="#6A1C25"/>
+      <stop offset="0.55" stop-color="#2A0F12"/>
+      <stop offset="1" stop-color="#0D0909"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFB347"/>
+      <stop offset="1" stop-color="#FFB347" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- background tile -->
+  <rect width="108" height="108" rx="22" fill="url(#bg)"/>
+  <rect x="3" y="3" width="102" height="102" rx="19.5" fill="none" stroke="#CFA64E" stroke-opacity="0.55" stroke-width="1.2"/>
+  <!-- skull -->
+  <path fill="#E6DAB8" d="M35,56 C35,40 73,40 73,56 L73,62 C73,66.5 69.5,68.5 67,69.5 L67,77 C67,79 65.5,80 63.5,80 L44.5,80 C42.5,80 41,79 41,77 L41,69.5 C38.5,68.5 35,66.5 35,62 Z"/>
+  <!-- skull shading -->
+  <path fill="#B9A67E" d="M67,69.5 L67,77 C67,79 65.5,80 63.5,80 L58,80 L58,71 C62,70.5 65,70 67,69.5 Z" opacity="0.8"/>
+  <!-- eye sockets -->
+  <path fill="#160B0B" d="M39.5,58.5 C39.5,54 44,52 48,52.5 C51.5,53 52,56 51,59 C50,62 46.5,63.5 43.5,62.8 C41,62.2 39.5,60.6 39.5,58.5 Z"/>
+  <path fill="#160B0B" d="M68.5,58.5 C68.5,54 64,52 60,52.5 C56.5,53 56,56 57,59 C58,62 61.5,63.5 64.5,62.8 C67,62.2 68.5,60.6 68.5,58.5 Z"/>
+  <circle cx="46" cy="58" r="5" fill="url(#glow)" opacity="0.75"/>
+  <circle cx="62" cy="58" r="5" fill="url(#glow)" opacity="0.75"/>
+  <circle cx="46" cy="58" r="1.6" fill="#FFC15A"/>
+  <circle cx="62" cy="58" r="1.6" fill="#FFC15A"/>
+  <!-- nose -->
+  <path fill="#160B0B" d="M54,63 L56.6,68.6 L54,67.6 L51.4,68.6 Z"/>
+  <!-- teeth -->
+  <path fill="#160B0B" d="M43.5,72.5 H64.5 V73.6 H43.5 Z"/>
+  <path fill="#160B0B" d="M47.4,71 H48.6 V80 H47.4 Z M51.4,71 H52.6 V80 H51.4 Z M55.4,71 H56.6 V80 H55.4 Z M59.4,71 H60.6 V80 H59.4 Z"/>
+  <!-- crown of teeth: fangs -->
+  <g fill="#F1E8D0" stroke="#8C6A2A" stroke-width="0.8" stroke-linejoin="round">
+    <path d="M31.5,45 C32,38 34,32.5 36,28 C38,32.5 40,38 40.5,45 Z"/>
+    <path d="M40,45 C40.6,36.5 42.6,29.5 45,23.5 C47.4,29.5 49.4,36.5 50,45 Z"/>
+    <path d="M48.5,45 C49.1,35 51.3,26.5 54,19 C56.7,26.5 58.9,35 59.5,45 Z"/>
+    <path d="M58,45 C58.6,36.5 60.6,29.5 63,23.5 C65.4,29.5 67.4,36.5 68,45 Z"/>
+    <path d="M67.5,45 C68,38 70,32.5 72,28 C74,32.5 76,38 76.5,45 Z"/>
+  </g>
+  <!-- crown band -->
+  <path fill="#D9A441" d="M30,44 H78 L76.5,51 H31.5 Z"/>
+  <path fill="#F2C766" d="M30,44 H78 L77.6,45.8 H30.4 Z"/>
+  <path fill="#8C6A2A" d="M31.5,51 H76.5 L76.8,49.6 H31.2 Z"/>
+  <!-- gems -->
+  <path fill="#C22D41" d="M54,44.6 L57,47.5 L54,50.4 L51,47.5 Z"/>
+  <circle cx="40" cy="47.5" r="1.4" fill="#7A1622"/>
+  <circle cx="68" cy="47.5" r="1.4" fill="#7A1622"/>
+  <!-- blood drip from the crown -->
+  <path fill="#C22D41" d="M54.6,50.4 C55.2,53 55.6,55 55.6,56.4 C55.6,57.6 54.8,58.3 54,58.3 C53.2,58.3 52.4,57.6 52.4,56.4 C52.4,55 52.8,53 53.4,50.4 Z"/>
+</svg>

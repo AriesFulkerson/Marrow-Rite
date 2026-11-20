@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
-    <!-- a gold rite-mark: a blade through a ring -->
-    <path android:fillColor="#00000000" android:strokeColor="#FFCFA64E" android:strokeWidth="4"
-        android:pathData="M32,54 A22,22 0 1,1 76,54 A22,22 0 1,1 32,54 Z" />
-    <path android:fillColor="#FFE2BD68" android:pathData="M54,24 L59,40 L57,74 L54,84 L51,74 L49,40 Z" />
-    <path android:fillColor="#FFC22D41" android:pathData="M42,44 L66,44 L66,48 L42,48 Z" />
+    <!-- Marrow Rite mark: a crown of teeth on a skull. Scaled into the adaptive-icon safe zone. -->
+    <group android:pivotX="54" android:pivotY="54" android:scaleX="0.86" android:scaleY="0.86" android:translateY="2">
+        <!-- skull -->
+        <path android:fillColor="#FFE6DAB8" android:pathData="M35,56 C35,40 73,40 73,56 L73,62 C73,66.5 69.5,68.5 67,69.5 L67,77 C67,79 65.5,80 63.5,80 L44.5,80 C42.5,80 41,79 41,77 L41,69.5 C38.5,68.5 35,66.5 35,62 Z" />
+        <path android:fillColor="#CCB9A67E" android:pathData="M67,69.5 L67,77 C67,79 65.5,80 63.5,80 L58,80 L58,71 C62,70.5 65,70 67,69.5 Z" />
+        <!-- eye sockets with ember glow -->
+        <path android:fillColor="#FF160B0B" android:pathData="M39.5,58.5 C39.5,54 44,52 48,52.5 C51.5,53 52,56 51,59 C50,62 46.5,63.5 43.5,62.8 C41,62.2 39.5,60.6 39.5,58.5 Z" />
+        <path android:fillColor="#FF160B0B" android:pathData="M68.5,58.5 C68.5,54 64,52 60,52.5 C56.5,53 56,56 57,59 C58,62 61.5,63.5 64.5,62.8 C67,62.2 68.5,60.6 68.5,58.5 Z" />
+        <path android:fillColor="#FFFFB347" android:fillAlpha="0.35" android:pathData="M42.6,58 A3.4,3.4 0 1,1 49.4,58 A3.4,3.4 0 1,1 42.6,58 Z" />
+        <path android:fillColor="#FFFFB347" android:fillAlpha="0.35" android:pathData="M58.6,58 A3.4,3.4 0 1,1 65.4,58 A3.4,3.4 0 1,1 58.6,58 Z" />
+        <path android:fillColor="#FFFFC15A" android:pathData="M44.4,58 A1.6,1.6 0 1,1 47.6,58 A1.6,1.6 0 1,1 44.4,58 Z" />
+        <path android:fillColor="#FFFFC15A" android:pathData="M60.4,58 A1.6,1.6 0 1,1 63.6,58 A1.6,1.6 0 1,1 60.4,58 Z" />
+        <!-- nose and teeth -->
+        <path android:fillColor="#FF160B0B" android:pathData="M54,63 L56.6,68.6 L54,67.6 L51.4,68.6 Z" />
+        <path android:fillColor="#FF160B0B" android:pathData="M43.5,72.5 H64.5 V73.6 H43.5 Z M47.4,71 H48.6 V80 H47.4 Z M51.4,71 H52.6 V80 H51.4 Z M55.4,71 H56.6 V80 H55.4 Z M59.4,71 H60.6 V80 H59.4 Z" />
+        <!-- crown of teeth -->
+        <path android:fillColor="#FFF1E8D0" android:strokeColor="#FF8C6A2A" android:strokeWidth="0.8" android:strokeLineJoin="round"
+            android:pathData="M31.5,45 C32,38 34,32.5 36,28 C38,32.5 40,38 40.5,45 Z M40,45 C40.6,36.5 42.6,29.5 45,23.5 C47.4,29.5 49.4,36.5 50,45 Z M48.5,45 C49.1,35 51.3,26.5 54,19 C56.7,26.5 58.9,35 59.5,45 Z M58,45 C58.6,36.5 60.6,29.5 63,23.5 C65.4,29.5 67.4,36.5 68,45 Z M67.5,45 C68,38 70,32.5 72,28 C74,32.5 76,38 76.5,45 Z" />
+        <path android:fillColor="#FFD9A441" android:pathData="M30,44 H78 L76.5,51 H31.5 Z" />
+        <path android:fillColor="#FFF2C766" android:pathData="M30,44 H78 L77.6,45.8 H30.4 Z" />
+        <path android:fillColor="#FF8C6A2A" android:pathData="M31.5,51 H76.5 L76.8,49.6 H31.2 Z" />
+        <!-- gems and blood drip -->
+        <path android:fillColor="#FFC22D41" android:pathData="M54,44.6 L57,47.5 L54,50.4 L51,47.5 Z" />
+        <path android:fillColor="#FF7A1622" android:pathData="M38.6,47.5 A1.4,1.4 0 1,1 41.4,47.5 A1.4,1.4 0 1,1 38.6,47.5 Z M66.6,47.5 A1.4,1.4 0 1,1 69.4,47.5 A1.4,1.4 0 1,1 66.6,47.5 Z" />
+        <path android:fillColor="#FFC22D41" android:pathData="M54.6,50.4 C55.2,53 55.6,55 55.6,56.4 C55.6,57.6 54.8,58.3 54,58.3 C53.2,58.3 52.4,57.6 52.4,56.4 C52.4,55 52.8,53 53.4,50.4 Z" />
+    </group>
 </vector>
