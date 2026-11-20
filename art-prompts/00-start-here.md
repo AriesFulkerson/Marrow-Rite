@@ -4,8 +4,9 @@ One file per fighter, each self-contained. Every prompt is generated from the ga
 
 ## What changed in this update
 - **Two new fighters:** Harrow, The Bloomed (09-harrow.md) and Ninefold, The Unclaimed (10-ninefold.md), 20 new cards numbered 095-114 plus Echoes E8 and E9. Neither has a concept portrait yet, so their files start with a concept-portrait prompt (Step 2). Make that first; the reference sheet and card prompts are anchored to it.
-- **New mechanics:** Bloom (Harrow grows 1 a turn, max 6; his strikes deal +1 per 2 Bloom, and it costs him half its value in HP each turn). Grip (Ninefold: for 2 turns the target can't tag out or raise Guard; Slams hit harder per Grip). Souls (Ninefold gains 1 per Special, max 5; its Specials deal +1 per 2 Souls). Ninefold floats, so Traps never trigger on it.
+- **New mechanics:** Bloom (Harrow grows 1 a turn, max 6; his strikes deal +1 per 2 Bloom, and it costs him half its value in HP each turn). Grip (Ninefold: for 2 turns the target can't tag out or raise Guard; Slams hit harder per Grip). Souls (Ninefold gains 1 per Special, max 5; each Soul adds +1 damage to its strikes). Ninefold floats, so Traps never trigger on it.
 - **New starter deck:** Bonebloom (Sable Moru, Harrow, Ninefold).
+- **Balance:** Ninefold now leads the field (36 HP, +1 damage per Soul on every strike). Brannoch drops to 30 HP and 2 Guard a turn from Grave Linen; Ashkar drops to 28 HP. Plague Pyre runs a third Block instead of Last Gasp.
 - **No existing card names, numbers or art changed.**
 
 ### Earlier update

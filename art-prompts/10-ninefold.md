@@ -1,8 +1,8 @@
 # Ninefold, The Unclaimed
 
 **Archetype:** Telekinetic control  
-**HP:** 30  
-**Passive, The Unclaimed:** Floats, so Traps never trigger on it. Each Special played while it fights adds 1 Soul (max 5), and its Specials deal +1 per 2 Souls. Gripped enemies can't tag out or raise Guard.  
+**HP:** 36  
+**Passive, The Unclaimed:** Floats, so Traps never trigger on it. Each Special played while it fights adds 1 Soul (max 5), and each Soul adds +1 damage to its strikes. Gripped enemies can't tag out or raise Guard.  
 **Concept portrait:** none yet. Make one with Step 2 below and save it as ninefold.png.
 
 > Fighters who die in the Rite are walled into the citadel's ossuary, and no one comes for most of them. After nine centuries the unclaimed found each other. Vorhul did not make Ninefold, and he no longer goes down to that room.

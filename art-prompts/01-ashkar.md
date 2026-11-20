@@ -1,7 +1,7 @@
 # Ashkar, The Ember Monk
 
 **Archetype:** Self-burn aggro  
-**HP:** 29  
+**HP:** 28  
 **Passive, Pyre:** His first hit each turn applies Burn 2 for 3 turns. Builds Heat (max 5) that powers his cards.  
 **Concept portrait:** ashkar.png
 

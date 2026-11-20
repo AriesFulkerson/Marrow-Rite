@@ -648,7 +648,7 @@ const TYPES={light:{label:'Light',tier:1},medium:{label:'Medium',tier:2},heavy:{
 const W=n=>`https://en.wikipedia.org/wiki/${n}`;
 
 const FIGHTERS={
-  ashkar:{id:'ashkar',name:'Ashkar',title:'The Ember Monk',hp:29,color:'#d9622b',sigil:'flame',arch:'Self-burn aggro',
+  ashkar:{id:'ashkar',name:'Ashkar',title:'The Ember Monk',hp:28,color:'#d9622b',sigil:'flame',arch:'Self-burn aggro',
     passive:'Pyre',ptext:'His first hit each turn applies Burn 2 for 3 turns. Builds Heat (max 5) that powers his cards.',
     bio:'Burned his own monastery to the ground to learn whether his gods would stop him. They did not.',
     look:'South Asian man in his late 50s, gaunt and sinewy with every muscle and vein showing, shaved head, deeply lined brow, short grey beard, intense amber eyes. His skin is scorched and cracked like baked clay down his neck, shoulders and arms. Bare-chested, with a ragged burnt-orange monk robe slung over one shoulder and knotted at the waist, its hem charred to tatters; a long necklace of large dark wooden prayer beads; both palms glowing ember-orange from within; smoke curling off his shoulders. Temple pillars and smoking incense braziers behind him.',
@@ -660,8 +660,8 @@ const FIGHTERS={
     look:'Pale woman in her 30s with a tousled platinum-white bob, grey eyes and a wide, delighted grin. Neat black surgical stitches run from both corners of her mouth up her cheeks, and her face is smudged with grime. A small red nurse\'s cap with stitched seams, a brass monocle loupe strapped over her right eye. High-collared black dress with puffed, torn sleeves edged in red piping, under a filthy blood-stained canvas apron with brass buckles; long black gloves. Her signature tool is a large brass-and-glass syringe full of blood. Her surroundings: hanging chains, stained linen, apothecary bottles, a caged lamp.',
     palette:'black, oxblood red, brass, dirty linen white',
     refs:[{t:'The Anatomy Lesson of Dr. Nicolaes Tulp',a:'Rembrandt',u:W('The_Anatomy_Lesson_of_Dr._Nicolaes_Tulp'),why:'The surgeon as showman; theatre of the body'},{t:'The Gross Clinic',a:'Thomas Eakins',u:W('The_Gross_Clinic'),why:'Operating-theatre lighting, dark surroundings'},{t:'The Death of Marat',a:'Jacques-Louis David',u:W('The_Death_of_Marat'),why:'Restrained, clinical treatment of violence'}]},
-  brannoch:{id:'brannoch',name:'Brannoch',title:'The Wrapped',hp:31,color:'#a88d57',sigil:'peak',arch:'Retaliation tank',
-    passive:'Grave Linen',ptext:'Starts each turn with 3 Guard. Burn, Bleed and Venom hit his Guard before his HP. Each enemy card that lands on his Guard takes 1 damage back (Retaliate).',
+  brannoch:{id:'brannoch',name:'Brannoch',title:'The Wrapped',hp:30,color:'#a88d57',sigil:'peak',arch:'Retaliation tank',
+    passive:'Grave Linen',ptext:'Starts each turn with 2 Guard. Burn, Bleed and Venom hit his Guard before his HP. Each enemy card that lands on his Guard takes 1 damage back (Retaliate).',
     bio:'The giant who kept the citadel gate, buried alive in its foundations for letting the wrong man through. Nine centuries in the linen made him patient. The Rite dug him back up.',
     look:'Towering giant about three metres tall, immensely broad, bound head to foot in torn, aged linen bandages, dry cracked skin showing through the gaps, two faint glints for eyes behind the head wrappings. A ragged hooded mantle of rotted, patched leather tied at the throat with braided rope and tassels, a wide rust-brown cloth sash, a tattered skirt of hanging linen strips, huge bandaged bare feet. Usually framed in a torchlit castle gatehouse with ordinary guards dwarfed beside him.',
     palette:'aged linen, rust-brown leather, torchlit amber, banner red',
@@ -1147,7 +1147,7 @@ function startTurn(i){
   s.energy=Math.max(0,s.maxE+coin-s.drain);
   if(s.drain)ev(`${nm(i)} is drained of ${s.drain} Energy.`);
   s.drain=0;
-  s.guard=(s.keepGuard?s.guard:0)+(act(s).f.id==='brannoch'?3:0)+(G.final?3:0);
+  s.guard=(s.keepGuard?s.guard:0)+(act(s).f.id==='brannoch'?2:0)+(G.final?3:0);
   if(s.keepGuard)ev(`${nm(i)} stands firm: Guard carries over (${s.guard}).`);
   s.keepGuard=false;
   s.retal=0;
@@ -2695,14 +2695,15 @@ Object.assign(FIGHTERS,{
     look:'A gaunt, wiry Mediterranean man in his 40s with grey, cracked skin where the infection has spread, sunken cheeks, a shaved scalp with ridges of bone pushing up beneath the skin, and tired, furious dark eyes. An ordinary human mouth, no fangs. Long curved blades of yellowed bone burst out of both forearms, their bases wrapped in bloody cloth strips; smaller bone spurs run down his shins and along his spine. Grey-green lesions where the bone breaks through. A torn sleeveless leather vest, wrapped trousers, and pit-fighter tally marks scratched into his upper arms.',
     palette:'bone white, infected grey, old-blood brown, sick yellow-green',
     refs:[{t:'Isenheim Altarpiece',a:'Matthias Grünewald',u:W('Isenheim_Altarpiece'),why:'Diseased, suffering flesh painted without flinching'},{t:'De humani corporis fabrica',a:'Andreas Vesalius',u:W('De_humani_corporis_fabrica'),why:'Bone structure and anatomy as illustration'},{t:'The Triumph of Death',a:'Pieter Bruegel the Elder',u:W('The_Triumph_of_Death'),why:'Plague as an unstoppable force'}]},
-  ninefold:{id:'ninefold',name:'Ninefold',title:'The Unclaimed',hp:30,color:'#9cc6dc',sigil:'orbit',arch:'Telekinetic control',
-    passive:'The Unclaimed',ptext:'Floats, so Traps never trigger on it. Each Special played while it fights adds 1 Soul (max 5), and its Specials deal +1 per 2 Souls. Gripped enemies can\'t tag out or raise Guard.',
+  ninefold:{id:'ninefold',name:'Ninefold',title:'The Unclaimed',hp:36,color:'#9cc6dc',sigil:'orbit',arch:'Telekinetic control',
+    passive:'The Unclaimed',ptext:'Floats, so Traps never trigger on it. Each Special played while it fights adds 1 Soul (max 5), and each Soul adds +1 damage to its strikes. Gripped enemies can\'t tag out or raise Guard.',
     bio:'Fighters who die in the Rite are walled into the citadel\'s ossuary, and no one comes for most of them. After nine centuries the unclaimed found each other. Vorhul did not make Ninefold, and he no longer goes down to that room.',
     look:'A tall, thin figure wrapped head to foot in grey burial linen, hovering a foot above the floor with its feet hanging limp. Bare skeletal hands. Cold blue-white light leaking through gaps in the wrappings, and the impressions of several faces pressing outward against the cloth from inside. A slow ring of loose finger bones and teeth orbits its body. No visible face, only a dark gap in the linen. Tattered strips of shroud trail beneath it like smoke.',
     palette:'grave grey, candle-wax ivory, cold blue-white soul light',
     refs:[{t:'The Nightmare',a:'Henry Fuseli',u:W('The_Nightmare'),why:'A presence that should not be in the room'},{t:'The Sleep of Reason Produces Monsters',a:'Francisco Goya',u:W('The_Sleep_of_Reason_Produces_Monsters'),why:'Swarming, drifting forms around one figure'},{t:'Abbey among Oak Trees',a:'Caspar David Friedrich',u:W('Abbey_among_Oak_Trees'),why:'Burial grounds, cold light, silence'}]}
 });
 ROSTER.push('harrow','ninefold');
+Object.assign(ART,{harrow:['harrow',52,9,3.6],ninefold:['ninefold',50,5,3.6]});for(const k of ['harrow','ninefold']){const[file,x,y,z]=ART[k];Object.assign(FIGHTERS[k],{img:`portraits/${file}.jpg`,face:[x/100,y/100,z]})}
 const V10_CARDS=[
   /* Harrow: Bonebloom */
   {id:'rake',f:'harrow',name:'Blade Rake',type:'light',cost:1,p:{dmg:1,hits:2,bleed:1},exP:{dmg:2,hits:2,bleed:1},text:'Hit twice for 1. Bleed 1.',ex:'Hit twice for 2. Bleed 1.',art:'Harrow sweeping both bone forearm blades across in a fast X, a spray of dark droplets frozen in the torchlight.'},
@@ -2744,7 +2745,7 @@ Object.assign(GLOSS,{
   slam:['Slam','Extra damage for each Grip on the target, then the Grip ends.'],
   drift:['Drift','Your next strike this turn continues the chain whatever its step.'],
   soulGuard:['Soul Guard','+1 Guard for each of Ninefold\'s Souls.'],
-  souls:['Souls','Ninefold\'s resource (max 5). It gains 1 for every Special played while it fights, and its Specials deal +1 per 2 Souls.'],
+  souls:['Souls','Ninefold\'s resource (max 5). It gains 1 for every Special played while it fights, and each Soul adds +1 damage to its strikes.'],
   soulSpend:['Release','Spends all Souls for extra damage.']
 });
 /* --- the hit, with Bloom as a bonus (it counts toward the +3 cap) --- */
@@ -2757,7 +2758,7 @@ hit=function(s,o,base,pierce,c,label){
   if(c&&c.p.heatDmg)add(a.heat,'Heat');
   if(c&&c.f==='wen'&&c.type==='special'&&a.f.id==='wen')add(Math.floor(a.hunger/2),'Hunger');
   if(a.f.id==='harrow')add(Math.floor((a.bloom||0)/2),'Bloom');
-  if(a.f.id==='ninefold'&&c&&c.type==='special'&&!c.echo)add(Math.floor((a.souls||0)/2),'Souls');
+  if(a.f.id==='ninefold'&&c&&!c.echo)add(a.souls||0,'Souls');
   if(t.st.noose)add(t.st.noose.d,'Noose');
   if(d-base>BONUS_CAP){parts.push(`capped at +${BONUS_CAP}`);d=base+BONUS_CAP}
   if(a.f.id==='ashkar'&&!s.firstHit){addSt(t,'burn',2,3);note(`Pyre: ${t.f.name} is set burning (Burn 2).`)}
@@ -2857,7 +2858,8 @@ aiChoose=function(s,o){
 STARTERS.push({id:'bloom',name:'Bonebloom',team:['sable','harrow','ninefold'],
   theme:'Open wounds and keep them open. Harrow and Sable stack Bleed, and Ninefold grips the bleeding fighter so they can\'t tag out to halve it.',
   how:'Lead with Sable to open the Bleed with Scalpel Flick, Bone Saw and Leech Jar. Tag to Harrow: Gore Lunge and Spread the Bloom hit harder on a Bleeding target, and Rupture cashes in his Bloom before it kills him. Ninefold\'s Hollow Grip stops the bleeding fighter from tagging out or raising Guard, and Ossuary Slam finishes the job.',
-  cards:{rake:2,chop:2,spark:2,lunge:2,spread:2,rupture:1,lastbloom:1,flick:2,bonesaw:2,leech:1,vivisect:1,soulbolt:2,hgrip:2,slam:2,hurl:1,rend:1,wounds:2,ironwill:1,lastgasp:1}});
+  cards:{rake:2,chop:2,spark:2,lunge:2,spread:2,rupture:1,lastbloom:1,flick:2,bonesaw:2,leech:1,vivisect:1,hgrip:2,slam:1,wounds:2,ironwill:1,lastgasp:1,jab:2,cross:2,block:1}});
+{const P=STARTERS.find(s=>s.id==='plague');if(P){delete P.cards.lastgasp;P.cards.block=(P.cards.block||0)+1;P.how=P.how.replace(' Bank Meter for Last Gasp when the target is low.','')}}
 /* title screen and rules know about the new fighters */
 const _renderTitleV10=renderTitle;
 renderTitle=function(){
@@ -2866,8 +2868,149 @@ renderTitle=function(){
   const cards=document.querySelectorAll('#roster .rcard');ROSTER.forEach((id,k)=>{const f=FIGHTERS[id],el=cards[k];if(el&&!f.img){el.style.backgroundImage=`radial-gradient(ellipse at 50% 35%,${f.color}55,transparent 65%)`;el.insertAdjacentHTML('afterbegin',`<span style="position:absolute;left:22%;right:22%;top:14%;aspect-ratio:1;opacity:.85">${sigilSvg(f)}</span>`)}});
 };
 const _rulesHTMLV10=rulesHTML;
-rulesHTML=function(){return _rulesHTMLV10().replace('Each fighter\'s passive is written','<b>Bloom</b> (Harrow) grows every turn: +1 damage per hit for every 2 Bloom, but it costs him half its value in HP each turn, and it pauses while he\'s benched. <b>Grip</b> (Ninefold): the target can\'t tag out or raise Guard, and Slams hit harder. <b>Souls</b> (Ninefold) build up from Specials: its Specials deal +1 per 2 Souls, and they power its Guard and finisher. Ninefold floats, so Traps don\'t trigger on it. Each fighter\'s passive is written')};
+rulesHTML=function(){return _rulesHTMLV10().replace('Each fighter\'s passive is written','<b>Bloom</b> (Harrow) grows every turn: +1 damage per hit for every 2 Bloom, but it costs him half its value in HP each turn, and it pauses while he\'s benched. <b>Grip</b> (Ninefold): the target can\'t tag out or raise Guard, and Slams hit harder. <b>Souls</b> (Ninefold) build up from Specials: each Soul adds +1 damage to its strikes, and they power its Guard and finisher. Ninefold floats, so Traps don\'t trigger on it. Each fighter\'s passive is written')};
 (function(){const r=document.querySelector('#rules .rules');if(r)r.innerHTML=rulesHTML()})();
+
+/* ===== v11: in-match tips for new players ===== */
+(function(){
+const st11=document.createElement('style');st11.textContent=`
+#tipbox{position:relative;z-index:2;margin:0 0 8px;flex:none;display:flex;gap:8px;align-items:flex-start;background:rgba(18,12,13,.96);border:1px solid var(--gold);border-radius:10px;padding:8px 10px;box-shadow:0 6px 18px rgba(0,0,0,.5);font-size:13px;line-height:1.35;color:#e6dccd;animation:tipIn .25s ease-out}
+#tipbox[hidden]{display:none}
+#tipbox .ti{flex:none;width:18px;height:18px;border-radius:50%;background:var(--gold);color:#1a1210;font-weight:800;display:grid;place-items:center;font-size:11px;margin-top:1px}
+#tipbox .tb{display:grid;gap:5px}
+#tipbox b{color:#fff}
+#tipbox .tl{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+#tipbox .tr{display:flex;gap:8px;flex-wrap:wrap}
+#tipbox button{font:inherit;font-size:11px;font-weight:700;border-radius:7px;padding:3px 9px;cursor:pointer;border:1px solid rgba(255,255,255,.2);background:transparent;color:#e6dccd}
+#tipbox button.ok{background:var(--gold);border-color:var(--gold);color:#1a1210}
+#tipbox button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+@keyframes tipIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){#tipbox{animation:none}}
+@media (max-width:760px){#tipbox{font-size:13px}}
+.tipset{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+`;const lastStyle=[...document.querySelectorAll('style')].pop();lastStyle.after(st11);
+
+const TIP_SEEN='mr-tips-seen-v1',TIP_OFF='mr-tips-off';
+const seen=()=>{try{return new Set(JSON.parse(lsGet(TIP_SEEN)||'[]'))}catch(e){return new Set()}};
+const markSeen=id=>{const s=seen();s.add(id);lsSet(TIP_SEEN,JSON.stringify([...s]))};
+const tipsOff=()=>lsGet(TIP_OFF)==='1';
+window.TIP={cur:null,turnKey:null,usedTurn:null};
+
+const playable=(s,o)=>s.hand.filter(c=>!info(s,o,c).why);
+const tierOf=c=>(TYPES[c.type]&&TYPES[c.type].tier)||0;
+const bench=s=>s.team.filter((m,k)=>k!==s.active&&!m.ko);
+
+/* priority order: first match wins */
+const TIPS=[
+ {id:'final',when:(s,o,a,t)=>G.final,
+  text:'<b>Final Round.</b> Both fighters healed to full and gain 3 Guard every turn. With 3 Meter and the enemy at 6 HP or less, a <b>Last Rite</b> wins on the spot.'},
+ {id:'blood',when:(s)=>typeof SUDDEN!=='undefined'&&s.turns>=SUDDEN,
+  text:'<b>Blood Rounds.</b> Your fighter now takes damage at the start of every turn, and it grows. Stop holding back: go for the knockout.'},
+ {id:'gripped',when:(s,o,a)=>a.st&&a.st.grip,
+  text:'You\'re <b>Gripped</b>: you can\'t tag out or raise Guard until it wears off. Spend this turn hitting back instead of blocking.'},
+ {id:'lowhp',when:(s,o,a)=>a.hp<=a.max*.3&&!s.tagUsed&&s.energy>=1&&!(a.st&&a.st.grip)&&bench(s).some(m=>m.hp>m.max*.5),
+  text:'Your fighter is close to falling. <b>Click a benched teammate</b> to tag them in for 1 Energy. Benched fighters recover 2 HP a turn.'},
+ {id:'bloom',when:(s,o,a)=>a.f.id==='harrow'&&(a.bloom||0)>=4,
+  text:'The Bloom is eating Harrow: it costs him HP every turn. Cash it in with <b>Rupture</b>, cool it with <b>Cauterize</b>, or tag him out to pause it.'},
+ {id:'energy',when:(s)=>s.turns<=1,
+  text:'Cards cost <b>Energy</b> (the gold dots). It refills every turn and grows by 1, up to 8. Leftover Energy doesn\'t carry over, so spend it, then press <b>End turn</b>.'},
+ {id:'chain',when:(s,o)=>{if(s.combo)return false;const ts=new Set(playable(s,o).map(tierOf).filter(Boolean));return ts.size>=2},
+  text:'Strikes chain <b>Light → Medium → Heavy</b>. Each hit gets +1 damage for every hit before it, so play your strikes in that order.'},
+ {id:'enemybreaker',when:(s,o)=>o.breaker,
+  text:'The enemy set a <b>Breaker</b>. If your chain reaches 3 hits it snaps and you lose 2 Energy. Stop at 2 hits, or make the third one count.'},
+ {id:'finready',when:(s,o)=>s.combo>=2&&s.hand.some(c=>c.type==='finisher'&&!info(s,o,c).why),
+  text:'Your chain is at 2+ and you have Meter: your <b>Finisher</b> is ready. It hits like a Heavy and closes the chain.'},
+ {id:'finlocked',when:(s)=>s.combo<2&&s.hand.some(c=>c.type==='finisher'),
+  text:'<b>Finishers</b> need a 2-hit chain and 1 Meter. Land two strikes this turn first, then play it.'},
+ {id:'traps',when:(s,o,a)=>o.traps&&o.traps.length&&a.f.id!=='ninefold',
+  text:'Face-down cards on the enemy\'s side are <b>Traps</b>. Your strikes can spring them. A cheap strike is a safe way to set one off.'},
+ {id:'dots',when:(s,o,a)=>a.st&&(a.st.burn||a.st.bleed||a.st.venom),
+  text:'<b>Burn, Bleed and Venom</b> hit at the start of your turn and ignore Guard. Tagging out halves them, and <b>Iron Will</b> clears them.'},
+ {id:'enemyguard',when:(s,o)=>o.guard>=3,
+  text:(s,o,a,t)=>`The enemy has <b>${o.guard} Guard</b>: it soaks damage until their next turn. Piercing damage and Guard-breaking cards get through.${t.f.id==='brannoch'?' Hitting Brannoch\'s Guard also hurts you back (Retaliate).':''}`},
+ {id:'block',when:(s,o)=>playable(s,o).some(c=>c.type==='block'),
+  text:'<b>Block</b> cards give Guard, which soaks the enemy\'s attacks until your next turn. Handy when you\'re ahead on HP or low on cards.'},
+ {id:'ex',when:(s,o)=>s.meter>=2&&!G.ex&&playable(s,o).some(c=>c.ex),
+  text:'You have Meter to spare. Press <b>Arm EX</b> before playing a card to use its stronger EX version (the gold line) for 1 Meter.'},
+ {id:'breaker',when:(s)=>s.meter>=3&&!s.breaker,
+  text:'With 2 Meter you can <b>Arm Breaker</b>. It waits on the field, and when the enemy\'s chain reaches 3 hits it snaps and costs them 2 Energy.'},
+ {id:'tagcard',when:(s,o)=>s.hand.some(c=>{const i=info(s,o,c);return !i.why&&i.tag!=null}),
+  text:'Cards from a benched teammate <b>tag them in</b> when you play them, for +1 Energy. Your chain stays alive.'},
+ {id:'echo',when:(s)=>s.hand.some(c=>c.echo),
+  text:'A fallen fighter\'s cards become <b>Echoes</b>: weaker, but they only cost 1 Energy.'},
+ {id:'rite',when:(s)=>!G.final&&s.hand.some(c=>c.type==='rite'),
+  text:'<b>Last Rites</b> only work in the Final Round, with the enemy at 6 HP or less and 3 Meter. Hold on to it.'},
+ {id:'souls',when:(s,o,a)=>a.f.id==='ninefold'&&(a.souls||0)>=2,
+  text:'Each <b>Soul</b> adds +1 damage to Ninefold\'s strikes. Play Specials to gather more, then spend them all on The Unclaimed Rise.'},
+ {id:'gripslam',when:(s,o,a,t)=>t.st&&t.st.grip&&s.hand.some(c=>c.id==='slam'),
+  text:'The enemy is Gripped: <b>Ossuary Slam</b> deals +2 damage per Grip and ends it. Now\'s the time.'},
+ {id:'wounded',when:(s,o,a,t)=>t.hp<=t.max*.25&&!t.ko,
+  text:'The enemy fighter is nearly down. Push the damage now: a knockout swaps in their next fighter.'},
+];
+
+function tipBox(){let b=document.getElementById('tipbox');if(!b){const ar=document.querySelector('#duel .record');if(!ar)return null;b=document.createElement('div');b.id='tipbox';b.setAttribute('role','status');b.setAttribute('aria-live','polite');b.hidden=true;const hd=ar.querySelector('h3');if(hd)hd.after(b);else ar.prepend(b)}return b}
+function hideTip(){const b=document.getElementById('tipbox');if(b)b.hidden=true;TIP.cur=null}
+function tipsUpdate(){
+  const b=tipBox();if(!b)return;
+  if(tipsOff()||!G||G.over||G.end||CUR_SCREEN!=='duel'||(typeof TUT!=='undefined'&&TUT.on)||G.act!==0||G.s[0].ai){hideTip();return}
+  const s=G.s[0],o=G.s[1],a=act(s),t=act(o);const key=`${G.id}:${s.turns}`;
+  if(TIP.turnKey!==key){TIP.turnKey=key;TIP.cur=null}
+  if(TIP.cur){const tp=TIPS.find(x=>x.id===TIP.cur);let ok=false;try{ok=tp.when(s,o,a,t)}catch(e){}if(ok){b.hidden=false;return}hideTip();return}
+  if(TIP.usedTurn===key){b.hidden=true;return}
+  const sn=seen();
+  for(const tp of TIPS){if(sn.has(tp.id))continue;let ok=false;try{ok=tp.when(s,o,a,t)}catch(e){}if(!ok)continue;
+    TIP.cur=tp.id;TIP.usedTurn=key;markSeen(tp.id);
+    const txt=typeof tp.text==='function'?tp.text(s,o,a,t):tp.text;const left=TIPS.filter(x=>!sn.has(x.id)).length-1;
+    b.innerHTML=`<span class="ti" aria-hidden="true">?</span><div class="tb"><span>${txt}</span><div class="tr"><button class="ok" data-tip="ok">Got it</button><button data-tip="off">Turn off tips</button></div></div>`;
+    b.hidden=false;return}
+  b.hidden=true;
+}
+window.tipsUpdate=tipsUpdate;
+
+const _renderV11=render;render=function(){const r=_renderV11.apply(this,arguments);try{tipsUpdate()}catch(e){}return r};
+const _showV11=show;show=function(n){const r=_showV11.apply(this,arguments);if(n!=='duel')hideTip();return r};
+
+document.addEventListener('click',e=>{const btn=e.target.closest('[data-tip]');if(!btn)return;e.stopPropagation();
+  const k=btn.dataset.tip;
+  if(k==='ok'){hideTip()}
+  else if(k==='off'){lsSet(TIP_OFF,'1');hideTip();toast('Tips are off. Turn them back on from Rules.')}
+  else if(k==='on'){lsSet(TIP_OFF,'0');toast('Match tips are on.');rerenderRulesTips()}
+  else if(k==='reset'){lsSet(TIP_SEEN,'[]');lsSet(TIP_OFF,'0');TIP.usedTurn=null;toast('All tips will show again.');rerenderRulesTips()}
+},true);
+
+function tipsSettingHTML(){return `<div class="tipset" id="tipset"><span>Match tips are <b>${tipsOff()?'off':'on'}</b>.</span>${tipsOff()?'<button class="btn sm" data-tip="on">Turn tips on</button>':''}<button class="btn sm" data-tip="reset">Show all tips again</button></div>`}
+function rerenderRulesTips(){const el=document.getElementById('tipset');if(el)el.outerHTML=tipsSettingHTML()}
+const _rulesV11=rulesHTML;rulesHTML=function(){let h=_rulesV11.apply(this,arguments);const add=`<div class="rsec"><h3>Match tips</h3><p>New players get one short tip per turn during matches, based on what's happening on the field.</p>${tipsSettingHTML()}</div>\n  `;const m='<div class="row" style="margin-top:14px"><button class="btn gold" id="rules-close"';return h.includes(m)?h.replace(m,add+m):h+add};
+const rl=document.querySelector('#rules .rules');if(rl)rl.innerHTML=rulesHTML();
+})();
+
+/* ===== v12: larger playing field ===== */
+(function(){
+const st12=document.createElement('style');st12.textContent=`
+#scr-duel .wrap{max-width:min(2200px,calc(100vw - 32px))}
+@media (min-width:761px){
+  #scr-duel{--fh:clamp(160px,calc(100vh - 648px),620px)}
+  .arena{grid-template-columns:minmax(0,1fr) minmax(0,clamp(300px,24vw,420px))}
+  .stage{min-height:var(--fh);gap:clamp(14px,1.6vw,28px);padding:clamp(8px,1vh,16px) clamp(14px,1.4vw,24px)}
+  .stage .card{--cw:clamp(102px,calc(var(--fh) * .52),230px)}
+  .lane .card{--cw:clamp(72px,calc(var(--fh) * .34),150px)}
+  .lane-tag{width:clamp(72px,calc(var(--fh) * .34),150px)}
+  .lane{max-width:58%}
+  .stage-info{max-width:40ch}
+  .stage-info b{font-size:clamp(22px,calc(var(--fh) * .07),32px)}
+  .stage-info p{font-size:clamp(14px,calc(var(--fh) * .036),17px)}
+  .stage .stage-empty{font-size:clamp(15px,calc(var(--fh) * .04),19px)}
+}
+/* laptop heights: slimmer fighter bars and hand, more room for the field */
+@media (min-width:901px) and (max-height:1000px){
+  #scr-duel{--fh:clamp(160px,calc(100vh - 570px),620px)}
+  #scr-duel .bar{padding:6px 12px}
+  #scr-duel .bench{flex-flow:row nowrap;gap:6px}
+  #scr-duel .hand .card{--cw:124px}
+  #scr-duel .hand{padding-top:21px;padding-bottom:4px}
+}
+`;const last=[...document.querySelectorAll('style')].pop();last.after(st12);
+})();
 
 SAVE=loadLocal()||defaultSave();
 if(TEST_FULL_COLLECTION){let added=false;CARDS.forEach(c=>{if(c.rarity!=='basic'&&(SAVE.owned[c.id]||0)<LIMIT(c)){SAVE.owned[c.id]=LIMIT(c);added=true}});if(!SAVE.unlocked.includes('vorhul')){SAVE.unlocked.push('vorhul');added=true}if(added)persist()}
