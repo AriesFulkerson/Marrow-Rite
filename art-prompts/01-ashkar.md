@@ -60,7 +60,7 @@ Style: follow the Marrow Rite style bible. Attached art references: The Burning 
 
 ## Step 3 · Card prompts (10)
 
-### 019 · Kindle
+### 019 · Kindle (art done)
 Special · common · cost 1  
 Rules: 2 damage. +1 Heat. Overcharge (3+ Meter): +1 more Heat.  
 EX: 3 damage. +2 Heat.
@@ -76,7 +76,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 020 · Ember Palm
+### 020 · Ember Palm (art done)
 Special · rare · cost 2  
 Rules: 3 + Heat damage. Burn 2.  
 EX: 5 + Heat damage. Burn 3.
@@ -92,7 +92,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 021 · Self-Immolation
+### 021 · Self-Immolation (art done)
 Special · rare · cost 1  
 Rules: Lose 3 HP. +2 Heat. Your hits deal +2 this turn.  
 EX: No HP lost.
@@ -108,7 +108,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 022 · Cinder Skin
+### 022 · Cinder Skin (art done)
 Block · rare · cost 2  
 Rules: Gain 4 Guard. +1 Heat.  
 EX: Gain 6 Guard. +2 Heat.
@@ -124,7 +124,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 023 · Firewalk
+### 023 · Firewalk (art done)
 Special · epic · cost 3  
 Rules: Spend all Heat: hit once per Heat for 2.  
 EX: Hit once per Heat for 3.
@@ -140,7 +140,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 024 · Pyre Kick
+### 024 · Pyre Kick (art done)
 Finisher · epic · cost 3  
 Rules: 5 + Heat damage. Burn 2. Needs a 2+ hit chain and 1 Meter. Closes the chain.  
 EX: 9 + Heat damage. Burn 2. Costs 1 extra Meter.
@@ -156,7 +156,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 025 · Lit From Within
+### 025 · Lit From Within (art done)
 Last Rite · legendary · cost 3 Meter  
 Rules: Final Round only, enemy at 6 HP or less. 3 Meter. Ends the match.  
 Flavour: Ashkar presses two fingers to the throat. The fire goes in there, and leaves through the eyes.
@@ -173,7 +173,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 069 · Incense Burner (new)
+### 069 · Incense Burner (new) (art done)
 Skill · common · cost 1  
 Rules: +2 Heat. Draw 1 card.  
 EX: +3 Heat. Draw 1.
@@ -189,7 +189,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 070 · Flare-Up (new)
+### 070 · Flare-Up (new) (art done)
 Heavy · rare · cost 3  
 Rules: 4 + Heat damage.  
 EX: 6 + Heat damage.
@@ -205,7 +205,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 071 · Pyre Oath (new)
+### 071 · Pyre Oath (new) (art done)
 Special · epic · cost 1  
 Rules: Lose 4 HP. Gain 2 Meter. +2 Heat.
 
@@ -224,7 +224,7 @@ Style: follow the Marrow Rite style bible.
 
 Echoes are what a fighter's cards become after that fighter is knocked out. Make each one feel like an afterimage: desaturated, translucent, drifting, with the fighter's accent colour as the only saturated tone.
 
-### E1 · Embers
+### E1 · Embers (art done)
 Echo · common · cost 1  
 Rules: Echo of Ashkar, who has fallen. 1 damage. Burn 1.
 
