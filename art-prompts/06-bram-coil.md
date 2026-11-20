@@ -108,7 +108,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 057 · Gallows Drop
+### 057 · Gallows Drop (art done)
 Special · rare · cost 3  
 Rules: 5 damage. +3 if the target is under 50% HP.  
 EX: 7 damage.
@@ -124,7 +124,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 058 · Executioner's Due
+### 058 · Executioner's Due (art done)
 Special · epic · cost 3  
 Rules: 4 damage. Then if the target has 6 HP or less and is not their last fighter, they are executed.  
 EX: 5 damage. Executes at 8 or less.
@@ -140,7 +140,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 059 · Hanging Judgment
+### 059 · Hanging Judgment (art done)
 Finisher · epic · cost 3  
 Rules: 7 damage. Drain 2. Needs a 2+ hit chain and 1 Meter. Closes the chain.  
 EX: 11 damage. Drain 2. Costs 1 extra Meter.
@@ -156,7 +156,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 060 · The Gibbet
+### 060 · The Gibbet (art done)
 Last Rite · legendary · cost 3 Meter  
 Rules: Final Round only, enemy at 6 HP or less. 3 Meter. Ends the match.  
 Flavour: Bram hangs them in a cage above the gate. The next hundred years of challengers will walk in beneath them.
@@ -173,7 +173,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 084 · Hangman's Knot (new)
+### 084 · Hangman's Knot (new) (art done)
 Light · common · cost 1  
 Rules: 1 damage. Noose 1.  
 EX: 2 damage. Noose 2.
