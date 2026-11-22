@@ -58,7 +58,7 @@ Palette: black silk, burnished gold, cracked porcelain white, void black.
 Style: follow the Marrow Rite style bible. Attached art references: One Hundred Aspects of the Moon (Tsukioka Yoshitoshi) for line, silhouette and melancholy; Yūrei (ghost tradition) (Japanese painting) for long hair, pale robes, the restless dead; Kawanabe Kyōsai (Kyōsai) for grotesque, hungry spirits.
 ```
 
-## Step 3 · Card prompts (10)
+## Step 3 · Card prompts (13)
 
 ### 040 · Hollow Step
 Special · common · cost 2  
@@ -214,6 +214,53 @@ Attached are the approved concept portrait of Lady Wen (lady-wen.png) and the re
 Card illustration for "Endless Banquet", a skill (epic) card for Lady Wen in Marrow Rite.
 Scene: Lady Wen alone at the head of an endless wedding table, platters emptying in front of her faster than servants can fill them.
 What the card does, for tone: Discard your 2 cheapest other cards. Draw 3. Gain 1 Meter.
+Palette: black silk, burnished gold, cracked porcelain white, void black.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 130 · Empty Plate (expansion)
+Skill · common · cost 0  
+Rules: Discard 1 card. Gain 1 Energy.  
+
+```
+Attached are the approved concept portrait of Lady Wen (lady-wen.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Empty Plate", a skill (common) card for Lady Wen in Marrow Rite.
+Scene: Lady Wen cradling an empty porcelain bowl in candlelight, long shadows gathering at her feet.
+What the card does, for tone: Discard 1 card. Gain 1 Energy.
+Palette: black silk, burnished gold, cracked porcelain white, void black.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 131 · Ravenous (expansion)
+Medium · rare · cost 2  
+Rules: 3 damage. Draw 1.  
+EX: 4 damage. Draw 2.  
+
+```
+Attached are the approved concept portrait of Lady Wen (lady-wen.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Ravenous", a medium (rare) card for Lady Wen in Marrow Rite.
+Scene: Lady Wen reaching for a rival as the candlelight catches the hunger in her hollow eyes.
+What the card does, for tone: 3 damage. Draw 1.
+Palette: black silk, burnished gold, cracked porcelain white, void black.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 132 · Unfed Hunger (expansion)
+Special · epic · cost 3  
+Rules: Hit twice for 2.  
+EX: Hit twice for 3.  
+
+```
+Attached are the approved concept portrait of Lady Wen (lady-wen.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Unfed Hunger", a special (epic) card for Lady Wen in Marrow Rite.
+Scene: Lady Wen striking twice out of the dark, her gaunt silhouette framed by a ring of watching candles.
+What the card does, for tone: Hit twice for 2.
 Palette: black silk, burnished gold, cracked porcelain white, void black.
 Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
 Style: follow the Marrow Rite style bible.

@@ -1,8 +1,12 @@
 # Marrow Rite: art prompts, start here
 
-One file per fighter, each self-contained. Every prompt is generated from the game's current card data (114 cards) and matches your concept portraits.
+One file per fighter, each self-contained. Every prompt is generated from the game's current card data (147 cards) and matches your concept portraits.
 
-## What changed in this update
+## What changed in this update: the Ossuary Season expansion
+- **33 new cards (115-147):** 6 neutral cards plus 3 for every fighter, Vorhul included. Each is marked "(expansion)" in its fighter's file, under Step 3 (Step 4 for Harrow and Ninefold). Neutral: Veiled Feint, Iron Backfist, Grave Roar, Lasting Brace, Blinding Sand, Pit's Due. Ashkar: Cinder Jab, Smoke Veil, Ashen Sermon. Sable Moru: Black Lancet, Mercy Stitch, Blood Tax. Brannoch: Linen Lash, Grave Weight, Cleansing Shroud. Lady Wen: Empty Plate, Ravenous, Unfed Hunger. Old Teeth: Leech Bite, Mire Wall, Drowning Mire. Bram Coil: Noose Snap, Gallows Chain, Last Walk. Vorhul: King's Decree, Crown Guard, King's Hand. Harrow: Bone Spur, Bone Thicket, Septic Bloom. Ninefold: Ghost Touch, Soul Wail, Pallbearer's Grip.
+- **Rules text changed on 7 existing cards** (names and art unchanged, prompts updated): Soul Bolt 2 damage (EX 3 piercing), Stitch Up 3 Guard + Heal 3, Amputation 5 damage, Flare-Up 5 + Heat, Incense Burner +3 Heat, Pyre Oath lose 3 HP, Tomb Slam 3 damage + 2 Guard. No fighter HP changed and the starter decks are untouched.
+
+## Earlier update
 - **Two new fighters:** Harrow, The Bloomed (09-harrow.md) and Ninefold, The Unclaimed (10-ninefold.md), 20 new cards numbered 095-114 plus Echoes E8 and E9. Neither has a concept portrait yet, so their files start with a concept-portrait prompt (Step 2). Make that first; the reference sheet and card prompts are anchored to it.
 - **New mechanics:** Bloom (Harrow grows 1 a turn, max 6; his strikes deal +1 per 2 Bloom, and it costs him half its value in HP each turn). Grip (Ninefold: for 2 turns the target can't tag out or raise Guard; Slams hit harder per Grip). Souls (Ninefold gains 1 per Special, max 5; each Soul adds +1 damage to its strikes). Ninefold floats, so Traps never trigger on it.
 - **New starter deck:** Bonebloom (Sable Moru, Harrow, Ninefold).
@@ -11,23 +15,23 @@ One file per fighter, each self-contained. Every prompt is generated from the ga
 
 ### Earlier update
 - **26 new cards:** 3 per character (including Vorhul) and 5 neutral cards. Each is marked "(new)": Incense Burner, Flare-Up, Pyre Oath, Stitch Up, Leech Jar, Amputation, Tomb Slam, Gatekeeper's Oath, Sealed Door, Bitten Veil, Porcelain Crack, Endless Banquet, Bog Eel, Wait in the Reeds, Hag's Bargain, Hangman's Knot, Trapdoor, Death Warrant, Throne of Bones, Kneel, The Hundredth Rite, Elbow, Headbutt, Grapple, Smelling Salts, Blood Price.
-- **Finished art:** Gatebreaker, Wind the Linen, Jab, Cross, Uppercut, Block, Low Sweep, Knee Strike, Throw, Haymaker, Parry, Second Wind, Taunt, Iron Will, Adrenaline, Bloodlust, Crowd's Favor, Open Wounds, Stand Firm, Flurry, Blood Surge, Iron Skin, Second Breath, Last Gasp, Elbow, Headbutt, Grapple, Smelling Salts, Blood Price, Sealed Door, Loose Linen (Echo), Rope Burn, Chain Hook, Drag to the Gallows, Gallows Drop, Executioner's Due, Hanging Judgment, The Gibbet, Hangman's Knot, Trapdoor, Death Warrant, Kindle, Ember Palm, Self-Immolation, Cinder Skin, Firewalk, Pyre Kick, Lit From Within, Incense Burner, Flare-Up, Pyre Oath, Embers and Frayed Rope now use your illustrations in the game. Their prompts are marked "(art done)".
+- **Finished art:** Gatebreaker, Wind the Linen, Jab, Cross, Uppercut, Block, Low Sweep, Knee Strike, Throw, Haymaker, Parry, Second Wind, Taunt, Iron Will, Adrenaline, Bloodlust, Crowd's Favor, Open Wounds, Stand Firm, Flurry, Blood Surge, Iron Skin, Second Breath, Last Gasp, Elbow, Headbutt, Grapple, Smelling Salts, Blood Price, Sealed Door, Loose Linen (Echo), Rope Burn, Chain Hook, Drag to the Gallows, Gallows Drop, Executioner's Due, Hanging Judgment, The Gibbet, Hangman's Knot, Trapdoor, Death Warrant, Kindle, Ember Palm, Self-Immolation, Cinder Skin, Firewalk, Pyre Kick, Lit From Within, Incense Burner, Flare-Up, Pyre Oath, Embers, Frayed Rope, Soul Bolt, Hollow Grip, Ossuary Slam, Drift, Grave Hurl, Bone Orbit, Soul Rend, Chorus of the Interred, The Unclaimed Rise, Interment and Lost Voice now use your illustrations in the game. Their prompts are marked "(art done)".
 - **Echo cards:** each fighter's file ends with its Echo prompt (E1-E9). They're also in the in-game Art Prompts screen.
 - **Balance changes:** Pyre Kick 5 + Heat (EX 9), Vivisection 4 piercing with Bleed 2 (EX 8), Amputation 4 (EX 6), Brannoch 31 HP. The Gate Holds starter now runs Grapple instead of Haymaker.
 - **Matchup rules (latest):** tagging out now halves Burn, Bleed, Venom and Noose (rounded up) instead of clearing them. Brannoch's Grave Linen now gives 3 Guard a turn and his Guard soaks effect damage. Retaliate triggers once per card instead of once per hit. Thousand Cuts runs 2 Trapdoor instead of 2 Cross. No card names or art changed.
 - **Removed:** nothing. Collector numbers of existing cards are unchanged; new cards are 069-094.
 
 ## Files
-- 01-ashkar.md: Ashkar, The Ember Monk (Self-burn aggro), 10 cards + 1 Echo, portrait ashkar.png
-- 02-sable-moru.md: Sable Moru, The Stitched Surgeon (Bleed attrition), 10 cards + 1 Echo, portrait sable-moru.png
-- 03-brannoch.md: Brannoch, The Wrapped (Retaliation tank), 10 cards + 1 Echo, portrait brannoch.png
-- 04-lady-wen.md: Lady Wen, Of the Hollow (Discard engine), 10 cards + 1 Echo, portrait lady-wen.png
-- 05-old-teeth.md: Old Teeth, The Bog Mother (Traps & venom control), 10 cards + 1 Echo, portrait old-teeth.png
-- 06-bram-coil.md: Bram Coil, The Hook (Tag control & executions), 10 cards + 1 Echo, portrait bram-coil.png
-- 07-vorhul.md: Vorhul, The Unburied (Boss: tithe & drain), 7 cards + 1 Echo, portrait vorhul.png
-- 08-neutral-cards-frames-arenas.md: the 27 neutral cards, card back, rarity frames, foil, Meter gem, arenas and logo
-- 09-harrow.md: Harrow, The Bloomed (Bonebloom berserker), 10 cards + 1 Echo, no portrait yet (concept-portrait prompt included)
-- 10-ninefold.md: Ninefold, The Unclaimed (Telekinetic control), 10 cards + 1 Echo, no portrait yet (concept-portrait prompt included)
+- 01-ashkar.md: Ashkar, The Ember Monk (Self-burn aggro), 13 cards + 1 Echo, portrait ashkar.png
+- 02-sable-moru.md: Sable Moru, The Stitched Surgeon (Bleed attrition), 13 cards + 1 Echo, portrait sable-moru.png
+- 03-brannoch.md: Brannoch, The Wrapped (Retaliation tank), 13 cards + 1 Echo, portrait brannoch.png
+- 04-lady-wen.md: Lady Wen, Of the Hollow (Discard engine), 13 cards + 1 Echo, portrait lady-wen.png
+- 05-old-teeth.md: Old Teeth, The Bog Mother (Traps & venom control), 13 cards + 1 Echo, portrait old-teeth.png
+- 06-bram-coil.md: Bram Coil, The Hook (Tag control & executions), 13 cards + 1 Echo, portrait bram-coil.png
+- 07-vorhul.md: Vorhul, The Unburied (Boss: tithe & drain), 10 cards + 1 Echo, portrait vorhul.png
+- 08-neutral-cards-frames-arenas.md: the 33 neutral cards, card back, rarity frames, foil, Meter gem, arenas and logo
+- 09-harrow.md: Harrow, The Bloomed (Bonebloom berserker), 13 cards + 1 Echo, no portrait yet (concept-portrait prompt included)
+- 10-ninefold.md: Ninefold, The Unclaimed (Telekinetic control), 13 cards + 1 Echo, no portrait yet (concept-portrait prompt included)
 
 ## Starter decks
 - **Plague Pyre** (Sable Moru, Ashkar, Old Teeth): Stack Burn, Bleed and Venom, then cash them in. Every effect ticks through Guard, and Open Wounds hits harder for each one on the target.

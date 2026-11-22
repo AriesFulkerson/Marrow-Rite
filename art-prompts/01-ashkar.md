@@ -58,7 +58,7 @@ Palette: ash grey, charcoal black, saffron, ember orange.
 Style: follow the Marrow Rite style bible. Attached art references: The Burning of the Houses of Lords and Commons (J. M. W. Turner) for fire as a light source; smoke and glow; Francisco de Zurbarán (ascetic saints) (Zurbarán) for gaunt, devout figures in stark single-source light; The Calling of Saint Matthew (Caravaggio) for hard raking light on faces and hands.
 ```
 
-## Step 3 · Card prompts (10)
+## Step 3 · Card prompts (13)
 
 ### 019 · Kindle (art done)
 Special · common · cost 1  
@@ -175,15 +175,15 @@ Style: follow the Marrow Rite style bible.
 
 ### 069 · Incense Burner (new) (art done)
 Skill · common · cost 1  
-Rules: +2 Heat. Draw 1 card.  
-EX: +3 Heat. Draw 1.
+Rules: +3 Heat. Draw 1 card.  
+EX: +4 Heat. Draw 1.  
 
 ```
 Attached are the approved concept portrait of Ashkar (ashkar.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
 
 Card illustration for "Incense Burner", a skill (common) card for Ashkar in Marrow Rite.
 Scene: Ashkar kneeling before a bronze incense burner, thick smoke coiling up around him and catching the ember glow of his palms.
-What the card does, for tone: +2 Heat. Draw 1 card.
+What the card does, for tone: +3 Heat. Draw 1 card.
 Palette: ash grey, charcoal black, saffron, ember orange.
 Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
 Style: follow the Marrow Rite style bible.
@@ -191,15 +191,15 @@ Style: follow the Marrow Rite style bible.
 
 ### 070 · Flare-Up (new) (art done)
 Heavy · rare · cost 3  
-Rules: 4 + Heat damage.  
-EX: 6 + Heat damage.
+Rules: 5 + Heat damage.  
+EX: 7 + Heat damage.  
 
 ```
 Attached are the approved concept portrait of Ashkar (ashkar.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
 
 Card illustration for "Flare-Up", a heavy (rare) card for Ashkar in Marrow Rite.
 Scene: Ashkar's whole body flaring like a struck match as he drives a burning fist down, flames roaring up from the cracks in his skin.
-What the card does, for tone: 4 + Heat damage.
+What the card does, for tone: 5 + Heat damage.
 Palette: ash grey, charcoal black, saffron, ember orange.
 Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
 Style: follow the Marrow Rite style bible.
@@ -207,14 +207,62 @@ Style: follow the Marrow Rite style bible.
 
 ### 071 · Pyre Oath (new) (art done)
 Special · epic · cost 1  
-Rules: Lose 4 HP. Gain 2 Meter. +2 Heat.
+Rules: Lose 3 HP. Gain 2 Meter. +2 Heat.  
 
 ```
 Attached are the approved concept portrait of Ashkar (ashkar.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
 
 Card illustration for "Pyre Oath", a special (epic) card for Ashkar in Marrow Rite.
 Scene: Ashkar pressing a glowing palm to his own chest, burning a vow into his skin, eyes closed, smoke rising off him.
-What the card does, for tone: Lose 4 HP. Gain 2 Meter. +2 Heat.
+What the card does, for tone: Lose 3 HP. Gain 2 Meter. +2 Heat.
+Palette: ash grey, charcoal black, saffron, ember orange.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 121 · Cinder Jab (expansion)
+Light · common · cost 1  
+Rules: 1 damage. +1 Heat.  
+EX: 2 damage. +1 Heat.  
+
+```
+Attached are the approved concept portrait of Ashkar (ashkar.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Cinder Jab", a light (common) card for Ashkar in Marrow Rite.
+Scene: Ashkar's fist blooming with ember light as he lunges out of a veil of smoke.
+What the card does, for tone: 1 damage. +1 Heat.
+Palette: ash grey, charcoal black, saffron, ember orange.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 122 · Smoke Veil (expansion)
+Block · rare · cost 1  
+Rules: Gain 3 Guard. +1 Heat.  
+EX: Gain 5 Guard. +1 Heat.  
+
+```
+Attached are the approved concept portrait of Ashkar (ashkar.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Smoke Veil", a block (rare) card for Ashkar in Marrow Rite.
+Scene: Ashkar half-hidden behind a rolling curtain of soot, one raised palm glowing faintly through it.
+What the card does, for tone: Gain 3 Guard. +1 Heat.
+Palette: ash grey, charcoal black, saffron, ember orange.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 123 · Ashen Sermon (expansion)
+Special · epic · cost 2  
+Rules: Burn 3. +1 Heat.  
+EX: Burn 4. +2 Heat.  
+
+```
+Attached are the approved concept portrait of Ashkar (ashkar.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Ashen Sermon", a special (epic) card for Ashkar in Marrow Rite.
+Scene: Ashkar preaching beside a dying brazier, the shadows of the listening crowd stretching like flames across the stone.
+What the card does, for tone: Burn 3. +1 Heat.
 Palette: ash grey, charcoal black, saffron, ember orange.
 Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
 Style: follow the Marrow Rite style bible.

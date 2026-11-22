@@ -8,7 +8,7 @@ Neutral cards show anonymous tournament fighters, so they need no portrait or sh
 - [Sedlec Ossuary](https://en.wikipedia.org/wiki/Sedlec_Ossuary) (Kutná Hora): The Throne room
 - [Melencolia I](https://en.wikipedia.org/wiki/Melencolia_I) (Albrecht Dürer): Engraved ornament for card frames
 
-## Neutral card prompts (27)
+## Neutral card prompts (33)
 
 ### 001 · Jab (art done)
 Light · basic · cost 1  
@@ -370,6 +370,89 @@ Rules: Costs 2 Meter, no Energy. 6 piercing damage.
 Card illustration for "Blood Price", a special (epic) card in Marrow Rite.
 Scene: A fighter paying a masked bookmaker in bloody coins, then turning toward the opponent with murder in their eyes.
 What the card does, for tone: Costs 2 Meter, no Energy. 6 piercing damage.
+Palette: bone, ash and rust with one blood-red accent.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 115 · Veiled Feint (expansion)
+Light · common · cost 1  
+Rules: 1 damage. Draw 1.  
+EX: 2 damage. Draw 1.  
+
+```
+Card illustration for "Veiled Feint", a light (common) card in Marrow Rite.
+Scene: A fighter's shadow striking a heartbeat before the fighter does, pale lanternlight glinting on a turned shoulder.
+What the card does, for tone: 1 damage. Draw 1.
+Palette: bone, ash and rust with one blood-red accent.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 116 · Iron Backfist (expansion)
+Medium · common · cost 2  
+Rules: Break 2 Guard. 3 damage.  
+EX: Break 4 Guard. 4 damage.  
+
+```
+Card illustration for "Iron Backfist", a medium (common) card in Marrow Rite.
+Scene: A wrapped fist arcing through torch smoke as an opponent's raised shield buckles inward.
+What the card does, for tone: Break 2 Guard. 3 damage.
+Palette: bone, ash and rust with one blood-red accent.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 117 · Grave Roar (expansion)
+Skill · rare · cost 1  
+Rules: Gain 1 Meter. Draw 1.  
+
+```
+Card illustration for "Grave Roar", a skill (rare) card in Marrow Rite.
+Scene: A fighter bellowing up at the vaulted bone arches, dust and candle flames shuddering in the dark.
+What the card does, for tone: Gain 1 Meter. Draw 1.
+Palette: bone, ash and rust with one blood-red accent.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 118 · Lasting Brace (expansion)
+Block · common · cost 1  
+Rules: Gain 2 Guard. Draw 1.  
+EX: Gain 4 Guard. Draw 1.  
+
+```
+Card illustration for "Lasting Brace", a block (common) card in Marrow Rite.
+Scene: A fighter setting their feet behind a battered round shield as a blade's shadow looms across the wall.
+What the card does, for tone: Gain 2 Guard. Draw 1.
+Palette: bone, ash and rust with one blood-red accent.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 119 · Blinding Sand (expansion)
+Special · rare · cost 1  
+Rules: Drain 2: the target has 2 less Energy next turn.  
+EX: Drain 3.  
+
+```
+Card illustration for "Blinding Sand", a special (rare) card in Marrow Rite.
+Scene: A fistful of ash-grey grit spiralling through a shaft of torchlight toward a rival's narrowed eyes.
+What the card does, for tone: Drain 2: the target has 2 less Energy next turn.
+Palette: bone, ash and rust with one blood-red accent.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 120 · Pit's Due (expansion)
+Heavy · epic · cost 3  
+Rules: 5 damage, +2 if the target is below half HP.  
+EX: 7 damage, +3 if below half HP.  
+
+```
+Card illustration for "Pit's Due", a heavy (epic) card in Marrow Rite.
+Scene: A wounded fighter swaying beneath the arena's huge shadow as the torchlit tiers of the crowd lean inward.
+What the card does, for tone: 5 damage, +2 if the target is below half HP.
 Palette: bone, ash and rust with one blood-red accent.
 Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
 Style: follow the Marrow Rite style bible.

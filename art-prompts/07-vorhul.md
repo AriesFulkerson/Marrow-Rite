@@ -56,7 +56,7 @@ Palette: bone ivory, tarnished gold, candle amber.
 Style: follow the Marrow Rite style bible. Attached art references: Sedlec Ossuary (Kutná Hora) for architecture and chandeliers made of bone; Capuchin Crypt (Rome) for arranged remains, dressed skeletons; Isle of the Dead (Arnold Böcklin) for silent, monumental mood.
 ```
 
-## Step 3 · Card prompts (7)
+## Step 3 · Card prompts (10)
 
 ### 061 · Crown of Teeth
 Special · epic · cost 3  
@@ -166,6 +166,53 @@ Card illustration for "The Hundredth Rite", a skill (legendary) card for Vorhul 
 Scene: Vorhul raising both arms in the bone cathedral as a hundred candles flare at once and the crowd falls silent.
 What the card does, for tone: Gain 3 Meter. Heal 4.
 Palette: bone ivory, tarnished gold, candle amber. Make this one feel monumental: a wider view, a gold rim light and a sense of ceremony.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 139 · King's Decree (expansion)
+Skill · epic · cost 2  
+Rules: Drain 2. Gain 1 Meter.  
+
+```
+Attached are the approved concept portrait of Vorhul (vorhul.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "King's Decree", a skill (epic) card for Vorhul in Marrow Rite.
+Scene: Vorhul raising one bony hand from his throne as the court's candles gutter under his gaze.
+What the card does, for tone: Drain 2. Gain 1 Meter.
+Palette: bone ivory, tarnished gold, candle amber.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 140 · Crown Guard (expansion)
+Block · epic · cost 2  
+Rules: Gain 4 Guard. Steal 1 Meter.  
+EX: Gain 6 Guard. Steal 1 Meter.  
+
+```
+Attached are the approved concept portrait of Vorhul (vorhul.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Crown Guard", a block (epic) card for Vorhul in Marrow Rite.
+Scene: Vorhul turning a blow aside with one gauntlet, a thin glint of light running along his crown.
+What the card does, for tone: Gain 4 Guard. Steal 1 Meter.
+Palette: bone ivory, tarnished gold, candle amber.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 141 · King's Hand (expansion)
+Medium · epic · cost 2  
+Rules: 4 damage. Heal 2.  
+EX: 6 damage. Heal 3.  
+
+```
+Attached are the approved concept portrait of Vorhul (vorhul.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "King's Hand", a medium (epic) card for Vorhul in Marrow Rite.
+Scene: Vorhul extending a ringed, skeletal hand toward a wavering challenger, the throne of bone looming behind him.
+What the card does, for tone: 4 damage. Heal 2.
+Palette: bone ivory, tarnished gold, candle amber.
 Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
 Style: follow the Marrow Rite style bible.
 ```

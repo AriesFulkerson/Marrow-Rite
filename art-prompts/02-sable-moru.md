@@ -58,7 +58,7 @@ Palette: black, oxblood red, brass, dirty linen white.
 Style: follow the Marrow Rite style bible. Attached art references: The Anatomy Lesson of Dr. Nicolaes Tulp (Rembrandt) for the surgeon as showman; theatre of the body; The Gross Clinic (Thomas Eakins) for operating-theatre lighting, dark surroundings; The Death of Marat (Jacques-Louis David) for restrained, clinical treatment of violence.
 ```
 
-## Step 3 · Card prompts (10)
+## Step 3 · Card prompts (13)
 
 ### 026 · Scalpel Flick
 Special · common · cost 1  
@@ -175,15 +175,15 @@ Style: follow the Marrow Rite style bible.
 
 ### 072 · Stitch Up (new)
 Block · common · cost 1  
-Rules: Gain 2 Guard. Heal 2.  
-EX: Gain 3 Guard. Heal 3.
+Rules: Gain 3 Guard. Heal 3.  
+EX: Gain 4 Guard. Heal 4.  
 
 ```
 Attached are the approved concept portrait of Sable Moru (sable-moru.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
 
 Card illustration for "Stitch Up", a block (common) card for Sable Moru in Marrow Rite.
 Scene: Sable sewing her own forearm shut with quick black stitches, grinning, the needle held in her teeth.
-What the card does, for tone: Gain 2 Guard. Heal 2.
+What the card does, for tone: Gain 3 Guard. Heal 3.
 Palette: black, oxblood red, brass, dirty linen white.
 Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
 Style: follow the Marrow Rite style bible.
@@ -207,15 +207,63 @@ Style: follow the Marrow Rite style bible.
 
 ### 074 · Amputation (new)
 Heavy · epic · cost 3  
-Rules: 4 damage, +3 if the target is under 50% HP. Bleed 1.  
-EX: 6 damage (+3 under 50%). Bleed 2.
+Rules: 5 damage, +3 if the target is under 50% HP. Bleed 1.  
+EX: 7 damage (+3 under 50%). Bleed 2.  
 
 ```
 Attached are the approved concept portrait of Sable Moru (sable-moru.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
 
 Card illustration for "Amputation", a heavy (epic) card for Sable Moru in Marrow Rite.
 Scene: Sable raising a heavy brass bone saw over her head under a swinging surgical lamp, the opponent pinned in shadow below.
-What the card does, for tone: 4 damage, +3 if the target is under 50% HP. Bleed 1.
+What the card does, for tone: 5 damage, +3 if the target is under 50% HP. Bleed 1.
+Palette: black, oxblood red, brass, dirty linen white.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 124 · Black Lancet (expansion)
+Light · common · cost 1  
+Rules: 2 damage. Bleed 2.  
+EX: 3 damage. Bleed 2.  
+
+```
+Attached are the approved concept portrait of Sable Moru (sable-moru.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Black Lancet", a light (common) card for Sable Moru in Marrow Rite.
+Scene: Sable Moru lifting a slender black blade into a cold shaft of light while a figure recoils in the dark.
+What the card does, for tone: 2 damage. Bleed 2.
+Palette: black, oxblood red, brass, dirty linen white.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 125 · Mercy Stitch (expansion)
+Block · rare · cost 2  
+Rules: Gain 4 Guard. Heal 3.  
+EX: Gain 6 Guard. Heal 4.  
+
+```
+Attached are the approved concept portrait of Sable Moru (sable-moru.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Mercy Stitch", a block (rare) card for Sable Moru in Marrow Rite.
+Scene: Sable drawing a silver thread through the lamplight, poised over a wounded figure kept mostly in shadow.
+What the card does, for tone: Gain 4 Guard. Heal 3.
+Palette: black, oxblood red, brass, dirty linen white.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 126 · Blood Tax (expansion)
+Medium · epic · cost 2  
+Rules: 3 damage, +3 if the target is Bleeding. Bleed 1.  
+EX: 4 damage, +3 if Bleeding. Bleed 2.  
+
+```
+Attached are the approved concept portrait of Sable Moru (sable-moru.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Blood Tax", a medium (epic) card for Sable Moru in Marrow Rite.
+Scene: Sable studying a faltering rival across the pit, a stained lancet catching a single glint of light.
+What the card does, for tone: 3 damage, +3 if the target is Bleeding. Bleed 1.
 Palette: black, oxblood red, brass, dirty linen white.
 Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
 Style: follow the Marrow Rite style bible.

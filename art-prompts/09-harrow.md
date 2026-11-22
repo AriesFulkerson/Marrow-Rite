@@ -72,7 +72,7 @@ Palette: bone white, infected grey, old-blood brown, sick yellow-green.
 Style: follow the Marrow Rite style bible. Attached art references: Isenheim Altarpiece (Matthias Grünewald) for diseased, suffering flesh painted without flinching; De humani corporis fabrica (Andreas Vesalius) for bone structure and anatomy as illustration; The Triumph of Death (Pieter Bruegel the Elder) for plague as an unstoppable force.
 ```
 
-## Step 4 · Card prompts (10)
+## Step 4 · Card prompts (13)
 
 ### 095 · Blade Rake (new)
 Light · common · cost 1  
@@ -230,6 +230,54 @@ Scene: A thicket of white bone growing up out of the arena sand in the shape of 
 What the card does, for tone: The match-ending execution.
 Flavour: He holds them close until the Bloom takes them both. When the dust settles there is one white thicket of bone in the sand where two fighters stood. Show only the aftermath or the moment before, never the act itself.
 Palette: bone white, infected grey, old-blood brown, sick yellow-green. Make this one feel monumental: a wider view, a gold rim light and a sense of ceremony.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 142 · Bone Spur (expansion)
+Light · common · cost 1  
+Rules: 1 damage. +1 Bloom.  
+EX: 2 damage. +1 Bloom.  
+
+```
+Attached are the approved concept portrait of Harrow (harrow.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Bone Spur", a light (common) card for Harrow in Marrow Rite.
+Scene: A fresh spur of bone splitting out along Harrow's forearm as he steps into a narrow shaft of light.
+What the card does, for tone: 1 damage. +1 Bloom.
+Palette: bone white, infected grey, old-blood brown, sick yellow-green.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 143 · Bone Thicket (expansion)
+Block · rare · cost 2  
+Rules: Gain 3 Guard. Retaliate +1 until your next turn.  
+EX: Gain 5 Guard. Retaliate +2.  
+
+```
+Attached are the approved concept portrait of Harrow (harrow.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Bone Thicket", a block (rare) card for Harrow in Marrow Rite.
+Scene: Harrow braced behind a fan of bone blades, their bristling shadows thrown across the arena floor.
+What the card does, for tone: Gain 3 Guard. Retaliate +1 until your next turn.
+Palette: bone white, infected grey, old-blood brown, sick yellow-green.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 144 · Septic Bloom (expansion)
+Heavy · epic · cost 3  
+Rules: 3 damage, +2 if the target is Bleeding. Bleed 2.  
+EX: 5 damage, +2 if Bleeding. Bleed 2.  
+
+```
+Attached are the approved concept portrait of Harrow (harrow.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Septic Bloom", a heavy (epic) card for Harrow in Marrow Rite.
+Scene: Harrow's bone blades opening like a dark flower as a rival stumbles back into the smoke.
+What the card does, for tone: 3 damage, +2 if the target is Bleeding. Bleed 2.
+Palette: bone white, infected grey, old-blood brown, sick yellow-green.
 Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
 Style: follow the Marrow Rite style bible.
 ```

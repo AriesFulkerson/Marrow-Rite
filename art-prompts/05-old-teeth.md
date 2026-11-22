@@ -58,7 +58,7 @@ Palette: moss green, bog black, bone ivory, firefly yellow.
 Style: follow the Marrow Rite style bible. Attached art references: The Garden of Earthly Delights (Hieronymus Bosch) for strange swamp creatures and traps; Witches' Sabbath (The Great He-Goat) (Francisco Goya) for folk horror, crones, firelit darkness; Dulle Griet (Pieter Bruegel the Elder) for a fearless old woman striding through hell.
 ```
 
-## Step 3 · Card prompts (10)
+## Step 3 · Card prompts (13)
 
 ### 047 · Spit Venom
 Special · common · cost 1  
@@ -212,6 +212,54 @@ Attached are the approved concept portrait of Old Teeth (old-teeth.png) and the 
 Card illustration for "Hag's Bargain", a skill (epic) card for Old Teeth in Marrow Rite.
 Scene: Old Teeth holding out a gnarled hand for a handshake, a jawbone pendant swinging, something wriggling in her sleeve.
 What the card does, for tone: Steal 1 Meter. Drain 1. Venom 1.
+Palette: moss green, bog black, bone ivory, firefly yellow.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 133 · Leech Bite (expansion)
+Medium · common · cost 2  
+Rules: 2 damage. Venom 1.  
+EX: 3 damage. Venom 2.  
+
+```
+Attached are the approved concept portrait of Old Teeth (old-teeth.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Leech Bite", a medium (common) card for Old Teeth in Marrow Rite.
+Scene: Old Teeth crouched over a black pool as a fat, glistening shape coils toward her prey.
+What the card does, for tone: 2 damage. Venom 1.
+Palette: moss green, bog black, bone ivory, firefly yellow.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 134 · Mire Wall (expansion)
+Block · rare · cost 1  
+Rules: Gain 3 Guard. The target's Venom grows by 1.  
+EX: Gain 5 Guard. Venom grows by 1.  
+
+```
+Attached are the approved concept portrait of Old Teeth (old-teeth.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Mire Wall", a block (rare) card for Old Teeth in Marrow Rite.
+Scene: Old Teeth heaving up a rippling bank of black mud, torchlight glinting on its oily surface.
+What the card does, for tone: Gain 3 Guard. The target's Venom grows by 1.
+Palette: moss green, bog black, bone ivory, firefly yellow.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 135 · Drowning Mire (expansion)
+Special · epic · cost 3  
+Rules: 3 damage. The target's Venom grows by 2.  
+EX: 4 damage. Venom grows by 3.  
+
+```
+Attached are the approved concept portrait of Old Teeth (old-teeth.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Drowning Mire", a special (epic) card for Old Teeth in Marrow Rite.
+Scene: A rival sinking into dark water beneath Old Teeth's outstretched hand, reeds closing over the last of the light.
+What the card does, for tone: 3 damage. The target's Venom grows by 2.
 Palette: moss green, bog black, bone ivory, firefly yellow.
 Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
 Style: follow the Marrow Rite style bible.

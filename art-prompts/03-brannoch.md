@@ -58,7 +58,7 @@ Palette: aged linen, rust-brown leather, torchlit amber, banner red.
 Style: follow the Marrow Rite style bible. Attached art references: The Colossus (Francisco Goya) for a giant towering over tiny people; scale and dread; The Raising of Lazarus (Rembrandt) for the wrapped dead rising, lit from one side; Book of the Dead (Ancient Egyptian funerary texts) for burial linen, ritual and the language of the grave.
 ```
 
-## Step 3 · Card prompts (10)
+## Step 3 · Card prompts (13)
 
 ### 033 · Wind the Linen (art done)
 Block · common · cost 1  
@@ -177,15 +177,15 @@ Style: follow the Marrow Rite style bible.
 
 ### 075 · Tomb Slam (new)
 Heavy · common · cost 3  
-Rules: 4 damage. Gain 2 Guard.  
-EX: 5 damage. Gain 4 Guard.
+Rules: 3 damage. Gain 2 Guard.  
+EX: 5 damage. Gain 3 Guard.  
 
 ```
 Attached are the approved concept portrait of Brannoch (brannoch.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
 
 Card illustration for "Tomb Slam", a heavy (common) card for Brannoch in Marrow Rite.
 Scene: Brannoch bringing both bandaged fists down like a falling tomb lid, the flagstones cracking beneath the impact.
-What the card does, for tone: 4 damage. Gain 2 Guard.
+What the card does, for tone: 3 damage. Gain 2 Guard.
 Palette: aged linen, rust-brown leather, torchlit amber, banner red.
 Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
 Style: follow the Marrow Rite style bible.
@@ -217,6 +217,54 @@ Attached are the approved concept portrait of Brannoch (brannoch.png) and the re
 Card illustration for "Sealed Door", a block (epic) card for Brannoch in Marrow Rite.
 Scene: Brannoch pressing his back against the great iron-banded gate as it slams shut, attackers' weapons splintering against it.
 What the card does, for tone: Gain 6 Guard. Retaliate +3. Gain 1 Meter.
+Palette: aged linen, rust-brown leather, torchlit amber, banner red.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 127 · Linen Lash (expansion)
+Light · common · cost 1  
+Rules: 2 damage. Gain 1 Guard.  
+EX: 2 damage. Gain 3 Guard.  
+
+```
+Attached are the approved concept portrait of Brannoch (brannoch.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Linen Lash", a light (common) card for Brannoch in Marrow Rite.
+Scene: Brannoch's grave-wrapped arm snapping through the gloom, loose bandages tracing a pale arc behind it.
+What the card does, for tone: 2 damage. Gain 1 Guard.
+Palette: aged linen, rust-brown leather, torchlit amber, banner red.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 128 · Grave Weight (expansion)
+Medium · rare · cost 2  
+Rules: 3 damage.  
+EX: 4 damage. Retaliate +1 until your next turn.  
+
+```
+Attached are the approved concept portrait of Brannoch (brannoch.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Grave Weight", a medium (rare) card for Brannoch in Marrow Rite.
+Scene: Brannoch advancing like a falling tombstone beneath dim rafters, an attacker faltering in his shadow.
+What the card does, for tone: 3 damage.
+Palette: aged linen, rust-brown leather, torchlit amber, banner red.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 129 · Cleansing Shroud (expansion)
+Skill · epic · cost 2  
+Rules: Gain 3 Guard. Remove Burn, Bleed, Venom and Noose from your fighter.  
+EX: Gain 5 Guard. Cleanse.  
+
+```
+Attached are the approved concept portrait of Brannoch (brannoch.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Cleansing Shroud", a skill (epic) card for Brannoch in Marrow Rite.
+Scene: Brannoch drawing his grave linen close around himself as pale light pushes back the smoke of the arena.
+What the card does, for tone: Gain 3 Guard. Remove Burn, Bleed, Venom and Noose from your fighter.
 Palette: aged linen, rust-brown leather, torchlit amber, banner red.
 Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
 Style: follow the Marrow Rite style bible.

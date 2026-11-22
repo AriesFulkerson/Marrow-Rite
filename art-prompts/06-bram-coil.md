@@ -58,7 +58,7 @@ Palette: rust-brown leather, iron, hemp-rope tan, linen off-white.
 Style: follow the Marrow Rite style bible. Attached art references: Danse Macabre (incl. Holbein's woodcuts) (Hans Holbein the Younger and others) for death as a patient worker; The Disasters of War (Francisco Goya) for gallows, aftermath, stark composition; Knight, Death and the Devil (Albrecht Dürer) for engraved detail on chain, metal and rope.
 ```
 
-## Step 3 · Card prompts (10)
+## Step 3 · Card prompts (13)
 
 ### 054 · Rope Burn (art done)
 Special · common · cost 1  
@@ -215,6 +215,54 @@ Attached are the approved concept portrait of Bram Coil (bram-coil.png) and the 
 Card illustration for "Death Warrant", a skill (epic) card for Bram Coil in Marrow Rite.
 Scene: Bram nailing a sealed death warrant to a wooden post, a name on it the viewer can't quite read.
 What the card does, for tone: Noose 3. Drain 1. Gain 1 Meter.
+Palette: rust-brown leather, iron, hemp-rope tan, linen off-white.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 136 · Noose Snap (expansion)
+Light · common · cost 1  
+Rules: 2 damage. Noose 1.  
+EX: 3 damage. Noose 1.  
+
+```
+Attached are the approved concept portrait of Bram Coil (bram-coil.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Noose Snap", a light (common) card for Bram Coil in Marrow Rite.
+Scene: Bram's rope whipping across the torchlit pit, its tightening loop throwing a hooked shadow.
+What the card does, for tone: 2 damage. Noose 1.
+Palette: rust-brown leather, iron, hemp-rope tan, linen off-white.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 137 · Gallows Chain (expansion)
+Medium · rare · cost 2  
+Rules: 3 damage. Noose 2.  
+EX: 4 damage. Noose 3.  
+
+```
+Attached are the approved concept portrait of Bram Coil (bram-coil.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Gallows Chain", a medium (rare) card for Bram Coil in Marrow Rite.
+Scene: Bram hauling a heavy chain through the gloom as a rival's silhouette stumbles beneath it.
+What the card does, for tone: 3 damage. Noose 2.
+Palette: rust-brown leather, iron, hemp-rope tan, linen off-white.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 138 · Last Walk (expansion)
+Special · epic · cost 2  
+Rules: 2 damage. Then if the target has 4 HP or less and is not their last fighter, they are executed.  
+EX: 3 damage. Executes at 6 HP or less.  
+
+```
+Attached are the approved concept portrait of Bram Coil (bram-coil.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Last Walk", a special (epic) card for Bram Coil in Marrow Rite.
+Scene: A condemned fighter crossing the arena toward Bram, dwarfed by the hanging beams above.
+What the card does, for tone: 2 damage. Then if the target has 4 HP or less and is not their last fighter, they are executed.
 Palette: rust-brown leather, iron, hemp-rope tan, linen off-white.
 Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
 Style: follow the Marrow Rite style bible.

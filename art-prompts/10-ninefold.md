@@ -72,25 +72,25 @@ Palette: grave grey, candle-wax ivory, cold blue-white soul light.
 Style: follow the Marrow Rite style bible. Attached art references: The Nightmare (Henry Fuseli) for a presence that should not be in the room; The Sleep of Reason Produces Monsters (Francisco Goya) for swarming, drifting forms around one figure; Abbey among Oak Trees (Caspar David Friedrich) for burial grounds, cold light, silence.
 ```
 
-## Step 4 · Card prompts (10)
+## Step 4 · Card prompts (13)
 
-### 105 · Soul Bolt (new)
+### 105 · Soul Bolt (new) (art done)
 Special · common · cost 1  
-Rules: 3 damage.  
-EX: 4 piercing damage.
+Rules: 2 damage.  
+EX: 3 piercing damage.  
 
 ```
 Attached are the approved concept portrait of Ninefold (ninefold.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
 
 Card illustration for "Soul Bolt", a special (common) card for Ninefold in Marrow Rite.
 Scene: A pale blue-white face tearing loose from Ninefold's wrappings and streaking across the pit like a thrown spear.
-What the card does, for tone: 3 damage.
+What the card does, for tone: 2 damage.
 Palette: grave grey, candle-wax ivory, cold blue-white soul light.
 Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
 Style: follow the Marrow Rite style bible.
 ```
 
-### 106 · Hollow Grip (new)
+### 106 · Hollow Grip (new) (art done)
 Special · common · cost 2  
 Rules: 2 damage. Grip 2 for 2 turns: the target can't tag out or raise Guard.  
 EX: 3 damage. Grip 3.
@@ -106,7 +106,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 107 · Ossuary Slam (new)
+### 107 · Ossuary Slam (new) (art done)
 Heavy · rare · cost 3  
 Rules: 5 damage, +2 per Grip on the target. Removes the Grip.  
 EX: 6 damage, +3 per Grip.
@@ -122,7 +122,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 108 · Drift (new)
+### 108 · Drift (new) (art done)
 Skill · common · cost 1  
 Rules: Gain 3 Guard. Your next strike continues the chain at any step.  
 EX: Gain 5 Guard. Next strike continues the chain.
@@ -138,7 +138,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 109 · Grave Hurl (new)
+### 109 · Grave Hurl (new) (art done)
 Special · rare · cost 2  
 Rules: Break 2 Guard. 3 damage. Drain 1.  
 EX: Break 4 Guard. 4 damage. Drain 2.
@@ -154,7 +154,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 110 · Bone Orbit (new)
+### 110 · Bone Orbit (new) (art done)
 Block · rare · cost 2  
 Rules: Gain 3 Guard, +1 per Soul.  
 EX: Gain 5 Guard, +1 per Soul.
@@ -170,10 +170,10 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 111 · Soul Rend (new)
+### 111 · Soul Rend (new) (art done)
 Medium · common · cost 2  
 Rules: 4 damage. If the target is Gripped, Grip +1.  
-EX: 5 damage. Gripped targets get Grip +1.
+EX: 5 damage. Gripped targets get Grip +1.  
 
 ```
 Attached are the approved concept portrait of Ninefold (ninefold.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
@@ -186,7 +186,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 112 · Chorus of the Interred (new)
+### 112 · Chorus of the Interred (new) (art done)
 Skill · epic · cost 2  
 Rules: Gain 2 Souls. Gain 1 Meter.
 
@@ -201,7 +201,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 113 · The Unclaimed Rise (new)
+### 113 · The Unclaimed Rise (new) (art done)
 Finisher · epic · cost 3  
 Rules: 5 damage, +2 per Soul. Spends all Souls. Needs a 2+ hit chain and 1 Meter. Closes the chain.  
 EX: 7 damage, +2 per Soul. Costs 1 extra Meter.
@@ -217,7 +217,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 114 · Interment (new)
+### 114 · Interment (new) (art done)
 Last Rite · legendary · cost 3 Meter  
 Rules: Final Round only, enemy at 6 HP or less. 3 Meter. Ends the match.  
 Flavour: Ninefold opens its wrappings and the faces inside reach out. The crowd hears a new voice join the choir. Then the pit is quiet.
@@ -234,11 +234,59 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
+### 145 · Ghost Touch (expansion)
+Light · common · cost 1  
+Rules: 1 damage. If the target is Gripped, Grip +1.  
+EX: 2 damage. Gripped targets get Grip +1.  
+
+```
+Attached are the approved concept portrait of Ninefold (ninefold.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Ghost Touch", a light (common) card for Ninefold in Marrow Rite.
+Scene: Ninefold's translucent fingers closing around a fighter's wrist, strips of pale linen drifting through the dark.
+What the card does, for tone: 1 damage. If the target is Gripped, Grip +1.
+Palette: grave grey, candle-wax ivory, cold blue-white soul light.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 146 · Soul Wail (expansion)
+Special · rare · cost 2  
+Rules: Drain 2. Gain 1 Soul.  
+EX: Drain 3. Gain 1 Soul.  
+
+```
+Attached are the approved concept portrait of Ninefold (ninefold.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Soul Wail", a special (rare) card for Ninefold in Marrow Rite.
+Scene: Ninefold hanging above the flagstones as veiled faces push out of its wrappings in the cold light.
+What the card does, for tone: Drain 2. Gain 1 Soul.
+Palette: grave grey, candle-wax ivory, cold blue-white soul light.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
+### 147 · Pallbearer's Grip (expansion)
+Heavy · epic · cost 3  
+Rules: 4 damage. Grip 1.  
+EX: 5 damage. Grip 2.  
+
+```
+Attached are the approved concept portrait of Ninefold (ninefold.png) and the reference sheet made from it. Keep their face, body, costume, props and colours exactly as shown; only the pose, action and setting change.
+
+Card illustration for "Pallbearer's Grip", a heavy (epic) card for Ninefold in Marrow Rite.
+Scene: Many ghostly hands lifting a rival off the sand beneath a canopy of tattered burial linen.
+What the card does, for tone: 4 damage. Grip 1.
+Palette: grave grey, candle-wax ivory, cold blue-white soul light.
+Composition: vertical 5:7 card illustration. Main subject in the upper two-thirds; the bottom quarter darker and simpler because rules text will sit there. Sharp focus on face and hands. No text, frame or border.
+Style: follow the Marrow Rite style bible.
+```
+
 ## Step 5 · Echo card
 
 Echoes are what a fighter's cards become after that fighter is knocked out. Make each one feel like an afterimage: desaturated, translucent, drifting, with the fighter's accent colour as the only saturated tone.
 
-### E9 · Lost Voice (new)
+### E9 · Lost Voice (new) (art done)
 Echo · common · cost 1  
 Rules: Echo of Ninefold, who has fallen. Grip 1.
 
