@@ -14,15 +14,17 @@ Build a team of three fighters, tag between them, and play your cards like combo
 |---|---|---|---|---|
 | Ashkar | The Ember Monk | Self-burn aggro | 28 | **Pyre:** his first hit each turn sets the enemy burning; builds Heat that powers his cards |
 | Sable Moru | The Stitched Surgeon | Bleed attrition | 27 | **Sutures:** heals 2 each time an enemy takes Bleed damage |
-| Brannoch | The Wrapped | Retaliation tank | 30 | **Grave Linen:** starts each turn with 2 Guard; anything that lands on his Guard takes damage back |
+| Brannoch | The Wrapped | Retaliation tank | 30 | **Grave Linen:** starts each turn with 2 Guard; enemy cards that land on his Guard take 1 damage back |
 | Lady Wen | Of the Hollow | Discard engine | 24 | **Hunger:** every discard feeds her Hunger; her Specials hit harder the hungrier she is |
 | Old Teeth | The Bog Mother | Traps & venom control | 28 | **Patience:** unspent Energy turns into Guard; sets hidden Traps |
 | Bram Coil | The Hook | Tag control & executions | 28 | **Reel:** 3 damage whenever he tags in; a Noosed target takes extra damage from every hit |
 | Harrow | The Bloomed | Bonebloom berserker | 28 | **Bonebloom:** grows Bloom every turn and hits harder for it, but the Bloom eats at his HP |
 | Ninefold | The Unclaimed | Telekinetic control | 36 | **The Unclaimed:** floats over Traps; every Special adds a Soul to its strikes; Gripped enemies can't tag out or Guard |
-| Vorhul | The Unburied (boss) | Tithe & drain | 40 | **Tithe:** heals 6 on every knockout |
+| Vorhul | The Unburied (boss) | Tithe & drain | 40 | **Tithe:** heals 6 whenever an enemy fighter is knocked out |
 
-114 cards in total, across the eight fighters, Vorhul and the neutral pool.
+147 cards in total: 13 for each of the eight fighters, 10 for Vorhul and 33 neutral. Each fighter, Vorhul included, also has an Echo card that their cards turn into when they fall.
+
+The **Ossuary Season** expansion added 33 of those cards: three for every fighter, Vorhul included, and six neutral.
 
 ### How it plays
 
@@ -65,6 +67,6 @@ Both downloads are also on the repo's **Releases** page.
 
 ## Status
 
-Playable concept build. All nine fighter portraits and 53 card paintings are finished; the remaining cards use placeholder frames.
+Playable concept build. All nine fighter portraits are finished. 63 of the 147 cards and 4 of the 9 Echoes have finished paintings; the rest use stand-in art, such as a crop of the fighter's portrait.
 
 All characters, story and art are original to this project.
