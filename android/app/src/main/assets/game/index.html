@@ -3012,6 +3012,482 @@ const st12=document.createElement('style');st12.textContent=`
 `;const last=[...document.querySelectorAll('style')].pop();last.after(st12);
 })();
 
+/* ===== v13: duel screen revamp (HUD, board that keeps played cards up, card zoom, enemy pace, drag to play) ===== */
+(function(){
+const st13=document.createElement('style');st13.textContent=`
+/* ---------- head / HUD ---------- */
+#scr-duel .duel-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px 16px;padding-block:10px 0}
+#scr-duel .duel-head h2{font-size:15px;font-family:var(--f-body);font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+#hud13{display:flex;align-items:center;justify-content:center;gap:12px;min-width:0;flex-wrap:wrap}
+.tp13{padding:5px 16px;border-radius:99px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;font-size:13px;white-space:nowrap;line-height:1.3}
+.tp13.me{background:linear-gradient(180deg,#f0cf7c,var(--gold));color:#241606;box-shadow:0 0 18px rgba(207,166,78,.45)}
+.tp13.foe{background:linear-gradient(180deg,#e0485c,#8e1426);color:#fff;box-shadow:0 0 18px rgba(194,45,65,.4)}
+.tp13.over{background:var(--panel2);color:var(--bone)}
+.guide13{color:#e6dccb;font-size:14px;min-width:0}
+.guide13 b{color:var(--gold)}
+.pace13{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+.pace13 select{background:var(--panel2);color:var(--bone);border:1px solid var(--line);border-radius:8px;padding:3px 6px;font:inherit;font-size:13px;text-transform:none;letter-spacing:0}
+.step13{background:linear-gradient(180deg,#e0485c,#8e1426);color:#fff;border:0;border-radius:99px;padding:6px 16px;font-weight:800;cursor:pointer;letter-spacing:.06em;animation:pulse13 1.2s ease-in-out infinite}
+@keyframes pulse13{50%{box-shadow:0 0 0 6px rgba(194,45,65,.18)}}
+/* ---------- fighter plates ---------- */
+#scr-duel .bar{background:linear-gradient(100deg,color-mix(in srgb,var(--fc13,#3e2e30) 20%,#1a1314) 0,#171112 45%,#141011 100%);border:1px solid #3a2a2c;border-radius:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 8px 22px rgba(0,0,0,.35)}
+#scr-duel #bar-1{border-top:3px solid #8e1426}
+#scr-duel #bar-0{border-bottom:3px solid #8a6a2a}
+#scr-duel #bar-1.active{border-color:#3a2a2c;border-top-color:var(--blood);box-shadow:0 0 0 1px rgba(194,45,65,.55),0 0 28px rgba(194,45,65,.22)}
+#scr-duel #bar-0.active{border-color:#3a2a2c;border-bottom-color:var(--gold);box-shadow:0 0 0 1px rgba(207,166,78,.6),0 0 28px rgba(207,166,78,.2)}
+#scr-duel .portrait{box-shadow:0 0 0 3px #0d0909,0 0 0 5px var(--fc),0 6px 16px rgba(0,0,0,.6)}
+#scr-duel .bar.active .portrait{animation:glow13 1.8s ease-in-out infinite}
+@keyframes glow13{50%{box-shadow:0 0 0 3px #0d0909,0 0 0 5px var(--fc),0 0 22px var(--fc)}}
+#scr-duel .nm{letter-spacing:.01em}
+.hpw13{display:flex;align-items:center;gap:8px;min-width:0}
+.hpw13 .hp{flex:1;min-width:0}
+#scr-duel .hp{height:22px;border-radius:6px;background:#1e1314;border:1px solid #4a2a2e;box-shadow:inset 0 2px 4px rgba(0,0,0,.5)}
+#scr-duel .hp i{background:linear-gradient(180deg,#5fbf6a,#2f7a3a);transition:width .45s ease,background .3s}
+#scr-duel .hp.mid i{background:linear-gradient(180deg,#e9a23b,#a5621a)}
+#scr-duel .hp.low i{background:linear-gradient(180deg,#e0485c,#8e1426);animation:low13 1s ease-in-out infinite}
+@keyframes low13{50%{filter:brightness(1.35)}}
+#scr-duel .hp b{line-height:20px;font-size:13px;font-weight:800;text-shadow:0 1px 2px #000,0 0 6px #000}
+.shield13{flex:none;width:24px;height:27px;display:grid;place-items:center;background:linear-gradient(180deg,#a9cde6,#4f7d9c);clip-path:polygon(50% 0,100% 14%,100% 52%,50% 100%,0 52%,0 14%);color:#0b1a24;font-weight:900;font-size:14px;line-height:1}
+.shield13 b{transform:translateY(-2px)}
+#scr-duel .chip{font-size:12px;padding:2px 9px;background:rgba(0,0,0,.35)}
+#scr-duel .chip b.ct13{font-weight:900}
+/* ---------- board ---------- */
+#scr-duel .stage{display:block;padding:10px;background:radial-gradient(ellipse at 62% 50%,#2e1b1d 0,#1a1213 55%,#120d0e 100%);border:1px solid #3a2a2c;border-radius:14px;box-shadow:inset 0 0 60px rgba(0,0,0,.55)}
+.b13{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,auto);gap:12px;min-height:calc(var(--fh,230px) - 20px);height:100%}
+.rows13{display:grid;grid-template-rows:minmax(0,1fr) minmax(0,1fr);gap:8px;min-width:0}
+.row13{position:relative;border-radius:10px;padding:3px 8px;display:grid;grid-template-columns:minmax(70px,96px) minmax(0,1fr);gap:8px;align-items:center;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.05);min-width:0}
+.row13.foe{border-left:3px solid var(--blood)}
+.row13.me{border-left:3px solid var(--gold)}
+.row13.now{background:rgba(255,255,255,.035)}
+.rh13 b{display:block;font-family:var(--f-display);font-size:16px;line-height:1.05}
+.row13.foe .rh13 b{color:#f0a3ae}.row13.me .rh13 b{color:var(--gold)}
+.rh13 span{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.rh13 em{display:block;font-style:normal;font-size:13px;font-weight:700;color:var(--bone);margin-top:3px;font-variant-numeric:tabular-nums}
+.rc13{display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;align-items:center;min-width:0;padding:7px 2px 0 8px;scrollbar-width:thin}
+.it13{background:none;border:0;padding:0;color:inherit;cursor:zoom-in;display:grid;justify-items:center;gap:2px;position:relative;flex:none;font:inherit}
+.it13 .card{--cw:clamp(40px,calc(var(--fh,230px) * .205),100px);transition:transform .15s}
+.it13:hover .card,.it13:focus-visible .card{transform:translateY(-3px) scale(1.04)}
+.it13 small{font-size:11px;font-weight:700;color:#e6dccb;white-space:nowrap;font-variant-numeric:tabular-nums}
+.it13 small.dmg{color:#ff8f9c}
+.it13 .n13{position:absolute;top:-7px;left:-7px;z-index:2;width:19px;height:19px;border-radius:50%;background:#0d0909;border:1px solid var(--gold);color:var(--gold);font-size:10px;font-weight:800;display:grid;place-items:center}
+.it13.new .card{animation:slam .35s cubic-bezier(.2,1.4,.4,1)}
+.it13 .tag13{width:clamp(40px,calc(var(--fh,230px) * .205),100px);aspect-ratio:5/7;border-radius:8px;border:1px dashed var(--line);display:grid;place-items:center;text-align:center;font-size:11px;padding:4px;color:var(--muted)}
+.empty13{color:var(--muted);font-size:13px;font-style:italic}
+.spot13{display:flex;align-items:center;gap:16px;min-width:0;max-width:min(600px,46vw);padding-right:4px}
+.spot13 .stage-card .card,.spot13>.card-w13 .card{--cw:clamp(104px,calc(var(--fh,230px) * .6),236px)}
+.spot13 .stage-info{max-width:34ch}
+.spot13 .stage-info b{font-size:clamp(20px,calc(var(--fh,230px) * .075),30px)}
+.spot13 .stage-info .eyebrow{margin-bottom:4px}
+.spot13.foe .stage-info .eyebrow{color:#f0a3ae}
+.spot13 .out13{display:inline-block;margin-top:6px;padding:2px 10px;border-radius:6px;background:rgba(194,45,65,.2);border:1px solid rgba(194,45,65,.5);color:#ffb3bd;font-weight:800;font-size:15px}
+.spot13 .out13.eff13{background:rgba(122,169,201,.15);border-color:rgba(122,169,201,.45);color:#cfe4f3}
+.spot13 .stage-info ul b{display:inline;font-family:inherit;font-size:inherit;line-height:inherit}
+.spot13 ul{margin:6px 0 0;padding-left:16px;font-size:13px;color:#d6cbbb;max-height:calc(var(--fh,230px) * .42);overflow:auto}
+.spot13 .card-w13{cursor:zoom-in}
+.spot13.new .card-w13 .card{animation:slam .35s cubic-bezier(.2,1.4,.4,1)}
+.spot13 .old13{opacity:.6;filter:saturate(.6)}
+.spot13 .stage-empty{max-width:30ch;text-align:left}
+.chain13{margin-top:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.chain13 .cn{font-family:var(--f-display);font-size:30px;line-height:.8;color:var(--gold);text-shadow:0 2px 0 #5a141f}
+.chain13 .cl{display:grid;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);line-height:1.25}
+.chain13 .cl strong{color:var(--bone);font-size:12px}
+.chain13 .tiers{display:flex;gap:3px}
+.chain13 .tiers i{font-style:normal;font-size:10px;font-weight:800;padding:1px 6px;border-radius:4px;background:rgba(255,255,255,.06);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.chain13 .tiers i.on{background:rgba(207,166,78,.25);color:var(--gold)}
+.chain13 .tiers i.nx{outline:1px dashed var(--gold);color:var(--bone)}
+#scr-duel .stage .combo{display:none}
+/* drag */
+#stage.drop13{outline:2px dashed rgba(207,166,78,.45);outline-offset:-6px}
+#stage.over13{outline:2px solid var(--gold);box-shadow:inset 0 0 50px rgba(207,166,78,.22)}
+.ghost13{position:fixed;z-index:70;pointer-events:none;transform:translate(-50%,-62%) rotate(-3deg) scale(1.08);filter:drop-shadow(0 18px 28px rgba(0,0,0,.7));transition:transform .08s}
+.ghost13 .card{--cw:128px}
+.hand-card.dragging13{opacity:.2}
+#scr-duel .hand-card.playable{cursor:grab;touch-action:pan-x}
+/* ---------- fight log ---------- */
+#scr-duel .record{background:linear-gradient(180deg,#1b1415,#151011);border-color:#3a2a2c}
+#scr-duel .record h3{font-size:11px}
+#scr-duel .rec{background:rgba(255,255,255,.035);border-left-width:3px}
+#scr-duel .rec.me13{border-left-color:var(--gold)}
+#scr-duel .rec.them13{border-left-color:var(--blood);background:rgba(194,45,65,.07)}
+#scr-duel .rec summary .who2{font-weight:800}
+#scr-duel .rec.me13 summary .who2{color:var(--gold)}
+#scr-duel .rec.them13 summary .who2{color:#f0a3ae}
+/* ---------- hand dock ---------- */
+#scr-duel .hand-wrap{background:linear-gradient(180deg,#1f1719,#151011);border-color:#3a2a2c;border-top:1px solid #5a4422}
+#scr-duel .hand-card.playable:hover{transform:translateY(-14px) scale(1.03);z-index:3}
+#scr-duel .actions{gap:10px;align-items:center}
+.dock13{display:flex;align-items:center;gap:14px;padding:4px 12px;border-radius:10px;background:rgba(0,0,0,.3);border:1px solid #3a2a2c;flex:none}
+.dock13 .grp{display:flex;align-items:center;gap:7px}
+.dock13 .lab{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:700}
+.dock13 .gems{display:flex;gap:4px}
+.dock13 .gems i{width:14px;height:14px;border-radius:50%;background:#2a1f21;border:1px solid #4a3a2a}
+.dock13 .gems i.on{background:radial-gradient(circle at 35% 30%,#ffe7a6,var(--gold) 60%,#6b4f1c);border-color:#b88f3e;box-shadow:0 0 8px rgba(207,166,78,.5)}
+.dock13 .bars{display:flex;gap:3px}
+.dock13 .bars i{width:18px;height:10px;border-radius:3px;background:#2a1f21;border:1px solid #4a3a2a}
+.dock13 .bars i.on{background:linear-gradient(180deg,#b98cff,#6b3fb3);border-color:#9f6bb5;box-shadow:0 0 8px rgba(159,107,181,.5)}
+.dock13 b{font-variant-numeric:tabular-nums;font-size:14px}
+#scr-duel #end-btn{padding-inline:26px;font-size:15px;letter-spacing:.08em}
+/* ---------- zoom ---------- */
+#zoom13{position:fixed;inset:0;z-index:65;background:rgba(8,5,6,.84);display:grid;place-items:center;padding:16px;backdrop-filter:blur(3px)}
+#zoom13[hidden]{display:none}
+.z13{display:flex;gap:24px;align-items:center;max-width:880px;flex-wrap:wrap;justify-content:center;background:var(--panel);border:1px solid #5a4422;border-radius:16px;padding:20px;max-height:calc(100vh - 32px);overflow:auto}
+.z13 .card{--cw:min(290px,70vw)!important}
+.z13 .zi{max-width:42ch;min-width:0}
+.z13 .zi .eyebrow{margin-bottom:6px}
+.z13 .zi h3{font-family:var(--f-display);font-size:28px;margin:0 0 6px;line-height:1}
+.z13 .zi ul{margin:8px 0 0;padding-left:18px;color:#d6cbbb;font-size:14px}
+.z13 .zi .btn{margin-top:14px}
+/* ---------- height budget ---------- */
+@media (min-width:761px){
+  #scr-duel{--fh:clamp(160px,calc(100vh - 690px),620px)}
+  #scr-duel .stage{height:var(--fh);min-height:0;box-sizing:border-box;overflow:hidden}
+  .b13{min-height:0;height:100%}
+}
+@media (min-width:901px) and (max-height:1000px){
+  #scr-duel{--fh:clamp(150px,calc(100vh - 610px),620px)}
+}
+@media (min-width:901px) and (max-height:820px){
+  #scr-duel{--fh:clamp(150px,calc(100vh - 568px),620px)}
+  #scr-duel .hand .card{--cw:104px}
+  #scr-duel .hand{min-height:0}
+  .spot13 .stage-info .eyebrow{display:none}
+  .spot13 .stage-info p{font-size:12px;margin-top:2px}
+  .spot13 .stage-info .row{margin-top:4px!important}
+  .spot13 .stage-card .card{--cw:clamp(96px,calc(var(--fh) * .55),236px)}
+}
+#scr-duel .hint .tpill,#scr-duel #hint{display:none}
+/* ---------- phones ---------- */
+@media (max-width:760px){
+  #scr-duel .duel-head{grid-template-columns:minmax(0,1fr)}
+  #hud13{justify-content:flex-start}
+  .guide13{font-size:13px;flex-basis:100%}
+  .b13{grid-template-columns:minmax(0,1fr);min-height:0}
+  .spot13{order:-1;max-width:none}
+  .spot13 .stage-card .card,.spot13>.card-w13 .card{--cw:112px}
+  .it13 .card,.it13 .tag13{--cw:58px;width:auto}
+  .it13 .tag13{width:58px}
+  .row13{grid-template-columns:62px minmax(0,1fr)}
+  .rh13 b{font-size:14px}
+  .dock13{gap:8px;padding:4px 8px}
+  .dock13 .gems i{width:11px;height:11px}
+  .dock13 .bars i{width:12px}
+}
+`;const last=[...document.querySelectorAll('style')].pop();last.after(st13);
+
+const W13={z:[],spotKey:null,next:null,lastRows:{}};
+window.W13=W13;
+const PACE={fast:650,normal:1300,slow:2100};
+function pace(){try{return localStorage.getItem('mr-pace-v1')||'normal'}catch(e){return 'normal'}}
+function setPace(v){try{localStorage.setItem('mr-pace-v1',v)}catch(e){}hud13()}
+const TIER_NEXT=['Any strike','Any strike','Medium, Heavy or Special','Heavy, Finisher or Special'];
+const strip=h=>String(h||'').replace(/<[^>]*>/g,'');
+
+/* ---------- HUD ---------- */
+function ensureHud(){
+  let h=document.getElementById('hud13');
+  if(!h){const head=document.querySelector('#scr-duel .duel-head')||document.querySelector('.duel-head');if(!head)return null;
+    h=document.createElement('div');h.id='hud13';const ttl=head.querySelector('h2');if(ttl)ttl.after(h);else head.prepend(h)}
+  return h;
+}
+function hud13(){
+  const h=ensureHud();if(!h||!G||!G.s)return;
+  const me=G.s[0],o=G.s[1],mine=G.act===0&&!G.over;
+  let pill,guide;
+  if(G.over){pill='<span class="tp13 over">Match over</span>';guide=''}
+  else if(mine){
+    pill='<span class="tp13 me">Your turn</span>';
+    const pd=pendingCard();const playable=me.hand.filter(c=>!info(me,o,c).why).length;
+    if(pd)guide=`<b>${esc(pd.name)}</b> is on the field. Press <b>Play</b> to use it, or <b>Back</b> to return it.`;
+    else if(!playable)guide=`No playable cards left. Press <b>End turn</b>.`;
+    else guide=`<b>${me.energy} Energy</b> left · ${playable} playable card${playable>1?'s':''}. Drag a card onto the field, or click it. Then <b>End turn</b>.`;
+  }else{
+    pill='<span class="tp13 foe">Enemy turn</span>';
+    const n=G.pvp&&typeof theirName==='function'?theirName():act(o).f.name;
+    guide=W13.next?`${esc(n)} played a card. Read it, then press <b>Next</b> (or Space).`:`${esc(n)} is playing. Their cards stay on the field until their next turn.`;
+  }
+  const pv=pace();
+  const paceSel=G.pvp?'':`<label class="pace13">Enemy speed <select id="pace13">${[['fast','Fast'],['normal','Normal'],['slow','Slow'],['step','Step: click for each card']].map(([v,l])=>`<option value="${v}"${pv===v?' selected':''}>${l}</option>`).join('')}</select></label>`;
+  const step=W13.next&&!G.over?'<button class="step13" id="step13">Next enemy card ▸</button>':'';
+  h.innerHTML=`${pill}<span class="guide13">${guide}</span>${step}${paceSel}`;
+}
+
+/* ---------- fighter plates ---------- */
+const _rb13=renderBar;
+renderBar=function(i){
+  const r=_rb13.apply(this,arguments);
+  try{
+    const bar=document.getElementById('bar-'+i),s=G.s[i],t=act(s);if(!bar)return r;
+    bar.style.setProperty('--fc13',t.f.color);
+    const hp=bar.querySelector('.hp');
+    if(hp){const pc=t.hp/t.max;hp.classList.toggle('mid',pc<=.5&&pc>.25);hp.classList.toggle('low',pc<=.25);
+      if(!hp.parentElement.classList.contains('hpw13')){const w=document.createElement('div');w.className='hpw13';hp.before(w);w.appendChild(hp)}
+      if(s.guard>0)hp.parentElement.insertAdjacentHTML('afterbegin',`<span class="shield13" title="Guard ${s.guard}: blocks the next ${s.guard} damage"><b>${s.guard}</b></span>`);
+      bar.querySelectorAll('.chip.g').forEach(ch=>{if(/^Guard \d/.test(ch.textContent.trim()))ch.remove()});
+    }
+  }catch(e){}
+  return r;
+};
+
+/* ---------- board: both sides' latest turn stays visible ---------- */
+function sideTurn(i){
+  const segs=recSegments();const k=segs.findIndex(x=>x.side===i);
+  if(k<0)return null;return{now:k===0,cards:segs[k].cards.filter(e=>e.owner===i)};
+}
+function zpush(e){W13.z.push(e);return W13.z.length-1}
+function itemHTML(e,n,fresh){
+  const z=zpush(e);
+  if(e.c&&hiddenTrap(e))return `<button class="it13${fresh?' new':''}" data-z13="${z}" aria-label="Hidden trap"><span class="n13">${n}</span><div class="card back mini"><div class="bk">?</div></div><small>Trap set</small></button>`;
+  if(!e.c)return `<button class="it13${fresh?' new':''}" data-z13="${z}"><span class="n13">${n}</span><span class="tag13">Tag in<br>${esc(e.tagTo?e.tagTo.name:'')}</span><small>Tag</small></button>`;
+  return `<button class="it13${fresh?' new':''}" data-z13="${z}" aria-label="${esc(e.c.name)}: ${esc(entryOutcome(e))}. Click to read"><span class="n13">${n}</span>${cardHTML(e.c,{size:'mini'})}<small class="${e.dealt?'dmg':''}">${e.dealt?e.dealt+' dmg':entryOutcome(e)}</small></button>`;
+}
+function rowHTML(i){
+  const tn=sideTurn(i),cls=i?'foe':'me';
+  const who=i?(G.pvp&&typeof theirName==='function'?theirName():'Enemy'):'You';
+  const cards=tn?tn.cards:[];
+  const prev=W13.lastRows[i]||0;W13.lastRows[i]=cards.length;
+  const dmg=cards.reduce((a,e)=>a+(e.dealt||0),0);
+  const when=!tn?'no cards yet':tn.now?'this turn':'last turn';
+  const body=cards.length?cards.map((e,k)=>itemHTML(e,k+1,k>=prev&&tn.now)).join(''):`<span class="empty13">${!tn?(i?'Nothing played yet.':'Your played cards land here.'):tn.now?(i?'Thinking…':'Drag or click a card from your hand.'):'Played no cards.'}</span>`;
+  return `<div class="row13 ${cls}${tn&&tn.now?' now':''}"><div class="rh13"><b>${esc(who)}</b><span>${when}</span>${cards.length?`<em>${cards.length} card${cards.length>1?'s':''}${dmg?` · ${dmg} dmg`:''}</em>`:''}</div><div class="rc13" aria-label="${esc(who)} cards, ${when}">${body}</div></div>`;
+}
+function chainHTML(){
+  if(G.over)return '';const s=G.s[G.act];if(!s||s.combo<1)return '';
+  const t=s.lastTier||0;const tiers=['Light','Medium','Heavy'].map((l,k)=>`<i class="${k+1<=t?'on':''}">${l}</i>`).join('');
+  return `<div class="chain13" title="Each strike in a chain deals +1 damage per hit for every link before it"><span class="cn">${s.combo}</span><span class="cl"><strong>Hit chain${s.combo>=2?` · +${s.combo-1} per hit`:''}</strong>Next: ${TIER_NEXT[t]}</span><span class="tiers">${tiers}</span></div>`;
+}
+function spotHTML(st){
+  const pd=pendingCard();
+  if(pd){
+    const pc=st.querySelector('.stage-card.pending'),inf=st.querySelector('[data-confirm]');const info2=inf&&inf.closest('.stage-info');
+    W13.spotKey='pend'+pd.uid;
+    return `<div class="spot13">${pc?pc.outerHTML:''}${info2?info2.outerHTML:''}</div>`;
+  }
+  const segs=recSegments();let e=null,old=false;
+  if(segs[0]&&segs[0].cards.length)e=segs[0].cards[segs[0].cards.length-1];
+  else for(const sg of segs.slice(1)){if(sg.cards.length){e=sg.cards[sg.cards.length-1];old=true;break}}
+  if(!e){W13.spotKey=null;return `<div class="spot13"><div><p class="stage-empty">${G.act===0?'Your turn. Drag a card from your hand onto the field, or click it. Nothing happens until you press <b>Play</b>.':`${esc(act(G.s[1]).f.name)} is sizing you up.`}</p>${chainHTML()}</div></div>`}
+  const key=e.key||('k'+G.rec.indexOf(e));const fresh=key!==W13.spotKey&&!old;W13.spotKey=key;
+  const foe=e.owner===1,z=zpush(e),ht=e.c&&hiddenTrap(e);
+  const name=e.c?(ht?'A hidden trap':e.c.name+(e.ex?' (EX)':'')):'Tag in: '+(e.tagTo?e.tagTo.name:'');
+  const who=foe?(G.pvp&&typeof theirName==='function'?theirName():act(G.s[1]).f.name):'You';
+  const art=e.c&&!ht?cardHTML(e.c):ht?'<div class="card back"><div class="bk">?</div></div>':'';
+  const out=e.dealt?`<span class="out13">${e.dealt} damage</span>`:`<span class="out13 eff13">${esc(entryOutcome(e))}</span>`;
+  const lines=ht?['Set face down. You will see it when it springs.']:(e.lines||[]).slice(0,4);
+  return `<div class="spot13 ${foe?'foe':'me'}${fresh?' new':''}">${art?`<div class="card-w13${old?' old13':''}" data-z13="${z}" title="Click to read the card">${art}</div>`:''}<div class="stage-info"><p class="eyebrow">${old?'Last card played':foe?`${esc(who)} played`:'You played'}</p><b>${foe&&!G.pvp?esc(act(G.s[1]).f.name)+': ':''}${esc(name)}</b>${out}${lines.length?`<ul>${lines.map(l=>`<li>${l}</li>`).join('')}</ul>`:''}${chainHTML()}</div></div>`;
+}
+const _rs13=renderStage;
+renderStage=function(){
+  const r=_rs13.apply(this,arguments);
+  try{
+    const st=document.getElementById('stage');if(!st||!G||!G.s)return r;
+    if(G.over){return r}
+    W13.z=[];
+    const spot=spotHTML(st);
+    st.innerHTML=`<div class="b13"><div class="rows13">${rowHTML(1)}${rowHTML(0)}</div>${spot}</div>`;
+  }catch(err){console.error(err)}
+  return r;
+};
+
+/* ---------- log: colour by side ---------- */
+const _rr13=renderRecord;
+renderRecord=function(){
+  const r=_rr13.apply(this,arguments);
+  try{document.querySelectorAll('#record details.rec').forEach(d=>{const w=d.querySelector('.who2');const me=w&&/^you$/i.test(w.textContent.trim());d.classList.add(me?'me13':'them13')})}catch(e){}
+  return r;
+};
+
+/* ---------- resource dock next to the hand ---------- */
+const _ra13=renderActions;
+renderActions=function(){
+  const r=_ra13.apply(this,arguments);
+  try{
+    const a=document.querySelector('#scr-duel .actions')||document.querySelector('.actions');if(!a)return r;
+    let d=document.getElementById('dock13');if(!d){d=document.createElement('div');d.id='dock13';d.className='dock13';a.prepend(d)}
+    const s=G.s[0],n=Math.max(s.maxE,s.energy);
+    d.innerHTML=`<span class="grp"><span class="lab">Energy</span><span class="gems">${Array.from({length:n},(_,k)=>`<i class="${k<s.energy?'on':''}"></i>`).join('')}</span><b>${s.energy}/${s.maxE}</b></span><span class="grp"><span class="lab">Meter</span><span class="bars">${Array.from({length:MMAX},(_,k)=>`<i class="${k<s.meter?'on':''}"></i>`).join('')}</span><b>${s.meter}/${MMAX}</b></span>`;
+  }catch(e){}
+  return r;
+};
+
+const _r13=render;
+render=function(){const r=_r13.apply(this,arguments);try{hud13()}catch(e){}return r};
+
+/* ---------- enemy pace + step mode ---------- */
+const _ai13=aiStep;
+aiStep=function(){
+  const real=window.setTimeout;
+  window.setTimeout=function(fn,ms,...rest){
+    if(ms===900&&typeof fn==='function'&&/aiStep/.test(String(fn))){
+      const p=pace();
+      if(p==='step'){W13.next=fn;real.call(window,()=>{try{hud13();renderStage()}catch(e){}},0);return 0}
+      ms=PACE[p]||PACE.normal;
+    }
+    return real.call(window,fn,ms,...rest);
+  };
+  try{return _ai13.apply(this,arguments)}finally{window.setTimeout=real}
+};
+function stepNext(){const f=W13.next;if(!f)return;W13.next=null;hud13();f()}
+window.stepNext13=stepNext;
+
+/* ---------- zoom ---------- */
+function zoomOpen(e,label){
+  let z=document.getElementById('zoom13');
+  if(!z){z=document.createElement('div');z.id='zoom13';z.hidden=true;z.setAttribute('role','dialog');z.setAttribute('aria-modal','true');document.body.appendChild(z)}
+  const ht=e.c&&hiddenTrap(e);
+  const art=e.c&&!ht?cardHTML(e.c,{size:'lg'}):'<div class="card back lg"><div class="bk">?</div></div>';
+  const name=e.c?(ht?'Hidden trap':e.c.name+(e.ex?' (EX)':'')):'Tag in: '+(e.tagTo?e.tagTo.name:'');
+  const lines=ht?['Set face down. You will see it when it springs.']:(e.lines||[]);
+  z.innerHTML=`<div class="z13">${art}<div class="zi"><p class="eyebrow">${label||(e.owner?'Enemy played':'You played')}</p><h3>${esc(name)}</h3>${e.dealt?`<p><b>${e.dealt} damage</b></p>`:''}${lines.length?`<ul>${lines.map(l=>`<li>${l}</li>`).join('')}</ul>`:''}<button class="btn gold" id="zoom13-close">Close</button></div></div>`;
+  z.hidden=false;const b=document.getElementById('zoom13-close');if(b)b.focus();
+}
+function zoomClose(){const z=document.getElementById('zoom13');if(z)z.hidden=true}
+window.zoomOpen13=zoomOpen;
+
+document.addEventListener('click',ev=>{
+  const t=ev.target;if(!t||!t.closest)return;
+  if(t.closest('#zoom13')){if(t.closest('#zoom13-close')||!t.closest('.z13')){zoomClose()}ev.stopPropagation();return}
+  const zt=t.closest('[data-z13]');if(zt&&t.closest('#stage')){const e=W13.z[+zt.dataset.z13];if(e){zoomOpen(e)}ev.stopPropagation();return}
+  if(t.closest('#step13')){stepNext();ev.stopPropagation();return}
+},true);
+document.addEventListener('change',ev=>{if(ev.target&&ev.target.id==='pace13'){setPace(ev.target.value);if(ev.target.value!=='step'&&W13.next)stepNext()}});
+document.addEventListener('keydown',ev=>{
+  if(ev.key==='Escape'){const z=document.getElementById('zoom13');if(z&&!z.hidden){zoomClose();ev.stopPropagation()}}
+  if((ev.key===' '||ev.key==='n'||ev.key==='N')&&W13.next&&!/INPUT|SELECT|TEXTAREA|BUTTON/.test((ev.target&&ev.target.tagName)||'')){ev.preventDefault();stepNext()}
+},true);
+document.addEventListener('contextmenu',ev=>{
+  const hc=ev.target&&ev.target.closest&&ev.target.closest('#hand .hand-card');if(!hc||!G||!G.s)return;
+  const c=G.s[0].hand.find(x=>String(x.uid)===hc.dataset.uid);if(!c)return;
+  ev.preventDefault();zoomOpen({c,owner:0,lines:[],dealt:0},'In your hand');
+});
+
+/* ---------- drag a card from the hand onto the field ---------- */
+let D=null,swallow=false;
+function overField(x,y){
+  const st=document.getElementById('stage'),hw=document.querySelector('#scr-duel .hand-wrap')||document.querySelector('.hand-wrap');
+  if(st){const r=st.getBoundingClientRect();if(x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom)return true}
+  if(hw){const r=hw.getBoundingClientRect();return y<r.top-16}
+  return false;
+}
+document.addEventListener('pointerdown',ev=>{
+  if(ev.button!==0||!G||!G.s||G.over||G.act!==0||(typeof TUT!=='undefined'&&TUT.on))return;
+  const hc=ev.target.closest&&ev.target.closest('#hand .hand-card.playable');if(!hc)return;
+  D={uid:+hc.dataset.uid,el:hc,x:ev.clientX,y:ev.clientY,moved:false,ghost:null};
+},true);
+document.addEventListener('pointermove',ev=>{
+  if(!D)return;
+  if(!D.moved){if(Math.hypot(ev.clientX-D.x,ev.clientY-D.y)<12)return;
+    D.moved=true;const card=D.el.querySelector('.card');D.ghost=document.createElement('div');D.ghost.className='ghost13';if(card)D.ghost.appendChild(card.cloneNode(true));document.body.appendChild(D.ghost);
+    D.el.classList.add('dragging13');const st=document.getElementById('stage');if(st)st.classList.add('drop13');
+    try{D.el.setPointerCapture&&D.el.setPointerCapture(ev.pointerId)}catch(e){}
+  }
+  D.ghost.style.left=ev.clientX+'px';D.ghost.style.top=ev.clientY+'px';
+  const st=document.getElementById('stage');if(st)st.classList.toggle('over13',overField(ev.clientX,ev.clientY));
+  ev.preventDefault();
+},true);
+function endDrag(ev,cancel){
+  if(!D)return;const d=D;D=null;
+  if(d.ghost)d.ghost.remove();d.el.classList.remove('dragging13');
+  const st=document.getElementById('stage');if(st){st.classList.remove('drop13');st.classList.remove('over13')}
+  if(!d.moved)return;
+  swallow=true;setTimeout(()=>{swallow=false},350);
+  if(cancel||!overField(ev.clientX,ev.clientY))return;
+  if(!G||G.over||G.act!==0)return;
+  G.pend=null;stageCard(d.uid);
+  const tut=typeof TUT!=='undefined'&&TUT.on;
+  if(!tut&&G.pend===d.uid){confirmPending()}
+  if(typeof afterInput==='function'){try{afterInput()}catch(e){}}
+}
+document.addEventListener('pointerup',ev=>endDrag(ev,false),true);
+document.addEventListener('pointercancel',ev=>endDrag(ev,true),true);
+document.addEventListener('click',ev=>{if(swallow&&ev.target&&ev.target.closest&&ev.target.closest('#hand')){ev.stopPropagation();ev.preventDefault();swallow=false}},true);
+document.addEventListener('dragstart',ev=>{if(ev.target&&ev.target.closest&&ev.target.closest('#hand'))ev.preventDefault()},true);
+try{TUT_STEPS.forEach(s=>{if(s&&typeof s.t==='string')s.t=s.t.replace('Your cards stay in the arena, in order, until the turn ends.','Your cards stay on the field, in order, until your next turn, so you can always see what just happened.')})}catch(e){}
+})();
+
+/* ===== v14: expansion "Ossuary Season" (33 cards) + fair auto decks ===== */
+(function(){
+const X=[
+  /* Neutral */
+  {id:'feint',name:'Veiled Feint',type:'light',cost:1,p:{dmg:1,draw:1},exP:{dmg:2,draw:1},text:'1 damage. Draw 1.',ex:'2 damage. Draw 1.',art:'A fighter\'s shadow striking a heartbeat before the fighter does, pale lanternlight glinting on a turned shoulder.'},
+  {id:'backfist',name:'Iron Backfist',type:'medium',cost:2,p:{dmg:3,shatter:2},exP:{dmg:4,shatter:4},text:'Break 2 Guard. 3 damage.',ex:'Break 4 Guard. 4 damage.',art:'A wrapped fist arcing through torch smoke as an opponent\'s raised shield buckles inward.'},
+  {id:'roar',name:'Grave Roar',type:'skill',cost:1,rarity:'rare',p:{meter:1,draw:1},text:'Gain 1 Meter. Draw 1.',art:'A fighter bellowing up at the vaulted bone arches, dust and candle flames shuddering in the dark.'},
+  {id:'brace',name:'Lasting Brace',type:'block',cost:1,p:{guard:2,draw:1},exP:{guard:4,draw:1},text:'Gain 2 Guard. Draw 1.',ex:'Gain 4 Guard. Draw 1.',art:'A fighter setting their feet behind a battered round shield as a blade\'s shadow looms across the wall.'},
+  {id:'sand',name:'Blinding Sand',type:'special',cost:1,rarity:'rare',p:{drain:2},exP:{drain:3},text:'Drain 2: the target has 2 less Energy next turn.',ex:'Drain 3.',art:'A fistful of ash-grey grit spiralling through a shaft of torchlight toward a rival\'s narrowed eyes.'},
+  {id:'pitdue',name:'Pit\'s Due',type:'heavy',cost:3,rarity:'epic',p:{dmg:5,lowBonus:2},exP:{dmg:7,lowBonus:3},text:'5 damage, +2 if the target is below half HP.',ex:'7 damage, +3 if below half HP.',art:'A wounded fighter swaying beneath the arena\'s huge shadow as the torchlit tiers of the crowd lean inward.'},
+  /* Ashkar */
+    {id:'emberjab',f:'ashkar',name:'Cinder Jab',type:'light',cost:1,p:{dmg:1,heat:1},exP:{dmg:2,heat:1},text:'1 damage. +1 Heat.',ex:'2 damage. +1 Heat.',art:'Ashkar\'s fist blooming with ember light as he lunges out of a veil of smoke.'},
+  {id:'smokeveil',f:'ashkar',name:'Smoke Veil',type:'block',cost:1,rarity:'rare',p:{guard:3,heat:1},exP:{guard:5,heat:1},text:'Gain 3 Guard. +1 Heat.',ex:'Gain 5 Guard. +1 Heat.',art:'Ashkar half-hidden behind a rolling curtain of soot, one raised palm glowing faintly through it.'},
+    {id:'sermon',f:'ashkar',name:'Ashen Sermon',type:'special',cost:2,rarity:'epic',p:{burn:3,heat:1},exP:{burn:4,heat:2},text:'Burn 3. +1 Heat.',ex:'Burn 4. +2 Heat.',art:'Ashkar preaching beside a dying brazier, the shadows of the listening crowd stretching like flames across the stone.'},
+  /* Sable Moru */
+    {id:'lancet',f:'sable',name:'Black Lancet',type:'light',cost:1,p:{dmg:2,bleed:2},exP:{dmg:3,bleed:2},text:'2 damage. Bleed 2.',ex:'3 damage. Bleed 2.',art:'Sable Moru lifting a slender black blade into a cold shaft of light while a figure recoils in the dark.'},
+    {id:'suture',f:'sable',name:'Mercy Stitch',type:'block',cost:2,rarity:'rare',p:{guard:4,heal:3},exP:{guard:6,heal:4},text:'Gain 4 Guard. Heal 3.',ex:'Gain 6 Guard. Heal 4.',art:'Sable drawing a silver thread through the lamplight, poised over a wounded figure kept mostly in shadow.'},
+    {id:'bloodlet',f:'sable',name:'Blood Tax',type:'medium',cost:2,rarity:'epic',p:{dmg:3,bleedBonus:3,bleed:1},exP:{dmg:4,bleedBonus:3,bleed:2},text:'3 damage, +3 if the target is Bleeding. Bleed 1.',ex:'4 damage, +3 if Bleeding. Bleed 2.',art:'Sable studying a faltering rival across the pit, a stained lancet catching a single glint of light.'},
+  /* Brannoch */
+  {id:'linenlash',f:'brannoch',name:'Linen Lash',type:'light',cost:1,p:{dmg:2,guard:1},exP:{dmg:2,guard:3},text:'2 damage. Gain 1 Guard.',ex:'2 damage. Gain 3 Guard.',art:'Brannoch\'s grave-wrapped arm snapping through the gloom, loose bandages tracing a pale arc behind it.'},
+  {id:'graveweight',f:'brannoch',name:'Grave Weight',type:'medium',cost:2,rarity:'rare',p:{dmg:3},exP:{dmg:4,retal:1},text:'3 damage.',ex:'4 damage. Retaliate +1 until your next turn.',art:'Brannoch advancing like a falling tombstone beneath dim rafters, an attacker faltering in his shadow.'},
+  {id:'shroud',f:'brannoch',name:'Cleansing Shroud',type:'skill',cost:2,rarity:'epic',p:{guard:3,cleanse:true},exP:{guard:5,cleanse:true},text:'Gain 3 Guard. Remove Burn, Bleed, Venom and Noose from your fighter.',ex:'Gain 5 Guard. Cleanse.',art:'Brannoch drawing his grave linen close around himself as pale light pushes back the smoke of the arena.'},
+  /* Lady Wen */
+  {id:'emptyplate',f:'wen',name:'Empty Plate',type:'skill',cost:0,p:{discard:1,energy:1},text:'Discard 1 card. Gain 1 Energy.',art:'Lady Wen cradling an empty porcelain bowl in candlelight, long shadows gathering at her feet.'},
+  {id:'ravenous',f:'wen',name:'Ravenous',type:'medium',cost:2,rarity:'rare',p:{dmg:3,draw:1},exP:{dmg:4,draw:2},text:'3 damage. Draw 1.',ex:'4 damage. Draw 2.',art:'Lady Wen reaching for a rival as the candlelight catches the hunger in her hollow eyes.'},
+  {id:'unfed',f:'wen',name:'Unfed Hunger',type:'special',cost:3,rarity:'epic',p:{dmg:2,hits:2},exP:{dmg:3,hits:2},text:'Hit twice for 2.',ex:'Hit twice for 3.',art:'Lady Wen striking twice out of the dark, her gaunt silhouette framed by a ring of watching candles.'},
+  /* Old Teeth */
+    {id:'leechbite',f:'teeth',name:'Leech Bite',type:'medium',cost:2,p:{dmg:2,venom:1},exP:{dmg:3,venom:2},text:'2 damage. Venom 1.',ex:'3 damage. Venom 2.',art:'Old Teeth crouched over a black pool as a fat, glistening shape coils toward her prey.'},
+  {id:'mudwall',f:'teeth',name:'Mire Wall',type:'block',cost:1,rarity:'rare',p:{guard:3,venomGrow:1},exP:{guard:5,venomGrow:1},text:'Gain 3 Guard. The target\'s Venom grows by 1.',ex:'Gain 5 Guard. Venom grows by 1.',art:'Old Teeth heaving up a rippling bank of black mud, torchlight glinting on its oily surface.'},
+    {id:'drown',f:'teeth',name:'Drowning Mire',type:'special',cost:3,rarity:'epic',p:{dmg:3,venomGrow:2},exP:{dmg:4,venomGrow:3},text:'3 damage. The target\'s Venom grows by 2.',ex:'4 damage. Venom grows by 3.',art:'A rival sinking into dark water beneath Old Teeth\'s outstretched hand, reeds closing over the last of the light.'},
+  /* Bram Coil */
+    {id:'noosesnap',f:'bram',name:'Noose Snap',type:'light',cost:1,p:{dmg:2,noose:1},exP:{dmg:3,noose:1},text:'2 damage. Noose 1.',ex:'3 damage. Noose 1.',art:'Bram\'s rope whipping across the torchlit pit, its tightening loop throwing a hooked shadow.'},
+    {id:'gallowschain',f:'bram',name:'Gallows Chain',type:'medium',cost:2,rarity:'rare',p:{dmg:3,noose:2},exP:{dmg:4,noose:3},text:'3 damage. Noose 2.',ex:'4 damage. Noose 3.',art:'Bram hauling a heavy chain through the gloom as a rival\'s silhouette stumbles beneath it.'},
+    {id:'lastwalk',f:'bram',name:'Last Walk',type:'special',cost:2,rarity:'epic',p:{dmg:2,execute:4},exP:{dmg:3,execute:6},text:'2 damage. Then if the target has 4 HP or less and is not their last fighter, they are executed.',ex:'3 damage. Executes at 6 HP or less.',art:'A condemned fighter crossing the arena toward Bram, dwarfed by the hanging beams above.'},
+  /* Vorhul */
+  {id:'decree',f:'vorhul',name:'King\'s Decree',type:'skill',cost:2,rarity:'epic',p:{drain:2,meter:1},text:'Drain 2. Gain 1 Meter.',art:'Vorhul raising one bony hand from his throne as the court\'s candles gutter under his gaze.'},
+  {id:'crownguard',f:'vorhul',name:'Crown Guard',type:'block',cost:2,rarity:'epic',p:{guard:4,steal:1},exP:{guard:6,steal:1},text:'Gain 4 Guard. Steal 1 Meter.',ex:'Gain 6 Guard. Steal 1 Meter.',art:'Vorhul turning a blow aside with one gauntlet, a thin glint of light running along his crown.'},
+  {id:'kinghand',f:'vorhul',name:'King\'s Hand',type:'medium',cost:2,rarity:'epic',p:{dmg:4,heal:2},exP:{dmg:6,heal:3},text:'4 damage. Heal 2.',ex:'6 damage. Heal 3.',art:'Vorhul extending a ringed, skeletal hand toward a wavering challenger, the throne of bone looming behind him.'},
+  /* Harrow */
+  {id:'spur',f:'harrow',name:'Bone Spur',type:'light',cost:1,p:{dmg:1,bloom:1},exP:{dmg:2,bloom:1},text:'1 damage. +1 Bloom.',ex:'2 damage. +1 Bloom.',art:'A fresh spur of bone splitting out along Harrow\'s forearm as he steps into a narrow shaft of light.'},
+    {id:'thicket',f:'harrow',name:'Bone Thicket',type:'block',cost:2,rarity:'rare',p:{guard:3,retal:1},exP:{guard:5,retal:2},text:'Gain 3 Guard. Retaliate +1 until your next turn.',ex:'Gain 5 Guard. Retaliate +2.',art:'Harrow braced behind a fan of bone blades, their bristling shadows thrown across the arena floor.'},
+    {id:'septic',f:'harrow',name:'Septic Bloom',type:'heavy',cost:3,rarity:'epic',p:{dmg:3,bleedBonus:2,bleed:2},exP:{dmg:5,bleedBonus:2,bleed:2},text:'3 damage, +2 if the target is Bleeding. Bleed 2.',ex:'5 damage, +2 if Bleeding. Bleed 2.',art:'Harrow\'s bone blades opening like a dark flower as a rival stumbles back into the smoke.'},
+  /* Ninefold */
+    {id:'ghosttouch',f:'ninefold',name:'Ghost Touch',type:'light',cost:1,p:{dmg:1,gripUp:1},exP:{dmg:2,gripUp:1},text:'1 damage. If the target is Gripped, Grip +1.',ex:'2 damage. Gripped targets get Grip +1.',art:'Ninefold\'s translucent fingers closing around a fighter\'s wrist, strips of pale linen drifting through the dark.'},
+  {id:'wail',f:'ninefold',name:'Soul Wail',type:'special',cost:2,rarity:'rare',p:{drain:2,souls:1},exP:{drain:3,souls:1},text:'Drain 2. Gain 1 Soul.',ex:'Drain 3. Gain 1 Soul.',art:'Ninefold hanging above the flagstones as veiled faces push out of its wrappings in the cold light.'},
+    {id:'pallbearer',f:'ninefold',name:'Pallbearer\'s Grip',type:'heavy',cost:3,rarity:'epic',p:{dmg:4,grip:1},exP:{dmg:5,grip:2},text:'4 damage. Grip 1.',ex:'5 damage. Grip 2.',art:'Many ghostly hands lifting a rival off the sand beneath a canopy of tattered burial linen.'}
+];
+X.forEach(c=>{c.rarity=c.rarity||'common';c.p=c.p||{};c.exp14=true;CARDS.push(c);c.no=String(CARDS.length).padStart(3,'0');CARD[c.id]=c});
+const V14_TOTAL=String(CARDS.length).padStart(3,'0');
+const _cardHTMLV14=cardHTML;
+cardHTML=function(c,o={}){return _cardHTMLV14(c,o).replace(`/${V10_TOTAL}`,`/${V14_TOTAL}`)};
+if(typeof NEUTRAL_PRIORITY!=='undefined')NEUTRAL_PRIORITY.splice(2,0,'backfist','feint','brace');
+/* auto decks for computer opponents: the lead fighter gets 13 slots, the second 12 and the third 5, so every fighter brings its own cards */
+window.AUTO_SHARES=[13,12,5];
+autoBuild=function(team,ownFn){
+  const d={};const n=()=>Object.values(d).reduce((a,b)=>a+b,0);
+  const add=(id,k,cap)=>{const c=CARD[id];if(!c)return;const lim=Math.min(k,LIMIT(c),ownFn(id))-(d[id]||0);const x=Math.max(0,Math.min(lim,(cap==null?30:cap)-n()));if(x>0)d[id]=(d[id]||0)+x};
+  team.forEach((fid,ti)=>{
+    const pool=CARDS.filter(c=>c.f===fid),cap=n()+(window.AUTO_SHARES[ti]||8);
+    pool.filter(c=>c.type==='rite').forEach(c=>add(c.id,1,cap));
+    pool.filter(c=>c.type==='finisher').forEach(c=>add(c.id,1,cap));
+    const rest=pool.filter(c=>c.type!=='rite'&&c.type!=='finisher').sort(()=>Math.random()-.5);
+    for(const c of rest)add(c.id,c.rarity==='common'?2:1,cap);
+    for(const c of rest)add(c.id,2,cap);
+  });
+  for(const b of ['jab','cross','upper','block'])add(b,2);
+  for(const id of NEUTRAL_PRIORITY)add(id,1);
+  for(const b of ['cross','jab','upper','block'])add(b,3);
+  for(const id of NEUTRAL_PRIORITY)add(id,2);
+  return d;
+};
+/* balance for the expansion: base cards outside every starter deck (starters are unchanged) */
+const BAL14={
+  soulbolt:{p:{dmg:2},exP:{dmg:3,pierce:true},text:'2 damage.',ex:'3 piercing damage.'},
+  stitchup:{p:{guard:3,heal:3},exP:{guard:4,heal:4},text:'Gain 3 Guard. Heal 3.',ex:'Gain 4 Guard. Heal 4.'},
+  amputate:{p:{dmg:5,lowBonus:3,bleed:1},exP:{dmg:7,lowBonus:3,bleed:2},text:'5 damage, +3 if the target is under 50% HP. Bleed 1.',ex:'7 damage (+3 under 50%). Bleed 2.'},
+  flareup:{p:{dmg:5,heatDmg:true},exP:{dmg:7,heatDmg:true},text:'5 + Heat damage.',ex:'7 + Heat damage.'},
+  incense:{p:{heat:3,draw:1},exP:{heat:4,draw:1},text:'+3 Heat. Draw 1 card.',ex:'+4 Heat. Draw 1.'},
+  pyreoath:{p:{selfDmg:3,meter:2,heat:2},text:'Lose 3 HP. Gain 2 Meter. +2 Heat.'},
+  tombslam:{p:{dmg:3,guard:2},exP:{dmg:5,guard:3},text:'3 damage. Gain 2 Guard.',ex:'5 damage. Gain 3 Guard.'}
+};
+for(const id in BAL14){const c=CARD[id];if(c)Object.assign(c,BAL14[id])}
+})();
+
 SAVE=loadLocal()||defaultSave();
 if(TEST_FULL_COLLECTION){let added=false;CARDS.forEach(c=>{if(c.rarity!=='basic'&&(SAVE.owned[c.id]||0)<LIMIT(c)){SAVE.owned[c.id]=LIMIT(c);added=true}});if(!SAVE.unlocked.includes('vorhul')){SAVE.unlocked.push('vorhul');added=true}if(added)persist()}
 ensureDeck();buildPrompts();
