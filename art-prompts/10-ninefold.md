@@ -234,7 +234,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 145 · Ghost Touch (expansion)
+### 145 · Ghost Touch (expansion) (art done)
 Light · common · cost 1  
 Rules: 1 damage. If the target is Gripped, Grip +1.  
 EX: 2 damage. Gripped targets get Grip +1.  
@@ -250,7 +250,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 146 · Soul Wail (expansion)
+### 146 · Soul Wail (expansion) (art done)
 Special · rare · cost 2  
 Rules: Drain 2. Gain 1 Soul.  
 EX: Drain 3. Gain 1 Soul.  
@@ -266,7 +266,7 @@ Composition: vertical 5:7 card illustration. Main subject in the upper two-third
 Style: follow the Marrow Rite style bible.
 ```
 
-### 147 · Pallbearer's Grip (expansion)
+### 147 · Pallbearer's Grip (expansion) (art done)
 Heavy · epic · cost 3  
 Rules: 4 damage. Grip 1.  
 EX: 5 damage. Grip 2.  
