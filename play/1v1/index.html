@@ -653,7 +653,7 @@ const SIGILS={
   ring:'M50 8A42 42 0 1 1 49.9 8ZM50 26A24 24 0 1 0 50.1 26Z'
 };
 
-const FIN_RULE='Needs a 2+ hit chain and 1 Meter. Closes the chain.';
+const FIN_RULE='Needs a 2+ hit chain (1 hit from round 6) and 1 Meter. Closes the chain.';
 const RITE_RULE='Final Round only, enemy at 6 HP or less. 3 Meter. Ends the match.';
 const CARDS=[
   {id:'jab',name:'Jab',type:'light',cost:1,rarity:'basic',p:{dmg:2},text:'2 damage.',art:'A lean masked pit fighter snapping a fast jab toward the viewer, motion blur on the fist, sweat flying.'},
@@ -733,7 +733,7 @@ CARDS.forEach((c,i)=>{c.rarity=c.rarity||'common';c.p=c.p||{};c.no=String(i+1).p
 const TOTAL=String(CARDS.length).padStart(3,'0');
 const GRUDGE_P={dmg:1};
 const MMAX=5,BONUS_CAP=3,VENG_GUARD=3,UNDERDOG_E=0,BENCH_HEAL=2,BENCH_CAP=.7,MATCH_ROUNDS=16,BLOOD_MULT=1,LAST_STORM=20;
-const SUDDEN=14;
+const SUDDEN=14;const FIN_ROUND=6;
 const LIMIT=c=>c.rarity==='basic'?3:c.rarity==='legendary'?1:2;
 const DUST={common:5,rare:20,epic:50,legendary:150};
 const CRAFT={common:30,rare:80,epic:200,legendary:600};
@@ -1089,16 +1089,25 @@ function startTurn(i){
   if(fury(act(s))===2&&s.meter<MMAX){s.meter++;ev(`${act(s).f.name} is desperate. +1 Meter.`)}
   if(s.meter<MMAX){s.meter++}
   draw(s,2);
+  if(s.turns===FIN_ROUND&&!G.tut)callFinisher(s);
   banner(i===0?'Your turn':`${act(s).f.name}'s turn`);
   render();
   if(s.ai){const id=G.id;setTimeout(()=>{if(G.id===id)aiStep()},1150)}
 }
+/* from round 6 everyone has a Finisher to work towards */
+function callFinisher(s){
+  const live=c=>c.type==='finisher'&&s.team.some(m=>m.f.id===c.f&&!m.ko);
+  if(s.hand.some(live))return;
+  for(const pile of [s.deck,s.discard]){const k=pile.findIndex(live);if(k>=0){s.hand.push(pile.splice(k,1)[0]);ev(`<b>Round ${FIN_ROUND}.</b> A Finisher comes to hand.`);return}}
+}
 function tickStatus(s){
+  s.team.forEach((m,k)=>{if(k!==s.active&&!m.ko)for(const q of ['burn','bleed','venom','noose']){const e=m.st[q];if(e&&--e.t<=0)delete m.st[q]}});
   const t=act(s);
   if(t.st.noose){t.st.noose.t--;if(t.st.noose.t<=0)delete t.st.noose}
   for(const k of ['burn','bleed','venom']){
     const e=t.st[k];if(!e)continue;
-    ev(`${t.f.name} takes <b>${e.d}</b> ${k} damage.`);
+    const soak=t.f.id==='brannoch'?Math.min(s.guard,e.d):0;
+    ev(`${t.f.name} takes <b>${e.d-soak}</b> ${k} damage.${soak?` His Guard soaks ${soak}.`:''} ${e.t>1?`${e.t-1} turn${e.t>2?'s':''} left.`:'It wears off.'}`);
     damageSide(s,e.d,t.f.id!=='brannoch');
     if(k==='bleed'){other(s).team.forEach(m=>{if(m.f.id==='sable'&&!m.ko&&m.hp<m.max){m.hp=Math.min(m.max,m.hp+2);ev('Sable stitches herself. +2 HP.')}})}
     if(k==='venom')e.d++;
@@ -1178,7 +1187,7 @@ function info(s,o,c){
     else if(k>=0&&k!==s.active){if(s.tagUsed)why=`${s.team[k].f.name} is benched and you already tagged`;else{tag=k;cost=c.cost+1}}
   }
   if(!grudge&&!why){
-    if(c.type==='finisher'){if(s.combo<2)why='Land a 2-hit chain first';else if(s.meter<1)why='Needs 1 Meter'}
+    if(c.type==='finisher'){if(s.combo<(s.turns>=FIN_ROUND?1:2))why=s.turns>=FIN_ROUND?'Land a hit first':'Land a 2-hit chain first';else if(s.meter<1)why='Needs 1 Meter'}
     if(c.type==='rite'){if(!G.final)why='Only in the Final Round';else if(act(o).hp>6)why='Enemy must be at 6 HP or less';else if(s.meter<3)why='Needs 3 Meter'}
     if(c.type==='trap'&&s.traps.length>=2)why='Two traps already set';
   }
@@ -1281,7 +1290,7 @@ function hit(s,o,base,pierce,c,label){
   return res;
 }
 function resolve(s,o,p,type,c){s.rtDone=false;
-  const r={dealt:0,blocked:0};const a=act(s);
+  const r={dealt:0,blocked:0};const a=act(s),hitT=act(o);
   if(p.selfDmg){const n=Math.min(p.selfDmg,a.hp-1);if(n>0){a.hp-=n;float(s,'-'+n,'dmg');note(`Lost ${n} HP.`)}}
   if(p.empower){s.empower+=p.empower;note(`Hits deal +${p.empower} for the rest of the turn.`)}
   if(p.energy){s.energy+=p.energy;note(`+${p.energy} Energy.`)}
@@ -1314,15 +1323,15 @@ function resolve(s,o,p,type,c){s.rtDone=false;
     const t=act(o);
     if(p.execute&&!t.ko&&t.hp>0&&t.hp<=p.execute&&alive(o)>1){note(`<b>Executed.</b> ${t.f.name} had ${t.hp} HP left.`);damageSide(o,t.hp,true);banner('Executed')}
     if(G.end)return r;
-    const t2=act(o);
-    if(p.burn){addSt(t2,'burn',p.burn,2);note(`Burn ${t2.st.burn.d} on ${t2.f.name}.`)}
-    if(p.bleed){addSt(t2,'bleed',p.bleed,3);note(`Bleed ${t2.st.bleed.d} on ${t2.f.name}.`)}
-    if(p.venom){addSt(t2,'venom',p.venom,3);note(`Venom ${t2.st.venom.d} on ${t2.f.name}.`)}
-    if(p.venomGrow){if(t2.st.venom){t2.st.venom.d+=p.venomGrow;t2.st.venom.t=Math.max(t2.st.venom.t,2)}else addSt(t2,'venom',p.venomGrow,3);note(`Venom on ${t2.f.name} is now ${t2.st.venom.d}.`)}
-    if(p.dblVenom&&t2.st.venom){t2.st.venom.d*=2;note(`Venom doubled to ${t2.st.venom.d}.`)}
+    const t2=act(o),okT=t2===hitT&&!hitT.ko;
+    if(p.burn&&okT){addSt(t2,'burn',p.burn,3);note(`Burn ${t2.st.burn.d} on ${t2.f.name}.`)}
+    if(p.bleed&&okT){addSt(t2,'bleed',p.bleed,3);note(`Bleed ${t2.st.bleed.d} on ${t2.f.name}.`)}
+    if(p.venom&&okT){addSt(t2,'venom',p.venom,3);note(`Venom ${t2.st.venom.d} on ${t2.f.name}.`)}
+    if(p.venomGrow&&okT){if(t2.st.venom){t2.st.venom.d+=p.venomGrow;t2.st.venom.t=Math.max(t2.st.venom.t,2)}else addSt(t2,'venom',p.venomGrow,3);note(`Venom on ${t2.f.name} is now ${t2.st.venom.d}.`)}
+    if(p.dblVenom&&okT&&t2.st.venom){t2.st.venom.d*=2;note(`Venom doubled to ${t2.st.venom.d}.`)}
     if(p.drain){o.drain+=p.drain;note(`Drain ${p.drain}: they start next turn with less Energy.`)}
     if(p.pull)pull(o);
-    if(p.noose){addSt(act(o),'noose',p.noose,2);note(`Noose ${p.noose} on ${act(o).f.name}.`)}
+    if(p.noose&&(okT||p.pull)){addSt(act(o),'noose',p.noose,2);note(`Noose ${p.noose} on ${act(o).f.name}.`)}
     if(p.trap){s.traps.push(p.trap);note('A hidden trap is set.')}
   }
   if(p.guard){s.guard+=p.guard;note(`+${p.guard} Guard (now ${s.guard}).`)}
@@ -1728,7 +1737,7 @@ const GLOSS={
   block:['Block','Gives Guard. Guard soaks damage until the start of your next turn.'],
   skill:['Skill','A utility card. Doesn\'t hit, so it doesn\'t touch your chain.'],
   trap:['Trap','Set face down. The opponent only sees that a trap was set, never which one, until it springs.'],
-  finisher:['Finisher','Needs a 2+ hit chain and 1 Meter. Hits like a Heavy and closes the chain.'],
+  finisher:['Finisher','Needs a 2+ hit chain (1 hit from round 6) and 1 Meter. Hits like a Heavy and closes the chain.'],
   rite:['Last Rite','Final Round only, enemy at 6 HP or less, costs 3 Meter. Ends the match.'],
   chain:['Chain','Each hit after the first in a chain deals +1 per hit already landed. Total bonus damage on any one hit is capped at +'+BONUS_CAP+'.'],
   ex:['EX','Arm EX before playing to spend 1 Meter on the stronger version. EX Finishers cost 1 extra Meter (2 total).'],
@@ -1741,7 +1750,7 @@ const GLOSS={
   guard:['Guard','Soaks damage until the start of your next turn.'],
   retal:['Retaliate','When an enemy attack lands on your Guard, they take this much damage back, once per card.'],
   keepGuard:['Stand Firm','Your Guard doesn\'t fade at the start of your next turn.'],
-  burn:['Burn','Unblockable damage at the start of the target\'s turn for 2 turns.'],
+  burn:['Burn','Unblockable damage at the start of the target\'s turn for 3 turns.'],
   bleed:['Bleed','Unblockable damage each turn for 3 turns. Stacks up to 6.'],
   venom:['Venom','Unblockable damage that grows by 1 every time it ticks.'],
   venomGrow:['Rot','Increases the Venom already on the target.'],
@@ -2432,10 +2441,10 @@ function rulesHTML(){
   <div class="rsec"><h3>Reading a card</h3><ul><li><b>Gold circle:</b> Energy cost. <b>◆ number:</b> Meter cost.</li><li><b>Red badge:</b> damage. <b>Blue badge:</b> Guard.</li><li><b>Type line:</b> what kind of card it is. The small bars show its chain step: Light ▮, Medium ▮▮, Heavy ▮▮▮.</li><li><b>Gold EX line:</b> the stronger version, used when EX boost is on.</li><li>Hover a card (or press and hold on a phone) to see every rule on it.</li></ul></div>
   <div class="rsec"><h3>Playing a card</h3><p>Click a card to stage it on the field. Nothing happens yet, and your opponent can't see it. Press Play (or Enter) to use it, or Back to hand (or Esc). Every card played this turn stays in the arena in order until the turn ends, and the fight record shows the full math.</p></div>
   <div class="rsec"><h3>Chains</h3><p>Strikes chain Light → Medium → Heavy. Each hit gets +1 damage for every hit before it in the chain (bonus damage on one hit is capped at +${BONUS_CAP}). Playing a lower step restarts the chain. Specials fit into any chain. A 3-hit chain and a 5-hit chain each give 1 Meter.</p></div>
-  <div class="rsec"><h3>Guard and effects</h3><ul><li><b>Guard</b> soaks damage until your next turn. Cards that gave Guard stay by your fighter while it holds.</li><li><b>Burn</b> (2 turns), <b>Bleed</b> (3 turns, stacks to 6) and <b>Venom</b> (3 turns, grows each tick) hit at the start of the target's turn and ignore Guard, except Brannoch's.</li><li><b>Noose:</b> the target takes extra damage from every hit for 2 turns.</li><li><b>Piercing</b> damage ignores Guard.</li></ul></div>
+  <div class="rsec"><h3>Guard and effects</h3><ul><li><b>Guard</b> soaks damage until your next turn. Cards that gave Guard stay by your fighter while it holds.</li><li><b>Burn</b> (3 turns), <b>Bleed</b> (3 turns, stacks to 6) and <b>Venom</b> (3 turns, grows each tick) hit at the start of the target's turn and ignore Guard, except Brannoch's.</li><li><b>Noose:</b> the target takes extra damage from every hit for 2 turns.</li><li><b>Piercing</b> damage ignores Guard.</li></ul></div>
   <div class="rsec"><h3>Meter (max ${MMAX})</h3><p>Gain 1 each turn, 1 for 3- and 5-hit chains, 1 when you take 6+ damage in one enemy turn, and 1 when one of your fighters falls. Spend it on: <b>EX boost</b> (1), <b>Finishers</b> (1, or 2 with EX), <b>Breakers</b> (2), ◆ cards, and <b>Last Rites</b> (3). Some cards Overcharge: a bonus while you hold 3 or more.</p></div>
-  <div class="rsec"><h3>Finishers and Breakers</h3><p><b>Finishers</b> need a chain of 2+ hits and 1 Meter. They hit like a Heavy and close the chain. A <b>Breaker</b> (2 Meter) waits on the field; when the enemy's chain reaches 3 hits it snaps and they lose 2 Energy.</p></div>
-  <div class="rsec"><h3>Tag team</h3><p>Once a turn, click a benched teammate to tag them in for 1 Energy. Your chain stays alive. Burn, Bleed, Venom and Noose on the fighter leaving are halved (rounded up), and benched fighters don't take effect damage. Playing a benched fighter's own card tags them in for +1 Energy.</p></div>
+  <div class="rsec"><h3>Finishers and Breakers</h3><p><b>Finishers</b> need a chain of 2+ hits (1 hit from round ${FIN_ROUND}) and 1 Meter. If you don't hold one in round ${FIN_ROUND}, one comes to your hand. They hit like a Heavy and close the chain. A <b>Breaker</b> (2 Meter) waits on the field; when the enemy's chain reaches 3 hits it snaps and they lose 2 Energy.</p></div>
+  <div class="rsec"><h3>Tag team</h3><p>Once a turn, click a benched teammate to tag them in for 1 Energy. Your chain stays alive. Burn, Bleed, Venom and Noose on the fighter leaving are halved (rounded up), and benched fighters don't take effect damage, though the turns still count down. Playing a benched fighter's own card tags them in for +1 Energy.</p></div>
   <div class="rsec"><h3>Getting hurt</h3><p>At 50% HP a fighter is Wounded (+1 damage per hit). At 25% they are Desperate (+2, and +1 Meter each turn). A fighter stepping in after a teammate falls gets +${VENG_GUARD} Guard. A fallen fighter's cards turn into their Echo: a weaker 1-Energy card.</p></div>
   <div class="rsec"><h3>Final Round</h3><p>When each side has one fighter left, both heal to full, gain 2 Meter, and start every turn with 3 extra Guard. Now a <b>Last Rite</b> can be played: 3 Meter, with the enemy at 6 HP or less. It ends the match.</p></div>
   <div class="rsec"><h3>Long matches</h3><p>From round ${SUDDEN}, Blood Rounds: your active fighter takes growing unblockable damage at the start of each turn. In round ${MATCH_ROUNDS} the crowd storms the pit and every fighter takes ${LAST_STORM}. The round counter is above the arena.</p></div>
@@ -2452,7 +2461,7 @@ function vsVis(){const p=ids=>ids.map(id=>`<span class="portrait" style="--fc:${
 function anatVis(){const pins=[[-6,3,1],[93,38,2],[-6,48,3],[-6,58,4],[-6,74,5]];return `<div class="anat">${cardHTML(CARD.braceup,{size:'lg'})}${pins.map(([x,y,n])=>`<span class="pin" style="left:${x}%;top:${y}%">${n}</span>`).join('')}</div>`}
 function chainVis(){const cs=[['jab','2'],['cross','3 +1'],['upper','5 +2']];return `<div class="chainvis"><div class="row">${cs.map(([id,d],k)=>`<div class="lane-it">${cardHTML(CARD[id])}<small>${d}</small></div>${k<2?'<span class="lane-arrow">›</span>':''}`).join('')}</div><small>2 + 4 + 7 = 13 damage</small></div>`}
 function mockMeter(){return `<div class="mock"><div class="rrow"><span class="rlab">Energy</span><span class="pips"><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span><b class="rnum">3/4</b></div><div class="rrow"><span class="rlab">Meter</span><span class="meter"><span class="on"></span><span class="on"></span><span></span><span></span><span></span></span><b class="rnum">2/5</b></div><div class="row" style="gap:6px"><span class="btn sm">EX boost · 1 Meter</span><span class="btn sm">Set Breaker · 2 Meter</span></div></div>`}
-function mockFx(){return `<div class="mock"><div class="chips"><span class="chip g">Guard 4</span><span class="chip burn">Burn 2 a turn · 2 turns</span><span class="chip bleed">Bleed 3 a turn · 3 turns</span><span class="chip venom">Venom 2 a turn · 3 turns</span><span class="chip noose">Noose +2 per hit · 2 turns</span></div><div class="field"><span class="flabel">On field</span>${ftokHTML({c:CARD.braceup,kind:'guard',lab:'Guard 4',tip:''})}<div class="ftok trap back"><span class="ft-art">?</span><b>Trap</b><small>Hidden</small></div></div></div>`}
+function mockFx(){return `<div class="mock"><div class="chips"><span class="chip g">Guard 4</span><span class="chip burn">Burn 2 a turn · 3 turns</span><span class="chip bleed">Bleed 3 a turn · 3 turns</span><span class="chip venom">Venom 2 a turn · 3 turns</span><span class="chip noose">Noose +2 per hit · 2 turns</span></div><div class="field"><span class="flabel">On field</span>${ftokHTML({c:CARD.braceup,kind:'guard',lab:'Guard 4',tip:''})}<div class="ftok trap back"><span class="ft-art">?</span><b>Trap</b><small>Hidden</small></div></div></div>`}
 function benchVis(){return `<div class="mock"><p style="margin:0;font-size:13px;color:var(--muted)">Your bench</p>${['brannoch','sable'].map(id=>`<span class="bm can" style="--fc:${FIGHTERS[id].color}"><span class="mp">${sigilSvg(FIGHTERS[id])}</span><span class="bt"><span class="bn">${FIGHTERS[id].name}</span><span class="bh"><i style="width:80%"></i></span><small>${Math.round(FIGHTERS[id].hp*.8)}/${FIGHTERS[id].hp} HP</small></span><span class="tagcta">Tag in · 1 Energy</span></span>`).join('')}</div>`}
 const SLIDES=[
   ()=>({h:'Welcome to the Rite',b:`<p>Marrow Rite is a fighting game played with cards.</p><ul><li>You bring a team of <b>three fighters</b>. One fights; two wait on the bench.</li><li>Every card is a move: strikes, blocks, tricks and finishers.</li><li><b>Knock out all three enemy fighters to win.</b></li></ul>`,v:vsVis()}),
@@ -2480,7 +2489,7 @@ const TUT={on:false,step:0};
 const handEl=id=>{const s=G.s[0];const c=s.hand.find(x=>x.id===id);return c?document.querySelector(`#hand .hand-card[data-uid="${c.uid}"]`):null};
 const playedNow=id=>laneEntries().some(e=>e.owner===0&&e.c&&e.c.id===id);
 const isCard=(el,id)=>{const b=el.closest('.hand-card');if(!b)return false;const c=G.s[0].hand.find(x=>x.uid===+b.dataset.uid);return!!c&&c.id===id};
-const allowPlay=ids=>el=>ids.some(id=>isCard(el,id))||!!el.closest('[data-confirm],[data-return]');
+const allowPlay=ids=>el=>ids.some(id=>isCard(el,id))||!!el.closest('[data-return]')||(!!el.closest('[data-confirm],[data-ex15s]')&&!!pendingCard()&&ids.includes(pendingCard().id));
 const TUT_STEPS=[
   {spot:()=>$('#bar-0'),t:'<b>This is you.</b> Ashkar is your fighter in the pit. The red bar is his HP. Your two teammates wait on the bench, on the right of the bar.',next:true},
   {spot:()=>$('#bar-1'),t:'<b>This is your opponent.</b> Knock out all three of their fighters to win.',next:true},
@@ -2517,6 +2526,7 @@ function tutPlace(){
     const cw=tutCoach.offsetWidth,ch=tutCoach.offsetHeight;let left=Math.min(Math.max(16,r.left),vw-cw-16),top;
     if(r.top+r.height/2>vh/2)top=r.top-ch-18;else top=r.bottom+18;
     if(top<8||top+ch>vh-8){top=Math.max(8,Math.min(vh-ch-8,r.top));left=r.right+18+cw<vw?r.right+18:Math.max(16,r.left-cw-18)}
+    top=Math.max(8,Math.min(vh-ch-8,top));left=Math.max(8,Math.min(vw-cw-8,left));
     Object.assign(tutCoach.style,{left:left+'px',top:top+'px'});
   }else{tutRing.style.display='none';Object.assign(tutCoach.style,{left:Math.max(16,(vw-tutCoach.offsetWidth)/2)+'px',top:'90px'})}
 }
@@ -2712,7 +2722,7 @@ resolve=function(s,o,p,type,c){
   const a2=act(s),t2=act(o);
   if(p.bloom&&a2.f.id==='harrow'){a2.bloom=Math.min(6,(a2.bloom||0)+p.bloom);note(`Bloom ${a2.bloom}.`)}
   if(p.bloomDown&&a2.f.id==='harrow'){a2.bloom=Math.max(0,(a2.bloom||0)-p.bloomDown);note(`Bloom drops to ${a2.bloom}.`)}
-  if(p.grip&&!t2.ko){addSt(t2,'grip',p.grip,2);note(`Grip ${t2.st.grip.d} on ${t2.f.name}: they can't tag out.`)}
+  if(p.grip&&t2===t&&!t.ko){addSt(t2,'grip',p.grip,2);note(`Grip ${t2.st.grip.d} on ${t2.f.name}: they can't tag out.`)}
   if(p.gripUp&&t2.st.grip){t2.st.grip.d+=p.gripUp;note(`Grip tightens to ${t2.st.grip.d}.`)}
   if(p.drift){s.drift=true;note('Drift: your next strike continues the chain at any step.')}
   if(p.souls&&a2.f.id==='ninefold'){a2.souls=Math.min(5,(a2.souls||0)+p.souls);note(`Souls ${a2.souls}.`)}
@@ -2848,8 +2858,8 @@ const TIPS=[
   text:'The enemy set a <b>Breaker</b>. If your chain reaches 3 hits it snaps and you lose 2 Energy. Stop at 2 hits, or make the third one count.'},
  {id:'finready',when:(s,o)=>s.combo>=2&&s.hand.some(c=>c.type==='finisher'&&!info(s,o,c).why),
   text:'Your chain is at 2+ and you have Meter: your <b>Finisher</b> is ready. It hits like a Heavy and closes the chain.'},
- {id:'finlocked',when:(s)=>s.combo<2&&s.hand.some(c=>c.type==='finisher'),
-  text:'<b>Finishers</b> need a 2-hit chain and 1 Meter. Land two strikes this turn first, then play it.'},
+ {id:'finlocked',when:(s)=>s.combo<(s.turns>=FIN_ROUND?1:2)&&s.hand.some(c=>c.type==='finisher'),
+  text:'<b>Finishers</b> need a 2-hit chain (1 hit from round 6) and 1 Meter. Land your strikes first, then play it.'},
  {id:'traps',when:(s,o,a)=>o.traps&&o.traps.length&&a.f.id!=='ninefold',
   text:'Face-down cards on the enemy\'s side are <b>Traps</b>. Your strikes can spring them. A cheap strike is a safe way to set one off.'},
  {id:'dots',when:(s,o,a)=>a.st&&(a.st.burn||a.st.bleed||a.st.venom),
@@ -3439,6 +3449,155 @@ connectAccount();initDownloads();resumeLast();
   document.addEventListener('click',()=>setTimeout(soon,30),true);
   addEventListener('resize',()=>{document.querySelectorAll('.c-text[data-fit]').forEach(t=>{delete t.dataset.fit});soon()});
   soon();
+})();
+
+/* ================= v15: playtest fixes (Meter and Breaker display, EX on cards, status turns, tutorial safety) ================= */
+(function(){
+  const st15=document.createElement('style');st15.textContent=`
+  .res2 .meter span{width:24px;height:13px;border-color:#7a55b8}
+  .res2 .meter span.on{background:linear-gradient(90deg,#b78bff,#7c3aed);box-shadow:0 0 8px rgba(160,110,255,.7)}
+  .res2 .rrow:nth-child(2) .rlab,.res2 .rrow:nth-child(2) .rnum{color:#cdb4ff;font-weight:800}
+  .m15{display:inline-flex;align-items:center;gap:8px;flex-wrap:nowrap;padding:2px 10px;border-radius:10px;border:1.5px solid #7a55b8;background:rgba(90,50,160,.22)}
+  .m15 .lab{font-size:14px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#cdb4ff}
+  .m15 .seg{display:inline-flex;gap:4px}
+  .m15 .seg i{width:24px;height:16px;transform:skewX(-16deg);border-radius:3px;border:1.5px solid #7a55b8;background:#171020;display:block}
+  .m15 .seg i.on{background:linear-gradient(180deg,#d3b5ff,#7c3aed);box-shadow:0 0 10px rgba(160,110,255,.8)}
+  .m15 .num{font-size:20px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums}
+  .m15 .buy{display:inline-flex;gap:5px;flex-wrap:wrap}
+  .m15 .buy span{font-size:12px;font-weight:700;border-radius:99px;padding:2px 9px;border:1px solid #4a3a66;color:#9386a8}
+  .m15 .buy span.ok{border-color:#b78bff;color:#fff;background:rgba(124,58,237,.45)}
+  #brk-btn{font-size:13px;padding:8px 13px;border:2px solid #4fa3d1;color:#bfe6ff;background:rgba(40,110,150,.25)}
+  #brk-btn:not(:disabled){box-shadow:0 0 12px rgba(79,163,209,.55)}
+  #brk-btn[aria-pressed="true"]{opacity:1;background:#2d7fa8;color:#fff;border-color:#bfe6ff;box-shadow:0 0 16px rgba(120,200,240,.8)}
+  #ex-btn{display:none}
+  .chip.brk15{padding:2px 11px;font-size:13px;font-weight:800;letter-spacing:.03em}
+  .chip.brk15.me{background:rgba(45,127,168,.4);border:1.5px solid #7fc8ee;color:#dff4ff}
+  .chip.brk15.foe{background:rgba(160,30,50,.45);border:1.5px solid #ff7d8f;color:#ffe1e5}
+  .hand-card .ex15{position:absolute;left:7px;top:33%;z-index:6;white-space:nowrap;font-size:12px;font-weight:800;border-radius:99px;padding:4px 9px;cursor:pointer;border:1.5px solid #f0c35a;color:#2a1405;background:linear-gradient(180deg,#ffdf8a,#e07a2e)}
+  .hand-card .ex15.no{background:#2a2224;color:#9c8f84;border-color:#4a3e3a;cursor:not-allowed}
+  .hand-card{position:relative}
+  @media (max-height:800px) and (min-width:900px){.duel{gap:6px!important;padding-top:4px!important}.actions .btn{padding-top:7px;padding-bottom:7px}.hand-wrap{padding-bottom:2px}}
+  @media (max-width:760px){.m15{flex-wrap:wrap}.m15 .seg i{width:20px;height:15px}.m15 .buy{width:100%}}
+  `;document.head.appendChild(st15);
+
+  /* say how long every effect lasts, on the card */
+  const addTurns=x=>typeof x==='string'?x.replace(/\b(Burn|Bleed|Venom) (\d+)\b(?! (?:for|a turn))/g,'$1 $2 for 3 turns'):x;
+  CARDS.forEach(c=>{c.text=addTurns(c.text);c.ex=addTurns(c.ex)});
+  Object.values(ECHO).forEach(e=>{e.text=addTurns(e.text)});
+  const LAB15={burn:'Burn',bleed:'Bleed',venom:'Venom'};
+  const _rb15=renderBar;
+  renderBar=function(i){
+    const r=_rb15.apply(this,arguments);
+    try{
+      const s=G.s[i],t=act(s),bar=$('#bar-'+i);
+      for(const k of Object.keys(LAB15)){const e=t.st[k],ch=bar.querySelector('.chip.'+k);if(!e||!ch)continue;
+        ch.textContent=`${LAB15[k]}: ${e.d} damage a turn · ${e.t} turn${e.t>1?'s':''} left`;
+        ch.title=`${LAB15[k]} hits at the start of ${t.f.name}'s next ${e.t} turn${e.t>1?'s':''}.`+(k==='bleed'?' More Bleed adds up (to 6 a turn) and resets it to 3 turns.':'')+(t.f.id==='brannoch'?' Grave Linen: Brannoch\'s Guard soaks it first.':'')}
+      if(s.breaker){const d=document.createElement('span');d.className='chip brk15 '+(i?'foe':'me');
+        d.textContent=i?'✦ ENEMY BREAKER · your 3rd hit snaps':'✦ BREAKER ARMED · their 3rd hit snaps';
+        const cw=bar.querySelector('.chips');cw?cw.prepend(d):bar.appendChild(d)}
+    }catch(e){}
+    return r;
+  };
+
+  /* Meter: big, with what it buys */
+  const _ra15=renderActions;
+  renderActions=function(){
+    const r=_ra15.apply(this,arguments);
+    try{
+      const d=document.getElementById('dock13'),s=G.s[0];
+      if(d){const g=[...d.querySelectorAll('.grp')].find(x=>/meter/i.test((x.querySelector('.lab')||{}).textContent||''));
+        if(g){g.className='m15';g.title='Meter: +1 each turn, +1 for 3- and 5-hit chains.';
+          g.innerHTML=`<span class="lab">Meter</span><span class="seg">${Array.from({length:MMAX},(_,k)=>`<i class="${k<s.meter?'on':''}"></i>`).join('')}</span><span class="num">${s.meter}/${MMAX}</span><span class="buy">${[['EX',1],['Finisher',1],['Breaker',2],['Last Rite',3]].map(([n,c])=>`<span class="${s.meter>=c?'ok':''}">${n} ${c}</span>`).join('')}</span>`}}
+      const br=$('#brk-btn');if(br)br.textContent=s.breaker?'✦ Breaker armed':'✦ Set Breaker · 2 Meter';
+    }catch(e){}
+    return r;
+  };
+
+  /* EX on the card itself */
+  const exNeed=c=>1+(c.type==='finisher'?1:0)+(c.mcost||0);
+  const canEx=c=>{const s=G.s[0],inf=info(s,G.s[1],c);return !!c.exP&&!inf.grudge&&s.meter>=exNeed(c)};
+  const _rh15=renderHand;
+  renderHand=function(){
+    const r=_rh15.apply(this,arguments);
+    try{
+      const s=G.s[0];if(G.act!==0||G.over)return r;
+      document.querySelectorAll('#hand .hand-card').forEach(b=>{
+        const c=s.hand.find(x=>x.uid===+b.dataset.uid);if(!c||!c.exP||b.querySelector('.ex15'))return;
+        const inf=info(s,G.s[1],c);if(inf.grudge||inf.why)return;
+        const ok=canEx(c),n=exNeed(c)-(c.mcost||0);
+        b.insertAdjacentHTML('beforeend',`<span class="ex15${ok?'':' no'}" data-ex15="${c.uid}" title="${ok?'Stage this card as its EX version':`Needs ${exNeed(c)} Meter`}">EX · ${n} Meter</span>`);
+      });
+    }catch(e){}
+    return r;
+  };
+  const _rs15=renderStage;
+  renderStage=function(){
+    const r=_rs15.apply(this,arguments);
+    try{
+      const pd=pendingCard();if(!pd||!pd.exP)return r;
+      const inf=info(G.s[0],G.s[1],pd);if(inf.grudge)return r;
+      document.querySelectorAll('#stage [data-confirm]').forEach(cb=>{
+        if(cb.parentNode.querySelector('[data-ex15s]'))return;
+        const on=G.ex&&canEx(pd);
+        cb.insertAdjacentHTML('afterend',`<button class="btn ${on?'gold':''}" data-ex15s aria-pressed="${on}" ${canEx(pd)?'':'disabled'}>${on?'EX on':'EX'} · ${exNeed(pd)-(pd.mcost||0)} Meter</button>`);
+      });
+    }catch(e){}
+    return r;
+  };
+  const _sc15=stageCard;
+  stageCard=function(uid){if(G&&G.ex15!=null&&G.ex15!==uid){G.ex=false;G.ex15=null}return _sc15.apply(this,arguments)};
+  const _rp15=returnPending;
+  returnPending=function(){if(G){G.ex=false;G.ex15=null}return _rp15.apply(this,arguments)};
+  function tutBlocks(t){if(!TUT.on||TUT.free)return false;const s=TUT_STEPS[TUT.step];return !(s&&s.allow&&s.allow(t))}
+  ['pointerdown','mousedown','touchstart'].forEach(n=>window.addEventListener(n,e=>{if(e.target&&e.target.closest&&e.target.closest('[data-ex15]'))e.stopPropagation()},true));
+  window.addEventListener('click',e=>{
+    const t=e.target;if(!t||!t.closest)return;
+    const a=t.closest('[data-ex15]'),b=t.closest('[data-ex15s]');if(!a&&!b)return;
+    e.preventDefault();e.stopPropagation();
+    if(!G||G.over||G.act!==0||tutBlocks(t))return;
+    if(a){const c=G.s[0].hand.find(x=>x.uid===+a.dataset.ex15);if(!c)return;
+      if(!canEx(c)){toast(`EX needs ${exNeed(c)} Meter. You have ${G.s[0].meter}.`);return}
+      stageCard(c.uid);G.ex=true;G.ex15=c.uid;render()}
+    else{const c=pendingCard();if(!c||!canEx(c))return;G.ex=!G.ex;G.ex15=G.ex?c.uid:null;render()}
+  },true);
+
+  /* tutorial: if a step's card can't be played, put things right so it can always be finished */
+  const need=(re,ids)=>{const s=TUT_STEPS.find(x=>re.test(x.t));if(s)s.need=ids;return s};
+  need(/Click <b>Jab<\/b>/,['jab']);need(/Jab is staged/,['jab']);need(/Play <b>Cross<\/b>/,['cross']);need(/<b>Block<\/b> gives Guard/,['block']);
+  const two=need(/play <b>Jab<\/b>, then <b>Cross<\/b>/,['jab','cross']);
+  if(two)two.allow=el=>allowPlay([playedNow('jab')?'cross':'jab'])(el);
+  need(/play <b>Wind the Linen<\/b>/,['braceup']);
+  const pk=need(/Pyre Kick costs/,['pyrekick']);
+  const exS=TUT_STEPS.find(x=>/EX boost/.test(x.t));
+  if(exS){exS.meter=1;exS.need=['braceup'];exS.spot=()=>handEl('braceup');
+    exS.t='<b>EX</b> spends 1 Meter for a card\'s stronger gold line. Press the gold <b>EX · 1 Meter</b> button on <b>Wind the Linen</b>.';
+    exS.allow=el=>!!el.closest('#ex-btn')||(!!el.closest('[data-ex15]')&&isCard(el,'braceup'))}
+  const tagS=TUT_STEPS.find(x=>/Tag in <b>Brannoch/.test(x.t));if(tagS)tagS.tag=true;
+  function repair(){
+    if(!G||!G.tut||G.over||G.act!==0)return false;
+    const st=TUT_STEPS[TUT.step];if(!st)return false;const s=G.s[0];let ch=false;
+    if(st.tag&&act(s).f.id!=='brannoch'){if(s.tagUsed){s.tagUsed=false;ch=true}if(s.energy<1){s.energy=1;ch=true}}
+    if(st.meter&&s.meter<st.meter){s.meter=st.meter;ch=true}
+    if(!st.need)return ch;
+    const left=st.need.filter(id=>!playedNow(id));
+    const pd=pendingCard();if(pd&&!st.need.includes(pd.id)){G.pend=null;ch=true}
+    let cost=0;
+    left.forEach(id=>{let c=s.hand.find(x=>x.id===id);if(!c){c={...CARD[id],uid:++UID};s.hand.push(c);ch=true}cost+=info(s,G.s[1],c).cost});
+    if(s.energy<cost){s.energy=cost;s.maxE=Math.max(s.maxE,cost);ch=true}
+    if(st===pk&&left.length){if(s.meter<1){s.meter=1;ch=true}if(s.combo<2){s.combo=2;s.lastTier=2;ch=true}}
+    return ch;
+  }
+  const _tc15=tutCheck;let fixing=false;
+  tutCheck=function(){
+    _tc15.apply(this,arguments);
+    if(TUT.on&&!TUT.free&&!fixing&&repair()){fixing=true;try{render()}finally{fixing=false}}
+  };
+  const _tr15=tutRender;
+  tutRender=function(){
+    _tr15.apply(this,arguments);
+    if(TUT.on&&TUT.step===TUT_STEPS.length-1){lsSet('mr-tut-done','1');const b=$('#tut-skip');if(b)b.textContent='End tutorial'}
+  };
 })();
 </script>
 
